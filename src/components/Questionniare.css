@@ -1,0 +1,29 @@
+.questionnaire {
+  padding: 3%;
+}
+
+.questionCard {
+  margin-bottom: 3%;
+}
+  
+ion-radio{
+  padding-top: 0.8%;
+}
+
+.progressBar {
+  margin-top: 2%;
+  margin-bottom: 3%;
+}
+
+ion-col {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0;
+  padding-bottom: 2%
+}
+
+ion-grid {
+  padding: 0%;
+}
