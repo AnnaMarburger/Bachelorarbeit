@@ -1,0 +1,31 @@
+.buttons {
+    margin-top: 2%;
+    text-align: center;
+}
+
+#signup-button {
+    margin-left: 6%;
+}
+
+ion-card-header {
+    margin-top: 6%;
+}
+
+ion-card-title {
+    font-size: xx-large;
+}
+
+ion-content {
+    text-align: center;
+    --ion-background-color: #628299 !important;
+}
+
+ion-card {
+    --ion-background-color: transparent;
+    box-shadow: none !important;
+}
+
+img {
+    margin-top: 28%;
+}
+

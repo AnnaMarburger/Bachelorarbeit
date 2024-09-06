@@ -1,0 +1,10 @@
+{
+    "WelcomeScreen": {
+        "Header": "Hello",
+        "SkipLogin": "You don't want an account? Skip LogIn"
+    },
+    "AccountScreen":{
+        "Header": "Settings",
+        "LogOut": "Log Out"
+    }
+}

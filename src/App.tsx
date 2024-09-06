@@ -1,4 +1,4 @@
-import { Redirect, Route } from 'react-router-dom';
+import React from "react";
 import {
   IonApp,
   IonIcon,
@@ -9,11 +9,12 @@ import {
   IonTabs,
   setupIonicReact
 } from '@ionic/react';
-import { IonReactRouter } from '@ionic/react-router';
-import { bookmarks, person, home } from 'ionicons/icons';
-import Tab1 from './pages/Tab1';
-import Tab2 from './pages/Tab2';
-import Tab3 from './pages/Tab3';
+import { IonReactRouter } from "@ionic/react-router";
+import { Redirect, Route } from "react-router-dom";
+import { PrivateRoute } from './routes/PrivateRoute';
+import LoginRedirect from "./pages/LoginRedirect";
+import EndRedirect from "./pages/EndRedirect";
+import Home from "./pages/Home";
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -44,42 +45,19 @@ import '@ionic/react/css/palettes/dark.system.css';
 
 /* Theme variables */
 import './theme/variables.css';
-
+import LandingScreen from "./pages/LandingScreen";
 setupIonicReact();
 
 const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
-      <IonTabs>
-        <IonRouterOutlet>
-          <Route exact path="/tab1">
-            <Tab1 />
-          </Route>
-          <Route exact path="/tab2">
-            <Tab2 />
-          </Route>
-          <Route path="/tab3">
-            <Tab3 />
-          </Route>
-          <Route exact path="/">
-            <Redirect to="/tab1" />
-          </Route>
-        </IonRouterOutlet>
-        <IonTabBar slot="bottom">
-          <IonTabButton tab="tab1" href="/tab1">
-            <IonIcon aria-hidden="true" icon={home} />
-            <IonLabel>Home</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="tab2" href="/tab2">
-            <IonIcon aria-hidden="true" icon={bookmarks} />
-            <IonLabel>Questionnaires</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="tab3" href="/tab3">
-            <IonIcon aria-hidden="true" icon={person} />
-            <IonLabel>Tab 3</IonLabel>
-          </IonTabButton>
-        </IonTabBar>
-      </IonTabs>
+      <IonRouterOutlet>
+        <Route path="/landing" component={LandingScreen} exact />
+        <PrivateRoute path="/home" component={Home} exact />
+        <Route path="/oidc-callback" component={LoginRedirect} exact />
+        <Route path="/endsession" component={EndRedirect} exact />
+        <Route exact path="/" render={() => <Redirect to="/home" />} />
+      </IonRouterOutlet>
     </IonReactRouter>
   </IonApp>
 );

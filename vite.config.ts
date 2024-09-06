@@ -8,6 +8,15 @@ export default defineConfig({
     react(),
     legacy()
   ],
+  resolve: {
+    alias: {
+      '@api': '/src/api',
+      '@components': '/src/components',
+      '@pages': '/src/pages',
+      '@serives': '/src/services',
+      '@utils': '/src/utils',
+    },
+  },
   test: {
     globals: true,
     environment: 'jsdom',

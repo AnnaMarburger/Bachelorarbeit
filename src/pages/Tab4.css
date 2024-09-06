@@ -1,0 +1,19 @@
+.buttons {
+    margin-top: 2%;
+    text-align: center;
+}
+
+.userinfos{
+    color: #ffff;
+    margin-bottom: 24px;
+
+}
+
+ion-title {
+    color: #ffff;
+    margin-bottom: 24px;
+}
+
+.usercontent {
+    margin-top: 15%;
+}

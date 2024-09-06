@@ -3,7 +3,7 @@ import ExploreContainer from '../components/ExploreContainer';
 import './Tab2.css';
 import questionnaireExample from '../exampleQuestionnaire.json';
 import Questionnaire from '../components/Questionnaire';
-import { QuestionnaireInstanceDetailsDtoFromJSON } from '../api/models/QuestionnaireInstanceDetailsDto';
+import { QuestionnaireInstanceDetailsDtoFromJSON } from '../api/backend-tenant/models/QuestionnaireInstanceDetailsDto';
 import { document } from 'ionicons/icons';
 
 const questionnaire1 = QuestionnaireInstanceDetailsDtoFromJSON(questionnaireExample);

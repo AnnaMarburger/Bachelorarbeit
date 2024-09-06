@@ -61,7 +61,7 @@ export interface LanguageDto {
      * @type {Array<LanguageDto>}
      * @memberof LanguageDto
      */
-    fallbackLanguages: Array<LanguageDto>;
+    //fallbackLanguages: Array<LanguageDto>;
 }
 
 /**
@@ -91,7 +91,7 @@ export function LanguageDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean
         'name': json['name'],
         'code': json['code'],
         'icon': json['icon'] == null ? undefined : LanguageDtoAllOfIconFromJSON(json['icon']),
-        'fallbackLanguages': ((json['fallbackLanguages'] as Array<any>).map(LanguageDtoFromJSON)),
+        //'fallbackLanguages': ((json['fallbackLanguages'] as Array<any>).map(LanguageDtoFromJSON)),
     };
 }
 
@@ -106,7 +106,7 @@ export function LanguageDtoToJSON(value?: LanguageDto | null): any {
         'name': value['name'],
         'code': value['code'],
         'icon': LanguageDtoAllOfIconToJSON(value['icon']),
-        'fallbackLanguages': ((value['fallbackLanguages'] as Array<any>).map(LanguageDtoToJSON)),
+        //'fallbackLanguages': ((value['fallbackLanguages'] as Array<any>).map(LanguageDtoToJSON)),
     };
 }
 

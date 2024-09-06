@@ -16,9 +16,6 @@ const Tab1: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <IonSearchbar class='custom'></IonSearchbar>
-        <IonGrid>
-               
-            </IonGrid>
       </IonContent>
     </IonPage>
   );
