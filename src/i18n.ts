@@ -20,6 +20,14 @@ i18n
     fallbackLng: 'en',
     debug: true,
 
+    detection: {
+      // This order defines where the language is detected from
+      order: ['querystring', 'cookie', 'localStorage', 'sessionStorage', 'navigator', 'htmlTag'],
+      
+      // Disable caching
+      caches: []
+    },
+
     interpolation: {
       escapeValue: false, // not needed for react as it escapes by default
     }

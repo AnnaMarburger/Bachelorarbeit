@@ -1,19 +1,65 @@
-.buttons {
-    margin-top: 2%;
+.user-card {
+    --ion-background-color: transparent;
+    box-shadow: none !important;
+    margin-top: 4.8%;
+    margin-left: 4%;
+    margin-right: 4%;
+}
+
+.modal {
+    margin-top: 8%;
+    margin-left: 24px;
+    margin-right: 24px;
+}
+
+#modal-title {
+    margin-top: 68px;
+    margin-bottom: 50px;
+    padding-left: 0%;
+    font-weight: 500;
+}
+
+.user-list {
+    margin-bottom: 4.8%;
+}
+
+.settings-list, .links-list {
+    margin-top: 24px;
+    --ion-background-color: #718da2;
+    border-radius: 8px !important;
+}
+
+#user-name {
+    color: white;
+    padding-bottom: 6px;
+    font-size: 1.3em;
+    font-weight: bold;
+}
+
+.input-row-margin {
+    margin-right: 4%;
+}
+
+.center {
+    justify-content: center !important;
+    align-content: center;
     text-align: center;
 }
 
-.userinfos{
-    color: #ffff;
-    margin-bottom: 24px;
-
+#datetimebutton {
+    padding-top: 8px;
+    padding-bottom: 8px;
 }
 
-ion-title {
-    color: #ffff;
-    margin-bottom: 24px;
+ion-fab-button {
+    margin-top: 8px;
+    margin-right: 8px;
+    --background: none;
+    --border-radius: 15px;
+    --box-shadow:none;
+    --color: white;
 }
 
-.usercontent {
-    margin-top: 15%;
+#savebutton {
+    margin-top: 24px;
 }

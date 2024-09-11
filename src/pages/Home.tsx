@@ -20,6 +20,7 @@ import Tab1 from './Tab1';
 import Tab2 from './Tab2';
 import Tab3 from './Tab3';
 import Tab4 from './Tab4';
+import { useTranslation } from 'react-i18next';
 
 interface HomePageProps extends RouteComponentProps {
 }
@@ -28,9 +29,11 @@ const Home: React.FC<HomePageProps> = (props: HomePageProps) => {
 
   const [action, setAction] = useState(AuthActionBuilder.Init);
   const [user, setUser] = useState();
+  const { t } = useTranslation();
   let subs: Subscription[] = [];
 
   useIonViewWillEnter(() => {
+    console.log("home entered " + localStorage.getItem("acceptedDisclaimer"));
     subs.push(
       Auth.Instance.events$.subscribe((action) => {
         setAction(action);
@@ -46,6 +49,8 @@ const Home: React.FC<HomePageProps> = (props: HomePageProps) => {
 
   useIonViewDidLeave(() => {
     subs.forEach(sub => sub.unsubscribe());
+    console.log("left home " + localStorage.getItem("acceptedDisclaimer"));
+
   });
 
   function handleSignOut(e: any) {
@@ -87,19 +92,19 @@ const Home: React.FC<HomePageProps> = (props: HomePageProps) => {
           <IonTabBar slot="bottom">
             <IonTabButton tab="tab1" href="/tab1">
               <IonIcon aria-hidden="true" icon={home} />
-              <IonLabel>Home</IonLabel>
+              <IonLabel>{t("HomeScreen.Tab1")}</IonLabel>
             </IonTabButton>
             <IonTabButton tab="tab2" href="/tab2">
               <IonIcon aria-hidden="true" icon={bookmarks} />
-              <IonLabel>Questionnaires</IonLabel>
+              <IonLabel>{t("HomeScreen.Tab2")}</IonLabel>
             </IonTabButton>
             <IonTabButton tab="tab3" href="/tab3">
               <IonIcon aria-hidden="true" icon={bulb} />
-              <IonLabel>Infos</IonLabel>
+              <IonLabel>{t("HomeScreen.Tab3")}</IonLabel>
             </IonTabButton>
             <IonTabButton tab="tab4" href="/tab4">
               <IonIcon aria-hidden="true" icon={person} />
-              <IonLabel>Settings</IonLabel>
+              <IonLabel>{t("HomeScreen.Tab4")}</IonLabel>
             </IonTabButton>
           </IonTabBar>
         </IonTabs>

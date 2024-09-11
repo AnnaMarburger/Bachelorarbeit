@@ -14,6 +14,7 @@ const EndRedirect: React.FC<EndRedirectPageProps> = (props: EndRedirectPageProps
   useIonViewWillEnter(() => {
     Auth.Instance.endSessionCallback();
     setInterval(() => props.history.replace('landing'), 2500)
+    console.log("end redirect"+localStorage.getItem("acceptedDisclaimer"));
   });
 
   return (

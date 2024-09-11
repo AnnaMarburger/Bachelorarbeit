@@ -1,6 +1,6 @@
 import { Auth } from '../../services/AuthService';
 import { AccountLayer } from '../../modules/dalAccount';
-import jwt from 'jsonwebtoken';
+import * as jose from 'jose'
 
 interface ClientCredentialsTokenResponse {
   access_token: string;
@@ -11,7 +11,7 @@ interface ClientCredentialsTokenResponse {
 
 const isTokenValid = (token: string): boolean => {
   try {
-    const decodedToken = jwt.decode(token) as jwt.JwtPayload;
+    const decodedToken = jose.decodeJwt(token) as jose.JWTPayload;
     const currentTime = Math.floor(Date.now() / 1000);
     return decodedToken.exp ? decodedToken.exp > currentTime : false;
   } catch (error) {
@@ -146,6 +146,7 @@ const fetchApiClientCredentialsWrapper = {
 };
 
 export {
+  isTokenValid,
   getClientCredentialsToken,
   getResourceOwnerPasswordFlowToken,
   fetchApiWithToken,

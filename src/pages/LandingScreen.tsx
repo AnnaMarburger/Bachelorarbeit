@@ -62,12 +62,12 @@ const LandingScreen: React.FC<LandingPageProps> = (props: LandingPageProps) => {
 
   return (
     <IonPage>
-    <IonContent fullscreen>
+    <IonContent fullscreen className='landing-content'>
         <div className='welcomescreen-card'>
-            <IonCard className='ion-no-margin'>
+            <IonCard className='landing-card'>
                 <img src='../img/graphic-login.png' height="300"></img>
                 <IonCardHeader>
-                    <IonCardTitle color="light">
+                    <IonCardTitle color="light" className='landing-title'>
                         {t("WelcomeScreen.Header")}
                     </IonCardTitle>
                     <IonCardSubtitle color="light">{t("WelcomeScreen.SkipLogin")}</IonCardSubtitle>

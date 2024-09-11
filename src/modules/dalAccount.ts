@@ -16,20 +16,28 @@ export class AccountLayer {
         this.acc = _acc;
     }
 
+    toString(){
+        return AccountLayer.acc.print();
+    }
+
 }
 
 export class Account {
-
+    id!: string;
     token!: string;
     username: string | undefined;
     password: string | undefined;
 
-    constructor(token: string, username: string | undefined, password: string | undefined){
+    constructor(id: string, token: string, username: string | undefined, password: string | undefined){
+        this.id = id;
         this.token = token;
         this.username = username;
         this.password = password;
     }
 
+    public print(){
+        return "{id: " + this.id + ", token: " + this.token + ", username: " + this.username + "}";
+    }
 
 }
 

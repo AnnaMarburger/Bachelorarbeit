@@ -3,8 +3,40 @@
         "Header": "Hello",
         "SkipLogin": "You don't want an account? Skip LogIn"
     },
-    "AccountScreen":{
-        "Header": "Settings",
-        "LogOut": "Log Out"
+    "RedirectScreen": {
+        "Login": "Logging in... Please wait!",
+        "Logout": "Logging out..."
+    },
+    "HomeScreen": {
+        "Tab1": "Home",
+        "Tab2": "Questionnaires",
+        "Tab3": "Infos",
+        "Tab4": "User"
+    },
+    "UserScreen":{
+        "EditUserDtoModal":{
+            "Header": "Edit your Data",
+            "GivenName": "Name",
+            "FamilyName": "Surname",
+            "PhoneNumber": "Phone Number",
+            "Birthday": "Birthday",
+            "Sex": {
+                "Header": "Sex",
+                "Option1": "Male",
+                "Option2": "Female",
+                "Option3": "Divers"
+            },
+            "StreetAdress": "Street",
+            "PostalCode": "Postal Code",
+            "Country": "Country"
+        },
+        "LogOutButton": "Log Out",
+        "Lang": "Language",
+        "Notif": "Notifications",
+        "Disclaimer": "Disclaimer",
+        "PrivacyPolicy": "Privacy Policy",
+        "LegalNotice": "Legal Notice",
+        "ASHeader": "Choose your preferred language"
     }
+   
 }

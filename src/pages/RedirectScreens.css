@@ -1,8 +1,3 @@
-ion-content {
-    --background: #628299;
-    justify-content: center !important;
-}
-
 .loading-wrapper {
     height: 100vh;
     justify-content: center !important;

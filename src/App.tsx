@@ -45,7 +45,8 @@ import '@ionic/react/css/palettes/dark.system.css';
 
 /* Theme variables */
 import './theme/variables.css';
-import LandingScreen from "./pages/LandingScreen";
+import LandingScreen from "@pages/LandingScreen";
+import Disclaimer from "@pages/Disclaimer";
 setupIonicReact();
 
 const App: React.FC = () => (
@@ -53,6 +54,7 @@ const App: React.FC = () => (
     <IonReactRouter>
       <IonRouterOutlet>
         <Route path="/landing" component={LandingScreen} exact />
+        <Route path="/disclaimer" component={Disclaimer} exact />
         <PrivateRoute path="/home" component={Home} exact />
         <Route path="/oidc-callback" component={LoginRedirect} exact />
         <Route path="/endsession" component={EndRedirect} exact />

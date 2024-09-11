@@ -3,24 +3,19 @@
     text-align: center;
 }
 
-#signup-button {
-    margin-left: 6%;
+.landing-content {
+    color: white;
+    text-align: center;
 }
 
-ion-card-header {
+.landing-title {
+    font-size: xx-large;
+    padding-bottom: 8px;
+    color: white;
     margin-top: 6%;
 }
 
-ion-card-title {
-    font-size: xx-large;
-}
-
-ion-content {
-    text-align: center;
-    --ion-background-color: #628299 !important;
-}
-
-ion-card {
+.landing-card {
     --ion-background-color: transparent;
     box-shadow: none !important;
 }
