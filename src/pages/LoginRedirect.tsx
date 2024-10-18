@@ -17,7 +17,7 @@ const LoginRedirect: React.FC<LoginRedirectPageProps> = (props: LoginRedirectPag
     Auth.Instance.authorizationCallback(url);
     sub = Auth.Instance.events$.subscribe((action) => {
       if (action.action === AuthActions.SignInSuccess) {
-        console.log("login redirect"+localStorage.getItem("acceptedDisclaimer"));
+        console.log("login redirect " + localStorage.getItem("acceptedDisclaimer"));
         if(localStorage.getItem("acceptedDisclaimer") === "true"){
           setInterval(() => props.history.replace('home'), 2500)
         } else {

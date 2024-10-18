@@ -1,4 +1,4 @@
-
+import { Account } from "./account";
 
 export class AccountLayer {
     public static acc: Account;
@@ -22,22 +22,5 @@ export class AccountLayer {
 
 }
 
-export class Account {
-    id!: string;
-    token!: string;
-    username: string | undefined;
-    password: string | undefined;
 
-    constructor(id: string, token: string, username: string | undefined, password: string | undefined){
-        this.id = id;
-        this.token = token;
-        this.username = username;
-        this.password = password;
-    }
-
-    public print(){
-        return "{id: " + this.id + ", token: " + this.token + ", username: " + this.username + "}";
-    }
-
-}
 

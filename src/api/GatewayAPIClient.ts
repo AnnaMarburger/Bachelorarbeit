@@ -40,14 +40,14 @@ export class CurrentUserClient {
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = UserDetailsDto.fromJS(resultData200);
-            return result200;
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = UserDetailsDto.fromJS(resultData200);
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Promise.resolve<UserDetailsDto>(null as any);
@@ -79,14 +79,14 @@ export class CurrentUserClient {
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = UserDetailsDto.fromJS(resultData200);
-            return result200;
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = UserDetailsDto.fromJS(resultData200);
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Promise.resolve<UserDetailsDto>(null as any);
@@ -117,11 +117,11 @@ export class CurrentUserClient {
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            return;
+                return;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Promise.resolve<void>(null as any);
@@ -160,7 +160,7 @@ export class CurrentUserClient {
             return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Promise.resolve<FileResponse>(null as any);
@@ -191,11 +191,11 @@ export class CurrentUserClient {
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            return;
+                return;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Promise.resolve<void>(null as any);
@@ -214,9 +214,9 @@ export class CurrentUserClient {
         if (sorting !== undefined && sorting !== null)
             sorting && sorting.forEach((item, index) => {
                 for (const attr in item)
-        			if (item.hasOwnProperty(attr)) {
-        				url_ += "sorting[" + index + "]." + attr + "=" + encodeURIComponent("" + (item as any)[attr]) + "&";
-        			}
+                    if (item.hasOwnProperty(attr)) {
+                        url_ += "sorting[" + index + "]." + attr + "=" + encodeURIComponent("" + (item as any)[attr]) + "&";
+                    }
             });
         if (search !== undefined && search !== null)
             url_ += "search=" + encodeURIComponent("" + search) + "&";
@@ -240,14 +240,14 @@ export class CurrentUserClient {
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = PaginatedListOfTenantDto.fromJS(resultData200);
-            return result200;
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = PaginatedListOfTenantDto.fromJS(resultData200);
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Promise.resolve<PaginatedListOfTenantDto>(null as any);
@@ -266,9 +266,9 @@ export class CurrentUserClient {
         if (sorting !== undefined && sorting !== null)
             sorting && sorting.forEach((item, index) => {
                 for (const attr in item)
-        			if (item.hasOwnProperty(attr)) {
-        				url_ += "sorting[" + index + "]." + attr + "=" + encodeURIComponent("" + (item as any)[attr]) + "&";
-        			}
+                    if (item.hasOwnProperty(attr)) {
+                        url_ += "sorting[" + index + "]." + attr + "=" + encodeURIComponent("" + (item as any)[attr]) + "&";
+                    }
             });
         if (search !== undefined && search !== null)
             url_ += "search=" + encodeURIComponent("" + search) + "&";
@@ -294,14 +294,14 @@ export class CurrentUserClient {
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = PaginatedListOfTenantStudyDto.fromJS(resultData200);
-            return result200;
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = PaginatedListOfTenantStudyDto.fromJS(resultData200);
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Promise.resolve<PaginatedListOfTenantStudyDto>(null as any);
@@ -320,9 +320,9 @@ export class CurrentUserClient {
         if (sorting !== undefined && sorting !== null)
             sorting && sorting.forEach((item, index) => {
                 for (const attr in item)
-        			if (item.hasOwnProperty(attr)) {
-        				url_ += "sorting[" + index + "]." + attr + "=" + encodeURIComponent("" + (item as any)[attr]) + "&";
-        			}
+                    if (item.hasOwnProperty(attr)) {
+                        url_ += "sorting[" + index + "]." + attr + "=" + encodeURIComponent("" + (item as any)[attr]) + "&";
+                    }
             });
         if (search !== undefined && search !== null)
             url_ += "search=" + encodeURIComponent("" + search) + "&";
@@ -348,14 +348,14 @@ export class CurrentUserClient {
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = PaginatedListOfTenantQuestionnaireDto.fromJS(resultData200);
-            return result200;
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = PaginatedListOfTenantQuestionnaireDto.fromJS(resultData200);
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Promise.resolve<PaginatedListOfTenantQuestionnaireDto>(null as any);
@@ -374,9 +374,9 @@ export class CurrentUserClient {
         if (sorting !== undefined && sorting !== null)
             sorting && sorting.forEach((item, index) => {
                 for (const attr in item)
-        			if (item.hasOwnProperty(attr)) {
-        				url_ += "sorting[" + index + "]." + attr + "=" + encodeURIComponent("" + (item as any)[attr]) + "&";
-        			}
+                    if (item.hasOwnProperty(attr)) {
+                        url_ += "sorting[" + index + "]." + attr + "=" + encodeURIComponent("" + (item as any)[attr]) + "&";
+                    }
             });
         if (search !== undefined && search !== null)
             url_ += "search=" + encodeURIComponent("" + search) + "&";
@@ -410,14 +410,14 @@ export class CurrentUserClient {
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = PaginatedListOfTenantQuestionnaireInstanceDto.fromJS(resultData200);
-            return result200;
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = PaginatedListOfTenantQuestionnaireInstanceDto.fromJS(resultData200);
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Promise.resolve<PaginatedListOfTenantQuestionnaireInstanceDto>(null as any);
@@ -447,9 +447,9 @@ export class StudiesClient {
         if (sorting !== undefined && sorting !== null)
             sorting && sorting.forEach((item, index) => {
                 for (const attr in item)
-        			if (item.hasOwnProperty(attr)) {
-        				url_ += "sorting[" + index + "]." + attr + "=" + encodeURIComponent("" + (item as any)[attr]) + "&";
-        			}
+                    if (item.hasOwnProperty(attr)) {
+                        url_ += "sorting[" + index + "]." + attr + "=" + encodeURIComponent("" + (item as any)[attr]) + "&";
+                    }
             });
         if (search !== undefined && search !== null)
             url_ += "search=" + encodeURIComponent("" + search) + "&";
@@ -473,14 +473,14 @@ export class StudiesClient {
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = PaginatedListOfTenantStudyDto.fromJS(resultData200);
-            return result200;
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = PaginatedListOfTenantStudyDto.fromJS(resultData200);
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Promise.resolve<PaginatedListOfTenantStudyDto>(null as any);
@@ -510,9 +510,9 @@ export class TenantsClient {
         if (sorting !== undefined && sorting !== null)
             sorting && sorting.forEach((item, index) => {
                 for (const attr in item)
-        			if (item.hasOwnProperty(attr)) {
-        				url_ += "sorting[" + index + "]." + attr + "=" + encodeURIComponent("" + (item as any)[attr]) + "&";
-        			}
+                    if (item.hasOwnProperty(attr)) {
+                        url_ += "sorting[" + index + "]." + attr + "=" + encodeURIComponent("" + (item as any)[attr]) + "&";
+                    }
             });
         if (search !== undefined && search !== null)
             url_ += "search=" + encodeURIComponent("" + search) + "&";
@@ -536,14 +536,14 @@ export class TenantsClient {
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = PaginatedListOfTenantDto.fromJS(resultData200);
-            return result200;
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = PaginatedListOfTenantDto.fromJS(resultData200);
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Promise.resolve<PaginatedListOfTenantDto>(null as any);
@@ -574,14 +574,14 @@ export class TenantsClient {
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = TenantDetailsDto.fromJS(resultData200);
-            return result200;
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = TenantDetailsDto.fromJS(resultData200);
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Promise.resolve<TenantDetailsDto>(null as any);
@@ -624,14 +624,14 @@ export class UsersClient {
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = UserDto.fromJS(resultData200);
-            return result200;
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = UserDto.fromJS(resultData200);
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Promise.resolve<UserDto>(null as any);
@@ -1090,6 +1090,8 @@ export class TenantDto implements ITenantDto {
     id!: string;
     name!: string;
     slug!: string;
+    apiUrl!: string;
+    backendUrl!: string;
 
     constructor(data?: ITenantDto) {
         if (data) {
@@ -1105,6 +1107,8 @@ export class TenantDto implements ITenantDto {
             this.id = _data["id"];
             this.name = _data["name"];
             this.slug = _data["slug"];
+            this.apiUrl = _data["apiUrl"];
+            this.backendUrl = _data["backendUrl"];
         }
     }
 
@@ -1120,6 +1124,8 @@ export class TenantDto implements ITenantDto {
         data["id"] = this.id;
         data["name"] = this.name;
         data["slug"] = this.slug;
+        data["apiUrl"] = this.apiUrl;
+        data["backendUrl"] = this.backendUrl;
         return data;
     }
 
@@ -1135,6 +1141,8 @@ export interface ITenantDto {
     id: string;
     name: string;
     slug: string;
+    apiUrl: string;
+    backendUrl: string;
 }
 
 export class SortingParameter implements ISortingParameter {
@@ -2507,7 +2515,8 @@ export class TenantDetailsDto implements ITenantDetailsDto {
     id!: string;
     name!: string;
     slug!: string;
-    url!: string;
+    apiUrl!: string;
+    backendUrl!: string;
 
     constructor(data?: ITenantDetailsDto) {
         if (data) {
@@ -2523,7 +2532,8 @@ export class TenantDetailsDto implements ITenantDetailsDto {
             this.id = _data["id"];
             this.name = _data["name"];
             this.slug = _data["slug"];
-            this.url = _data["url"];
+            this.apiUrl = _data["apiUrl"];
+            this.backendUrl = _data["backendUrl"];
         }
     }
 
@@ -2539,7 +2549,8 @@ export class TenantDetailsDto implements ITenantDetailsDto {
         data["id"] = this.id;
         data["name"] = this.name;
         data["slug"] = this.slug;
-        data["url"] = this.url;
+        data["apiUrl"] = this.apiUrl;
+        data["backendUrl"] = this.backendUrl;
         return data;
     }
 
@@ -2555,7 +2566,8 @@ export interface ITenantDetailsDto {
     id: string;
     name: string;
     slug: string;
-    url: string;
+    apiUrl: string;
+    backendUrl: string;
 }
 
 export class UserDto implements IUserDto {
@@ -2661,7 +2673,7 @@ export interface ICreateAnonymousUserCommand {
 }
 
 function formatDate(d: Date) {
-    return d.getFullYear() + '-' + 
+    return d.getFullYear() + '-' +
         (d.getMonth() < 9 ? ('0' + (d.getMonth()+1)) : (d.getMonth()+1)) + '-' +
         (d.getDate() < 10 ? ('0' + d.getDate()) : d.getDate());
 }

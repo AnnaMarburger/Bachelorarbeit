@@ -37,6 +37,12 @@
         "PrivacyPolicy": "Privacy Policy",
         "LegalNotice": "Legal Notice",
         "ASHeader": "Choose your preferred language"
+    },
+    "NotifScreen": {
+        "Title": "Notification Settings",
+        "ToggleLabel": "Enable Notifications",
+        "TimerPickerLabel": "Set Time",
+        "Button": "Save Changes"
     }
    
 }

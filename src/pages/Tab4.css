@@ -1,5 +1,5 @@
 .user-card {
-    --ion-background-color: transparent;
+    --ion-background-color: transparent !important;
     box-shadow: none !important;
     margin-top: 4.8%;
     margin-left: 4%;
@@ -8,13 +8,13 @@
 
 .modal {
     margin-top: 8%;
-    margin-left: 24px;
-    margin-right: 24px;
+    margin-left: 8%;
+    margin-right: 8%;
 }
 
 #modal-title {
-    margin-top: 68px;
-    margin-bottom: 50px;
+    margin-top: 14%;
+    margin-bottom: 10%;
     padding-left: 0%;
     font-weight: 500;
 }
@@ -62,4 +62,21 @@ ion-fab-button {
 
 #savebutton {
     margin-top: 24px;
+}
+
+.notif-list {
+    margin-top: 24px;
+    --ion-background-color: #718da2;
+    border-radius: 8px !important;
+    margin-left: 4%;
+    margin-right: 4%;
+}
+
+.datetime {
+    --background: #718da2;
+    --wheel-highlight-background: #879eaf;
+    border-radius: 16px;
+    color: white;
+    font-size: 1.2em;
+    --wheel-fade-background-rgb: 113, 141, 162;
 }

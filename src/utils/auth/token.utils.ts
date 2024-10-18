@@ -1,6 +1,6 @@
 import { Auth } from '../../services/AuthService';
 import { AccountLayer } from '../../modules/dalAccount';
-import * as jose from 'jose'
+import jwt from 'jsonwebtoken';
 
 interface ClientCredentialsTokenResponse {
   access_token: string;
@@ -11,7 +11,7 @@ interface ClientCredentialsTokenResponse {
 
 const isTokenValid = (token: string): boolean => {
   try {
-    const decodedToken = jose.decodeJwt(token) as jose.JWTPayload;
+    const decodedToken = jwt.decode(token) as jwt.JwtPayload;
     const currentTime = Math.floor(Date.now() / 1000);
     return decodedToken.exp ? decodedToken.exp > currentTime : false;
   } catch (error) {
@@ -84,9 +84,9 @@ const fetchApiWithToken = async (
     let token = account.token;
 
     if (!token || !isTokenValid(token)) {
-      if (account && account.username && account.password) {
+      if (account && account.userName && account.password) {
         const clientCredentialsToken = await getResourceOwnerPasswordFlowToken(
-          account.username,
+          account.userName,
           account.password,
           import.meta.env.VITE_HSP_OIDC_TOKEN_URL as string,
         );
@@ -146,7 +146,6 @@ const fetchApiClientCredentialsWrapper = {
 };
 
 export {
-  isTokenValid,
   getClientCredentialsToken,
   getResourceOwnerPasswordFlowToken,
   fetchApiWithToken,

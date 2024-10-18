@@ -1,12 +1,17 @@
 import React from "react";
 import {
   IonApp,
+  IonContent,
+  IonHeader,
   IonIcon,
   IonLabel,
+  IonPage,
   IonRouterOutlet,
   IonTabBar,
   IonTabButton,
   IonTabs,
+  IonTitle,
+  IonToolbar,
   setupIonicReact
 } from '@ionic/react';
 import { IonReactRouter } from "@ionic/react-router";
@@ -47,6 +52,7 @@ import '@ionic/react/css/palettes/dark.system.css';
 import './theme/variables.css';
 import LandingScreen from "@pages/LandingScreen";
 import Disclaimer from "@pages/Disclaimer";
+import LoginScreen from "@pages/LoginScreen";
 setupIonicReact();
 
 const App: React.FC = () => (
@@ -54,6 +60,7 @@ const App: React.FC = () => (
     <IonReactRouter>
       <IonRouterOutlet>
         <Route path="/landing" component={LandingScreen} exact />
+        <Route path="/login" component={LoginScreen} exact />
         <Route path="/disclaimer" component={Disclaimer} exact />
         <PrivateRoute path="/home" component={Home} exact />
         <Route path="/oidc-callback" component={LoginRedirect} exact />

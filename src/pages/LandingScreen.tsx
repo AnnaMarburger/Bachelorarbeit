@@ -35,8 +35,10 @@ const LandingScreen: React.FC<LandingPageProps> = (props: LandingPageProps) => {
     sub = Auth.Instance.events$.subscribe((action) => {
       setAction(action)
       if (action.action === AuthActions.SignInSuccess) {
+        console.log('sign-in success...');
+
         // The pause below helps alleviate the following error in iOS:
-        //   SecurityError: Attempt to use history.replaceState() more than 100 times per 30 seconds
+        // SecurityError: Attempt to use history.replaceState() more than 100 times per 30 seconds
         // However, it doesn't solve it completely as it happen if you log out and log in again.
         // Similar behavior happens in Android on subsequent logins.
         setInterval(() => props.history.replace('home'), 500)
@@ -49,8 +51,13 @@ const LandingScreen: React.FC<LandingPageProps> = (props: LandingPageProps) => {
   });
 
   function handleSignIn(e: any) {
-    e.preventDefault();
-    Auth.Instance.signIn();
+    try {
+      console.log('Starting sign-in process...');
+      Auth.Instance.signIn().then(()=> console.log('Sign-in initiated. Authorization window should be open.')); 
+     
+    } catch (error) {
+      console.error('Error during sign-in:', error);
+    }
   }
 
   function handleAnonymousSignIn(e: any) {

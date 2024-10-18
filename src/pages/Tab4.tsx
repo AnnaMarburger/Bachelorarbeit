@@ -7,10 +7,12 @@ import "./Tab4.css";
 import "./main.css"
 
 import { useGatewayApi } from '@api/useGatewayApi';
-import { Account, AccountLayer } from '../modules/dalAccount';
+import { AccountLayer } from '../modules/dalAccount';
+import { Account } from '../modules/account';
 import { CurrentUserClient, UpdateCurrentUserCommand, UserDetailsDto } from '@api/GatewayAPIClient';
 import {  closeSharp, earthOutline, handLeftOutline, newspaperOutline, notificationsOutline, person, shieldCheckmarkOutline } from 'ionicons/icons';
 import { useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router-dom';
 
 
 const Tab4: React.FC = () => {
@@ -18,6 +20,7 @@ const Tab4: React.FC = () => {
   let subs: Subscription[] = [];
   let dalAccount: AccountLayer;
   const { t, i18n } = useTranslation();
+  const history = useHistory();
 
   const [user, setUser] = useState(Auth.Instance.loadUserInfo());
   const [userDto, setUserDto] = useState<UserDetailsDto>(new UserDetailsDto());
@@ -31,7 +34,6 @@ const Tab4: React.FC = () => {
 
   useIonViewWillEnter(() => {
     safeToken()
-
     subs.push(
       Auth.Instance.user$.subscribe((user) => {
         setUser(user)
@@ -57,7 +59,7 @@ const Tab4: React.FC = () => {
   async function safeToken() {
     setUser(Auth.Instance.loadUserInfo());
     const token = await Auth.Instance.getValidToken();
-    dalAccount = new AccountLayer(new Account(JSON.parse(JSON.stringify(user))["sub"], token.accessToken, undefined, undefined));
+    dalAccount = new AccountLayer(new Account(JSON.parse(JSON.stringify(user))["sub"], token.accessToken, undefined, "undefined", undefined, undefined));
     currentUserApi = useGatewayApi().currentUserApi;
     const cu = await currentUserApi.getCurrentUser();
     setUserDto(cu);
@@ -106,7 +108,6 @@ const Tab4: React.FC = () => {
 
   const handleLanguageChange = (result: any) => {
     const lng = result.data.action
-    console.log(lng);
     localStorage.removeItem('i18nextLng');
     i18n.changeLanguage(lng);
 
@@ -162,7 +163,7 @@ const Tab4: React.FC = () => {
                   <strong> {t("UserScreen.Lang")}</strong>
                 </IonLabel>
               </IonItem>
-              <IonItem lines="none" button={true} onClick={() => console.log("todo")}>
+              <IonItem lines="none" button={true} onClick={() => history.push('/notifs')}>
                 <IonIcon aria-hidden="true" color="light" icon={notificationsOutline} slot="start"></IonIcon>
                 <IonLabel color="light">
                   <strong> {t("UserScreen.Notif")}</strong>
@@ -191,7 +192,6 @@ const Tab4: React.FC = () => {
             </IonList>
 
           </IonCardContent>
-
         </IonCard>
 
         <IonModal isOpen={showModal} onDidDismiss={() => setShowModal(false)}>

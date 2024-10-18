@@ -21,6 +21,7 @@ import Tab2 from './Tab2';
 import Tab3 from './Tab3';
 import Tab4 from './Tab4';
 import { useTranslation } from 'react-i18next';
+import NotifScreen from './NotificationScreen';
 
 interface HomePageProps extends RouteComponentProps {
 }
@@ -53,20 +54,6 @@ const Home: React.FC<HomePageProps> = (props: HomePageProps) => {
 
   });
 
-  function handleSignOut(e: any) {
-    e.preventDefault();
-    Auth.Instance.signOut();
-  }
-
-  function handleRefresh(e: any) {
-    e.preventDefault();
-    Auth.Instance.refreshToken();
-  }
-
-  function handleGetUserDetails(e: any) {
-    e.preventDefault();
-    Auth.Instance.loadUserInfo();
-  }
 
   return (
     <IonPage>
@@ -85,9 +72,13 @@ const Home: React.FC<HomePageProps> = (props: HomePageProps) => {
             <Route path="/tab4">
               <Tab4 />
             </Route>
+            <Route exact path="/notifs">
+              <NotifScreen />
+            </Route>
             <Route exact path="/">
               <Redirect to="/tab1" />
             </Route>
+
           </IonRouterOutlet>
           <IonTabBar slot="bottom">
             <IonTabButton tab="tab1" href="/tab1">

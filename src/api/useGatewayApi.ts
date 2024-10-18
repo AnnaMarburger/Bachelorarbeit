@@ -7,10 +7,10 @@ import {
   StudiesClient,
   TenantsClient,
   UsersClient,
-} from '../api/GatewayAPIClient';
+} from './GatewayAPIClient';
 
 export const useGatewayApi = () => {
-  const baseUrl = import.meta.env.VITE_HSP_API_BASE_URL as string;
+  const baseUrl = import.meta.env.VITE_HSP_GATEWAY_API_BASE_URL as string;
 
   if (!baseUrl) {
     throw new Error(

@@ -1,0 +1,77 @@
+
+.InputFieldsLogIn {
+    margin-top: 20%;
+    margin-left: 4%;
+    margin-right: 4%;
+    text-align: left;
+}
+
+.InputFieldsSignUp {
+    margin-left: 4%;
+    margin-right: 4%;
+    text-align: left;
+}
+
+.buttons {
+    margin-top: 8%;
+    text-align: center;
+    margin-bottom: 4%;
+}
+
+.buttons-login {
+    margin-top: 8%;
+    text-align: center;
+    margin-bottom: 12%;
+}
+
+.loginheader {
+    text-align: center;
+    margin-top: 20%;
+}
+
+.signupheader {
+    text-align: center;
+    margin-top: 16%;
+    margin-bottom: 8%;
+}
+
+.input-row-margin {
+    margin-right: 4%;
+
+}
+
+ion-card-title {
+    font-size:xx-large;
+}
+
+ion-content {
+    --ion-background-color: #628299 !important;
+}
+
+ion-card {
+    --ion-background-color: transparent;
+    box-shadow: none !important;
+}
+
+ion-input.custom {
+    --placeholder-color: #FFF;
+    --color: #FFF;
+}
+
+ion-select {
+    color: #FFF !important;
+}
+
+ion-select::part(text), ion-select::part(icon){
+    color: #FFF;
+}
+
+a{
+    color: #FFF;
+    background-color: transparent;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration:underline;
+}

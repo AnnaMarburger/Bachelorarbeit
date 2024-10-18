@@ -5,14 +5,17 @@ import { CapacitorBrowser, CapacitorSecureStorage } from 'ionic-appauth/lib/capa
 import { AxiosRequestor } from './AxiosService';
 import { CapacitorRequestor } from './CapacitorService';
 
+
 export class Auth {
 
   private static authService: AuthService | undefined;
 
   private static buildAuthInstance() {
-    
+
     const requestor = isPlatform('ios') ? new CapacitorRequestor() : new AxiosRequestor();
-    const authService = new AuthService(new CapacitorBrowser(), new CapacitorSecureStorage(), requestor);
+    const browser = new CapacitorBrowser();
+    
+    const authService = new AuthService(browser, new CapacitorSecureStorage(), requestor);
 
     if (
       import.meta.env.VITE_OIDC_CLIENT_ID === undefined ||
@@ -26,29 +29,28 @@ export class Auth {
     authService.authConfig = {
       client_id: import.meta.env.VITE_OIDC_CLIENT_ID || 'app',
       server_host:
-        import.meta.env.VITE_OIDC_SERVER_URL ||
-        'https://api.staging.hsc.health',
+        import.meta.env.VITE_OIDC_SERVER_URL || 'https://api.staging.hsc.health',
       redirect_url: isPlatform('capacitor')
-        ? (import.meta.env.VITE_OIDC_REDIRECT_PREFIX_APP ||
-          'health.hsc.apps.hscclient') + '://oidc-callback'
+        ? (import.meta.env.VITE_OIDC_REDIRECT_PREFIX_APP || 'https://localhost') + '/oidc-callback'
         : window.location.origin + '/oidc-callback',
       end_session_redirect_url: isPlatform('capacitor')
-        ? (import.meta.env.VITE_OIDC_REDIRECT_PREFIX_APP ||
-          'health.hsc.apps.hscclient') + '://endsession'
+        ? (import.meta.env.VITE_OIDC_REDIRECT_PREFIX_APP || 'https://localhost') + '/endsession'
         : window.location.origin + '/endsession',
       scopes: import.meta.env.VITE_OIDC_SCOPES || 'openid offline_access',
       pkce: true,
     };
-    console.log('AuthService Config', authService.authConfig);
 
     if (isPlatform('capacitor')) {
       App.addListener('appUrlOpen', (data: any) => {
-        if ((data.url).indexOf(authService.authConfig.redirect_url) === 0) {
+        console.log('------> App opened with URL:'+ data.url);
+
+        if (data.url && data.url.includes('/oidc-callback')) {
           authService.authorizationCallback(data.url);
         } else {
           authService.endSessionCallback();
         }
       });
+      console.log("added listener")
     }
 
     authService.init();
