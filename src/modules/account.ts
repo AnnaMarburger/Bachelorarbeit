@@ -1,12 +1,12 @@
 export class Account {
-    id!: string;
-    token!: string;
+    id: string | undefined;
+    token: string | undefined;
     password!: string;
     userName: string | undefined;
     familyName: string | undefined;
     name: string | undefined;
 
-    constructor(id: string, token: string, userName: string | undefined, password: string, familyName: string | undefined, name: string | undefined){
+    constructor(id: string | undefined, token: string | undefined, userName: string | undefined, password: string, familyName: string | undefined, name: string | undefined){
         this.id = id;
         this.token = token;
         this.userName = userName;

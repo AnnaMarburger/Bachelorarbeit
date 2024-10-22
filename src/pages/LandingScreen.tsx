@@ -1,94 +1,89 @@
-import React, { useState } from 'react';
+import React, { startTransition, useContext, useEffect, useState } from 'react';
 import {
   IonContent,
   IonButton,
   IonPage,
   useIonViewWillEnter,
   useIonViewDidLeave,
-  IonHeader,
-  IonTitle,
-  IonToolbar,
   IonCardContent,
   IonCard,
   IonCardHeader,
   IonCardSubtitle,
   IonCardTitle,
+  useIonRouter,
 } from '@ionic/react';
-import { Auth } from '../services/AuthService';
-import { AuthActions, AuthActionBuilder } from 'ionic-appauth';
 import { RouteComponentProps } from 'react-router';
-import { Subscription } from 'rxjs';
 import { t } from 'i18next';
 import './LandingScreen.css';
-import { CreateAnonymousUserCommand, UsersClient } from '@api/GatewayAPIClient';
+import { AuthenticationContext } from '../providers/AuthenticationProvider';
+import { RegistrationUtils } from '../utils/auth/registration.utils'
+import { Account } from '../modules/account';
+import { readFromStorage, readActiveAccount, updateAccount } from '../modules/dalAccount';
+
 
 interface LandingPageProps extends RouteComponentProps {
 }
 
 const LandingScreen: React.FC<LandingPageProps> = (props: LandingPageProps) => {
+  const router = useIonRouter();
 
-  const [action, setAction] = useState(AuthActionBuilder.Init);
-
-  let sub: Subscription;
-
-  useIonViewWillEnter(() => {
-    sub = Auth.Instance.events$.subscribe((action) => {
-      setAction(action)
-      if (action.action === AuthActions.SignInSuccess) {
-        console.log('sign-in success...');
-
-        // The pause below helps alleviate the following error in iOS:
-        // SecurityError: Attempt to use history.replaceState() more than 100 times per 30 seconds
-        // However, it doesn't solve it completely as it happen if you log out and log in again.
-        // Similar behavior happens in Android on subsequent logins.
-        setInterval(() => props.history.replace('home'), 500)
-      }
+  useEffect(() => {
+    readFromStorage().then(acc => {
+      if(acc){
+        console.log("perform login");
+      } 
     });
-  });
+  }, []);
 
-  useIonViewDidLeave(() => {
-    sub.unsubscribe();
-  });
-
-  function handleSignIn(e: any) {
-    try {
-      console.log('Starting sign-in process...');
-      Auth.Instance.signIn().then(()=> console.log('Sign-in initiated. Authorization window should be open.')); 
-     
-    } catch (error) {
-      console.error('Error during sign-in:', error);
+  function generatePassword() {
+    const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&()';
+    let password = '';
+    for (let i = 0; i < 12; i++) {
+      password += chars.charAt(Math.floor(Math.random() * chars.length));
     }
+    return password;
   }
 
-  function handleAnonymousSignIn(e: any) {
-    e.preventDefault();
-    const userclient = new UsersClient(import.meta.env.VITE_OIDC_SERVER_URL);
-    const response = userclient.createAnonymousUser(new CreateAnonymousUserCommand());
+  async function handleAnonymousSignIn() {
+    const password = generatePassword();
+    const account = new Account(undefined, undefined, undefined, password, undefined, undefined);
+    const response = RegistrationUtils.createAnonymousUser(account);
     console.log(response);
+    response.then(e => {
+      account.userName = e.userName;
+      account.id = e.id;
+      account.familyName = e.familyName;
+      account.name = e.givenName;
+    });
+    await updateAccount(account);
+    console.log("saved new account", readActiveAccount());
   }
 
   return (
     <IonPage>
-    <IonContent fullscreen className='landing-content'>
+      <IonContent fullscreen className='landing-content'>
         <div className='welcomescreen-card'>
-            <IonCard className='landing-card'>
-                <img src='../img/graphic-login.png' height="300"></img>
-                <IonCardHeader>
-                    <IonCardTitle color="light" className='landing-title'>
-                        {t("WelcomeScreen.Header")}
-                    </IonCardTitle>
-                    <IonCardSubtitle color="light">{t("WelcomeScreen.SkipLogin")}</IonCardSubtitle>
-                </IonCardHeader>
-                <IonCardContent>
-                    <div className='buttons'>
-                        <IonButton shape='round' color="light" onClick={handleSignIn}>Login</IonButton>
-                        <IonButton shape='round' color="light" onClick={handleAnonymousSignIn}>Anonym</IonButton>
-                    </div>
-                </IonCardContent>
-            </IonCard>
-        </div>
+          <IonCard className='landing-card'>
+            <img src='../img/graphic-login.png' height="300"></img>
+            <IonCardHeader>
+              <IonCardTitle color="light" className='landing-title'>
+                {t("WelcomeScreen.Header")}
+              </IonCardTitle>
+              <IonCardSubtitle color="light">{t("WelcomeScreen.SkipLogin")}</IonCardSubtitle>
+            </IonCardHeader>
+            <IonCardContent>
+              <div className='buttons'>
+                <IonButton routerLink='/login' shape='round' color="light">Login</IonButton>
+                <IonButton shape='round' color="light" onClick={async() => {
+                  await  handleAnonymousSignIn();
+                  router.push('/home/tab1');
+                }}>Anonym</IonButton>
+            </div>
+          </IonCardContent>
+        </IonCard>
+      </div>
     </IonContent>
-</IonPage>
+</IonPage >
   );
 };
 

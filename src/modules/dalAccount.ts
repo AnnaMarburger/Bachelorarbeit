@@ -1,26 +1,63 @@
 import { Account } from "./account";
+import { Preferences } from '@capacitor/preferences';
 
-export class AccountLayer {
-    public static acc: Account;
+    let account: Account | null;
+    let listeners: any[] = [];
 
-    constructor(_acc: Account){
-        AccountLayer.acc = _acc;
+    const subscribeAccount = (listener: any) => {
+        listeners = [...listeners, listener];
+        return () => {
+            listeners = listeners.filter((l) => l !== listener);
+        };
     }
 
-    public static readActiveAccount(): Account {
-        return this.acc;
+    const emitChangeAccount = () => {
+        for (let l of listeners) {
+            l();
+        }
     }
 
-    public static update(_acc: Account) {
-        //TODO check??
-        this.acc = _acc;
+
+    // read account from storage
+    const readActiveAccount =  (): Account | null => {
+        return account;
     }
 
-    toString(){
-        return AccountLayer.acc.print();
+    // update account, emit changes
+    const updateAccount = async (_acc: Account): Promise<Account> => {
+        account = _acc;
+        await Preferences.set({
+            key: 'activeAccount',
+            value: JSON.stringify(_acc),
+        });
+
+        emitChangeAccount();
+        return account;
     }
 
-}
+    const readFromStorage = async (): Promise<Account|null>=> {
+        const { value } = await Preferences.get({ key: 'activeAccount' });
+        if (value) {
+          account = JSON.parse(value);
+          return account;
+        }
+        return null;
+      };
+
+
+    const clearAccount = async() => {
+        account = null;
+        await Preferences.remove({ key: 'activeAccount' });
+        emitChangeAccount();
+    }
+
+    const acctoString = (): String => {
+        return account ? account.print() : "null";
+    }
+
+    export {subscribeAccount, readActiveAccount, updateAccount, acctoString, clearAccount, readFromStorage};
+
+
 
 
 

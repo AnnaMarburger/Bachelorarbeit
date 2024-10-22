@@ -20,7 +20,7 @@ const QuestionnaireList: React.FC = () => {
     <IonPage>
       <IonContent fullscreen >
         <IonList inset={true}>
-        <IonText class='questionnaireTitle'><h1>Questionnaires</h1></IonText>
+        <IonText className='questionnaireTitle'><h1>Questionnaires</h1></IonText>
           <IonNavLink routerDirection="forward" component={() => <Questionnaire questionnaireInstanz={questionnaire1} />}>
             <IonItem>
               <IonBadge slot="end">{questionnaire1.state}</IonBadge>

@@ -1,53 +1,41 @@
 /*----------------------------------- Imports -----------------------------------------------------------*/
 
-import { IonAlert, IonButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonInput, IonInputPasswordToggle, IonPage, IonText, useIonAlert, useIonViewDidLeave, useIonViewWillEnter } from '@ionic/react';
+import {IonButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonInput, IonInputPasswordToggle, IonPage, IonText, useIonAlert, useIonRouter, useIonViewDidLeave, useIonViewWillEnter } from '@ionic/react';
 import './LoginScreens.css';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
-import { Auth } from '../services/AuthService';
-import { Subscription } from 'rxjs';
-import { AuthActionBuilder, AuthActions } from 'ionic-appauth';
+import { getResourceOwnerPasswordFlowToken } from '@utils/auth/token.utils';
+import { updateAccount } from '../modules/dalAccount';
+import { Account } from '../modules/account';
+import { RouteComponentProps } from 'react-router-dom';
 
-/*----------------------------------- Functions -----------------------------------------------------------*/
-
-async function logIn(e: any) {
-
-
-    //validate input (username only alpha numeric, password no critical special chars)
-    //if (!/^[A-Za-z0-9]+$/.test(username) || ( /[`'"\\&<>|/]/.test(password))) return "LoginScreen.LoginFailed.errInput";
-
-
-    // TODO send to server
-    //const hashedpwd = Md5.hashStr();
-
-    // TODO check if successful
-    // TODO route to homepage
-
-    console.log("login");
-    return ""
+interface LoginPageProps extends RouteComponentProps {
 }
 
-
-
-/*----------------------------------- Components -----------------------------------------------------------*/
-
-
-const LoginScreen: React.FC = () => {
-    const { t, i18n } = useTranslation();
+const LoginScreen: React.FC<LoginPageProps> = (props: LoginPageProps) => {
+    const { t } = useTranslation();
+    const router = useIonRouter();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [presentAlert] = useIonAlert();
 
-    const [action, setAction] = useState(AuthActionBuilder.Init);
+    const loginUser = async (_username: string, _password: string) => {
+        try {
+            // Token abrufen
+            const tokenResponse = await getResourceOwnerPasswordFlowToken(
+                username,
+                password,
+                import.meta.env.VITE_HSP_OIDC_TOKEN_URL as string
+            );
 
-  let sub: Subscription;
-
-
-
-  useIonViewDidLeave(() => {
-    sub.unsubscribe();
-  });
-
+            // Zugriffstoken für weitere Anfragen speichern
+            const userAcc = new Account(undefined, tokenResponse.access_token, _username, _password, undefined, undefined);
+            await updateAccount(userAcc);
+            console.log('User successfully logged in with access token:', tokenResponse.access_token);
+        } catch (error) {
+            console.error('Login failed:', error);
+        }
+    };
 
     return (
         <IonPage>
@@ -61,9 +49,9 @@ const LoginScreen: React.FC = () => {
                     </IonCardHeader>
                     <IonCardContent>
                         <div className='InputFieldsLogIn'>
-                            <IonInput value={username} onIonInput={(e:any) => setUsername(e.detail.value || "")} color="light" className='custom' fill="outline" label={t("LoginScreen.Name")} labelPlacement="floating"></IonInput>
+                            <IonInput value={username} onIonInput={(e: any) => setUsername(e.detail.value || "")} color="light" className='custom' fill="outline" label={t("LoginScreen.Name")} labelPlacement="floating"></IonInput>
                             <br />
-                            <IonInput value={password} onIonInput={(e:any) => setPassword(e.detail.value || "")} color="light" className='custom' fill="outline" label={t("LoginScreen.Password")} labelPlacement="floating">
+                            <IonInput value={password} onIonInput={(e: any) => setPassword(e.detail.value || "")} color="light" className='custom' fill="outline" label={t("LoginScreen.Password")} labelPlacement="floating">
                                 <IonInputPasswordToggle color="light" slot="end"></IonInputPasswordToggle>
                             </IonInput>
                             <br />
@@ -71,16 +59,17 @@ const LoginScreen: React.FC = () => {
                         </div>
                         <br />
                         <div className='buttons'>
-                            <IonButton shape='round' className='buttons-login' color="light" onClick={logIn}> Login </IonButton>
-                            <br />
-                            <IonText color="light"><a href='/signup'>{t("LoginScreen.SignUp")}</a></IonText>
-                        </div>
-
-
-                    </IonCardContent>
-                </IonCard>
-            </IonContent>
-        </IonPage>
+                            <IonButton shape='round' className='buttons-login' color="light" onClick={async () => {
+                                await loginUser(username, password);
+                                router.push('/home/tab4');
+                            }}> Login </IonButton>
+                        <br />
+                        <IonText color="light"><a href='/signup'>{t("LoginScreen.SignUp")}</a></IonText>
+                    </div>
+                </IonCardContent>
+            </IonCard>
+        </IonContent>
+        </IonPage >
 
     );
 };

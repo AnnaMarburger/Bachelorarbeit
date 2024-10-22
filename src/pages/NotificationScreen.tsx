@@ -1,14 +1,16 @@
 import "./main.css";
 import { LocalNotifications } from "@capacitor/local-notifications";
-import { IonPage, IonContent, IonButton, IonDatetime, IonHeader, IonItem, IonLabel, IonTitle, IonToggle, IonToolbar, IonButtons, IonIcon, IonList } from "@ionic/react";
+import { IonPage, IonContent, IonButton, IonDatetime, IonHeader, IonItem, IonLabel, IonTitle, IonToggle, IonToolbar, IonButtons, IonIcon, IonList, IonBackButton, useIonRouter } from "@ionic/react";
 import { useState } from "react";
 import { arrowBack } from "ionicons/icons";
 import { useTranslation } from "react-i18next";
 import "./Tab4.css";
 import "./main.css"
+import { useHistory } from "react-router";
 
 const NotifScreen: React.FC = () => {
     const { t, i18n } = useTranslation();
+    const router = useIonRouter();
 
     // State für den Toggle und die Uhrzeit
     const [notificationsEnabled, setNotificationsEnabled] = useState(false);
@@ -22,7 +24,7 @@ const NotifScreen: React.FC = () => {
             selectedTime
         });
         alert('Einstellungen gespeichert!');
-        history.back();
+        router.goBack();
     };
 
     return (
@@ -31,7 +33,7 @@ const NotifScreen: React.FC = () => {
                 <IonToolbar className="toolbar">
                     <IonTitle>{t("NotifScreen.Title")}</IonTitle>
                     <IonButtons slot="start">
-                        <IonButton onClick={() => history.back()}><IonIcon icon={arrowBack}/></IonButton>
+                        <IonBackButton defaultHref="/home/tab4"></IonBackButton>
                     </IonButtons>
                 </IonToolbar>
             </IonHeader>

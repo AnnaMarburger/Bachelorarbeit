@@ -1,7 +1,11 @@
-import { IonCol, IonContent, IonGrid, IonHeader, IonPage, IonRow, IonSearchbar, IonTitle, IonToolbar } from '@ionic/react';
+import { IonCol, IonContent, IonGrid, IonHeader, IonPage, IonRow, IonSearchbar, IonTitle, IonToolbar, useIonViewWillEnter } from '@ionic/react';
 import './Tab1.css';
 
 const Tab1: React.FC = () => {
+  useIonViewWillEnter(() => {
+    console.log("about to enter tab 1");
+  });
+
   return (
     <IonPage>
       <IonHeader>
@@ -15,7 +19,6 @@ const Tab1: React.FC = () => {
             <IonTitle size="large">Home</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <IonSearchbar class='custom'></IonSearchbar>
       </IonContent>
     </IonPage>
   );

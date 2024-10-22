@@ -1,6 +1,7 @@
 import { Auth } from '../../services/AuthService';
-import { AccountLayer } from '../../modules/dalAccount';
-import jwt from 'jsonwebtoken';
+import { readActiveAccount, updateAccount } from '../../modules/dalAccount';
+import * as jose from 'jose'
+import { Account } from '../../modules/account';
 
 interface ClientCredentialsTokenResponse {
   access_token: string;
@@ -11,7 +12,7 @@ interface ClientCredentialsTokenResponse {
 
 const isTokenValid = (token: string): boolean => {
   try {
-    const decodedToken = jwt.decode(token) as jwt.JwtPayload;
+    const decodedToken = jose.decodeJwt(token) as jose.JWTPayload;
     const currentTime = Math.floor(Date.now() / 1000);
     return decodedToken.exp ? decodedToken.exp > currentTime : false;
   } catch (error) {
@@ -80,8 +81,8 @@ const fetchApiWithToken = async (
   init: RequestInit = {},
 ) => {
   try {
-    const account = await AccountLayer.readActiveAccount();
-    let token = account.token;
+    const account = await readActiveAccount();
+    let token = account? account.token : null;
 
     if (!token || !isTokenValid(token)) {
       if (account && account.userName && account.password) {
@@ -91,12 +92,15 @@ const fetchApiWithToken = async (
           import.meta.env.VITE_HSP_OIDC_TOKEN_URL as string,
         );
         token = clientCredentialsToken.access_token;
+        account.token = token;
+        await updateAccount(account);
       } else {
         const authToken = await Auth.Instance.getValidToken();
         token = authToken.accessToken;
+        console.log("Sind hier im fetchApiWithToken, await Auth.Instance.getValidToken hat funktioniert. Token: " + token);
+        const account = new Account(undefined, token, undefined, "", undefined, undefined);
+        await updateAccount(account);
       }
-      account.token = token;
-      await AccountLayer.update(account);
     }
 
     if (token) {
@@ -105,6 +109,7 @@ const fetchApiWithToken = async (
         Authorization: `Bearer ${token}`,
       };
     }
+
   } catch (error) {
     console.error('Error fetching token: ', error);
   }

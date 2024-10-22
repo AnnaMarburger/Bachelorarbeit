@@ -7,6 +7,14 @@
         "Login": "Logging in... Please wait!",
         "Logout": "Logging out..."
     },
+    "LoginScreen": {
+        "Header": "Login",
+        "Name": "Benutzername",
+        "Password": "Passwort",
+        "Button": "Login",
+        "Forgot": "Passwort vergessen?",
+        "SignUp": "Noch kein Konto? Hier registrieren"
+    },
     "HomeScreen": {
         "Tab1": "Home",
         "Tab2": "Questionnaires",
@@ -16,19 +24,9 @@
     "UserScreen":{
         "EditUserDtoModal":{
             "Header": "Edit your Data",
-            "GivenName": "Name",
-            "FamilyName": "Surname",
-            "PhoneNumber": "Phone Number",
-            "Birthday": "Birthday",
-            "Sex": {
-                "Header": "Sex",
-                "Option1": "Male",
-                "Option2": "Female",
-                "Option3": "Divers"
-            },
-            "StreetAdress": "Street",
-            "PostalCode": "Postal Code",
-            "Country": "Country"
+            "Name": "Name",
+            "Username": "Surname",
+            "Password": "Phone Number"
         },
         "LogOutButton": "Log Out",
         "Lang": "Language",

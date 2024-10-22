@@ -5,11 +5,6 @@ const config: CapacitorConfig = {
   appName: 'Ernährungsunterstützung App',
   webDir: 'dist',
   bundledWebRuntime: false,
-  server: {
-    hostname: 'localhost',
-    androidScheme: 'https',
-    iosScheme: 'https'
-  }
 };
 
 export default config;

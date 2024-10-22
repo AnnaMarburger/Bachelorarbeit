@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import {
   IonPage,
-  useIonViewWillEnter,
-  useIonViewDidLeave,
   IonIcon,
   IonLabel,
   IonRouterOutlet,
@@ -10,10 +8,7 @@ import {
   IonTabButton,
   IonTabs
 } from '@ionic/react';
-import { Auth } from '../services/AuthService';
-import { AuthActions, AuthActionBuilder } from 'ionic-appauth';
-import { Redirect, Route, RouteComponentProps } from 'react-router';
-import { Subscription } from 'rxjs';
+import { Redirect, Route, useRouteMatch } from 'react-router';
 import { IonReactRouter } from '@ionic/react-router';
 import { home, bookmarks, bulb, person } from 'ionicons/icons';
 import Tab1 from './Tab1';
@@ -23,36 +18,9 @@ import Tab4 from './Tab4';
 import { useTranslation } from 'react-i18next';
 import NotifScreen from './NotificationScreen';
 
-interface HomePageProps extends RouteComponentProps {
-}
-
-const Home: React.FC<HomePageProps> = (props: HomePageProps) => {
-
-  const [action, setAction] = useState(AuthActionBuilder.Init);
-  const [user, setUser] = useState();
+const Home: React.FC = () => {
   const { t } = useTranslation();
-  let subs: Subscription[] = [];
-
-  useIonViewWillEnter(() => {
-    console.log("home entered " + localStorage.getItem("acceptedDisclaimer"));
-    subs.push(
-      Auth.Instance.events$.subscribe((action) => {
-        setAction(action);
-        if (action.action === AuthActions.SignOutSuccess) {
-          props.history.replace('landing');
-        }
-      }),
-      Auth.Instance.user$.subscribe((user) => {
-        setUser(user)
-      })
-    )
-  });
-
-  useIonViewDidLeave(() => {
-    subs.forEach(sub => sub.unsubscribe());
-    console.log("left home " + localStorage.getItem("acceptedDisclaimer"));
-
-  });
+  const { url } = useRouteMatch();
 
 
   return (
@@ -60,40 +28,39 @@ const Home: React.FC<HomePageProps> = (props: HomePageProps) => {
       <IonReactRouter>
         <IonTabs>
           <IonRouterOutlet>
-            <Route exact path="/tab1">
+            <Route exact path={`${url}/tab1`}>
               <Tab1 />
             </Route>
-            <Route exact path="/tab2">
+            <Route exact path={`${url}/tab2`}>
               <Tab2 />
             </Route>
-            <Route path="/tab3">
+            <Route exact path={`${url}/tab3`}>
               <Tab3 />
             </Route>
-            <Route path="/tab4">
+            <Route exact path={`${url}/tab4`}>
               <Tab4 />
             </Route>
-            <Route exact path="/notifs">
+            <Route exact path={`${url}/tab4/notifs`}>
               <NotifScreen />
             </Route>
-            <Route exact path="/">
-              <Redirect to="/tab1" />
+            <Route exact path={url}>
+              <Redirect to={`${url}/tab1`} />
             </Route>
-
           </IonRouterOutlet>
           <IonTabBar slot="bottom">
-            <IonTabButton tab="tab1" href="/tab1">
+            <IonTabButton tab="tab1" href={`${url}/tab1`}>
               <IonIcon aria-hidden="true" icon={home} />
               <IonLabel>{t("HomeScreen.Tab1")}</IonLabel>
             </IonTabButton>
-            <IonTabButton tab="tab2" href="/tab2">
+            <IonTabButton tab="tab2" href={`${url}/tab2`}>
               <IonIcon aria-hidden="true" icon={bookmarks} />
               <IonLabel>{t("HomeScreen.Tab2")}</IonLabel>
             </IonTabButton>
-            <IonTabButton tab="tab3" href="/tab3">
+            <IonTabButton tab="tab3" href={`${url}/tab3`}>
               <IonIcon aria-hidden="true" icon={bulb} />
               <IonLabel>{t("HomeScreen.Tab3")}</IonLabel>
             </IonTabButton>
-            <IonTabButton tab="tab4" href="/tab4">
+            <IonTabButton tab="tab4" href={`${url}/tab4`}>
               <IonIcon aria-hidden="true" icon={person} />
               <IonLabel>{t("HomeScreen.Tab4")}</IonLabel>
             </IonTabButton>

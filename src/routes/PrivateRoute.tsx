@@ -1,35 +1,25 @@
-/* /src/routes/privateRoute.jsx */
-import React, { useState } from 'react';
-import { Route, Redirect } from 'react-router-dom';
-import { filter, switchMap, take } from 'rxjs/operators';
+import { useState, useEffect, ReactNode } from 'react';
+import { readFromStorage } from '../modules/dalAccount';
+import { Redirect } from 'react-router-dom';
+import { Account } from 'modules/account';
 
-import { Auth } from '../services/AuthService';
+type Props = { children?: ReactNode };
 
-export const PrivateRoute = ({component, ...rest}: any) => {
+export const PrivateRoute = ({ children }: Props) => {
+  const [account, setAccount] = useState<Account | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [loaded, setLoaded] = useState(false);
+  useEffect(() => {
+    const loadAccount = async () => {
+      const storedAccount = await readFromStorage();  
+      setAccount(storedAccount);
+      setLoading(false);
+    };
 
-  if (!loaded) {
-    Auth.Instance.initComplete$
-      .pipe(filter(complete => complete),
-        switchMap(() => Auth.Instance.isAuthenticated$),
-        take(1))
-      .subscribe((isAuthenticated) => {
-        setIsAuthenticated(isAuthenticated);
-        setLoaded(true);
-      });
-  }
+    loadAccount();
+  }, []);
 
-  function renderFn(props: any) {
-    if (loaded) {
-      if (isAuthenticated) {
-        return React.createElement(component, props);
-      }
-      return <Redirect to="/landing"/>
-    }
-    return <p>Loading</p>
-  }
-
-  return <Route {...rest} render={renderFn}/>;
+  if (loading) return <div>Loading...</div>;
+  if (!account) return <Redirect to="/login" />;
+  return <>{children}</>;
 };

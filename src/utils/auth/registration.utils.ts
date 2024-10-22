@@ -1,4 +1,4 @@
-import { AccountLayer } from '../../modules/dalAccount';
+import { updateAccount } from '../../modules/dalAccount';
 import { useGatewayApi } from '../../api/useGatewayApi';
 import { useTenantApi } from '../../api/useTenantApi';
 import { CreateAnonymousUserCommand, UpdateCurrentUserCommand} from '../../api/GatewayAPIClient';
@@ -17,7 +17,8 @@ export class RegistrationUtils {
       createAnonymousUserCommand,
     );
     account.userName = userDto.userName;
-    await AccountLayer.update(account);
+    account.id = userDto.id;
+    await updateAccount(account);
 
     if (account.name && account.name.length > 0) {
       await useGatewayApi().currentUserApi.updateCurrentUser(

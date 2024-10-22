@@ -1,25 +1,18 @@
 import React from "react";
 import {
   IonApp,
-  IonContent,
-  IonHeader,
-  IonIcon,
-  IonLabel,
-  IonPage,
   IonRouterOutlet,
-  IonTabBar,
-  IonTabButton,
-  IonTabs,
-  IonTitle,
-  IonToolbar,
   setupIonicReact
 } from '@ionic/react';
 import { IonReactRouter } from "@ionic/react-router";
 import { Redirect, Route } from "react-router-dom";
 import { PrivateRoute } from './routes/PrivateRoute';
-import LoginRedirect from "./pages/LoginRedirect";
-import EndRedirect from "./pages/EndRedirect";
+
+import { AuthenticationProvider } from './providers/AuthenticationProvider';
 import Home from "./pages/Home";
+import LandingScreen from "@pages/LandingScreen";
+import Disclaimer from "@pages/Disclaimer";
+import LoginScreen from "@pages/LoginScreen";
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -46,28 +39,31 @@ import '@ionic/react/css/display.css';
 
 /* import '@ionic/react/css/palettes/dark.always.css'; */
 /* import '@ionic/react/css/palettes/dark.class.css'; */
-import '@ionic/react/css/palettes/dark.system.css';
+/* import '@ionic/react/css/palettes/dark.system.css'; */
 
 /* Theme variables */
 import './theme/variables.css';
-import LandingScreen from "@pages/LandingScreen";
-import Disclaimer from "@pages/Disclaimer";
-import LoginScreen from "@pages/LoginScreen";
+import NotFound from "./pages/NotFoundSreen";
 setupIonicReact();
 
 const App: React.FC = () => (
   <IonApp>
-    <IonReactRouter>
-      <IonRouterOutlet>
-        <Route path="/landing" component={LandingScreen} exact />
-        <Route path="/login" component={LoginScreen} exact />
-        <Route path="/disclaimer" component={Disclaimer} exact />
-        <PrivateRoute path="/home" component={Home} exact />
-        <Route path="/oidc-callback" component={LoginRedirect} exact />
-        <Route path="/endsession" component={EndRedirect} exact />
-        <Route exact path="/" render={() => <Redirect to="/home" />} />
-      </IonRouterOutlet>
-    </IonReactRouter>
+      <IonReactRouter>
+        <IonRouterOutlet>
+          <Route path="/landing" component={LandingScreen} exact />
+          <Route path="/login" component={LoginScreen} exact />
+          <Route path="/disclaimer" component={Disclaimer} exact />
+          <Route path="/home">
+            <PrivateRoute>
+              <Home/>
+            </PrivateRoute>
+          </Route>
+          <Route exact path="/">
+            <Redirect to="/landing" />
+          </Route>
+          <Route component={NotFound} />
+        </IonRouterOutlet>
+      </IonReactRouter>
   </IonApp>
 );
 

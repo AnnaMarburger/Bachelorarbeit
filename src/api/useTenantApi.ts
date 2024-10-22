@@ -1,4 +1,4 @@
-import { fetchApiWithTokenWrapper } from '@/utils/auth/token.utils';
+import { fetchApiWithTokenWrapper } from '../utils/auth/token.utils';
 import {
   AppPagesClient,
   AppsClient,
@@ -11,8 +11,8 @@ import {
   QuestionnairesClient,
   SearchClient,
   StudiesClient,
-} from '@/api/TenantAPIClient';
-import { TenantDto } from '@/api/GatewayAPIClient';
+} from './TenantAPIClient';
+import { TenantDto } from './GatewayAPIClient';
 
 export const useTenantApi = (tenant?: TenantDto) => {
   const baseUrl =
