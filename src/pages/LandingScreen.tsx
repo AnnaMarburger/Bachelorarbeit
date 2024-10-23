@@ -3,8 +3,6 @@ import {
   IonContent,
   IonButton,
   IonPage,
-  useIonViewWillEnter,
-  useIonViewDidLeave,
   IonCardContent,
   IonCard,
   IonCardHeader,
@@ -13,12 +11,12 @@ import {
   useIonRouter,
 } from '@ionic/react';
 import { RouteComponentProps } from 'react-router';
-import { t } from 'i18next';
 import './LandingScreen.css';
-import { AuthenticationContext } from '../providers/AuthenticationProvider';
 import { RegistrationUtils } from '../utils/auth/registration.utils'
 import { Account } from '../modules/account';
 import { readFromStorage, readActiveAccount, updateAccount } from '../modules/dalAccount';
+import { loginUser } from '@components/LoginComponent';
+import { useTranslation } from 'react-i18next';
 
 
 interface LandingPageProps extends RouteComponentProps {
@@ -26,11 +24,14 @@ interface LandingPageProps extends RouteComponentProps {
 
 const LandingScreen: React.FC<LandingPageProps> = (props: LandingPageProps) => {
   const router = useIonRouter();
+  const { t } = useTranslation();
 
   useEffect(() => {
-    readFromStorage().then(acc => {
-      if(acc){
-        console.log("perform login");
+    readFromStorage().then(async acc => {
+      if(acc?.userName && acc?.password){
+        console.log("perform autologin", acc);
+        await loginUser(acc.userName, acc.password);
+        router.push('/home/tab4');
       } 
     });
   }, []);
@@ -76,7 +77,7 @@ const LandingScreen: React.FC<LandingPageProps> = (props: LandingPageProps) => {
                 <IonButton routerLink='/login' shape='round' color="light">Login</IonButton>
                 <IonButton shape='round' color="light" onClick={async() => {
                   await  handleAnonymousSignIn();
-                  router.push('/home/tab1');
+                  router.push('/home/tab4');
                 }}>Anonym</IonButton>
             </div>
           </IonCardContent>

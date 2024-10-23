@@ -1,75 +1,34 @@
 .user-card {
     --ion-background-color: transparent !important;
     box-shadow: none !important;
-    margin-top: 4.8%;
-    margin-left: 4%;
-    margin-right: 4%;
-}
-
-.modal {
-    margin-top: 8%;
-    margin-left: 8%;
-    margin-right: 8%;
-}
-
-#modal-title {
-    margin-top: 14%;
-    margin-bottom: 10%;
-    padding-left: 0%;
-    font-weight: 500;
+    margin: 0px !important;
+    padding: 0px !important;
 }
 
 .user-list {
     margin-bottom: 4.8%;
 }
 
-.settings-list, .links-list {
-    margin-top: 24px;
+.settings-list, .links-list{
+    padding: 10px;
+    margin-top: 12px;
     --ion-background-color: #718da2;
-    border-radius: 8px !important;
+    border-radius: 12px !important;
 }
 
-#user-name {
-    color: white;
-    padding-bottom: 6px;
-    font-size: 1.3em;
-    font-weight: bold;
-}
-
-.input-row-margin {
-    margin-right: 4%;
-}
-
-.center {
-    justify-content: center !important;
-    align-content: center;
-    text-align: center;
-}
-
-#datetimebutton {
-    padding-top: 8px;
-    padding-bottom: 8px;
-}
-
-ion-fab-button {
-    margin-top: 8px;
-    margin-right: 8px;
-    --background: none;
-    --border-radius: 15px;
-    --box-shadow:none;
-    --color: white;
-}
-
-#savebutton {
-    margin-top: 24px;
+.modal-list{
+    padding: 10px;
+    margin-top: 0px;
+    --ion-background-color: #718da2;
+    border-radius: 12px !important;
 }
 
 .notif-list {
-    margin-top: 24px;
     --ion-background-color: #718da2;
-    border-radius: 8px !important;
-    margin-left: 4%;
-    margin-right: 4%;
+    border-radius: 12px !important;
+    margin-top: 0px;
+    margin-left: 2%;
+    margin-right: 2%;
 }
 
 .datetime {
@@ -79,4 +38,32 @@ ion-fab-button {
     color: white;
     font-size: 1.2em;
     --wheel-fade-background-rgb: 113, 141, 162;
+}
+
+.Input-label {
+    color: white;
+    margin-bottom: 0px;
+    font-weight: 600;
+}
+
+#user-name {
+    color: white;
+    padding-bottom: 2px;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+#save-button {
+    padding: 12px;
+}
+
+#account-name {
+    color: white;
+    padding-bottom: 2px;
+    font-size: 0.8em;
+    font-weight: light;
+}
+
+#title-dark {
+    color: #394c5a;
 }

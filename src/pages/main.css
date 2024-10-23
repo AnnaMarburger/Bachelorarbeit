@@ -2,10 +2,17 @@ ion-content {
     --background: #628299;
 }
 
+ion-content::part(scroll) {
+    padding-top: var(--ion-safe-area-top, 0);
+  }
+
 ion-input.custom {
     --placeholder-color: #FFF;
     --color: #FFF;
+    --border-color: #FFF;
+    margin-top: 12px;
 }
+
 ion-button {
     padding-top: 8px;
     padding-bottom: 8px;
@@ -20,7 +27,6 @@ ion-select::part(icon) {
     color: #FFF;
 }
 
-
 ion-title {
     color: #ffff;
 }
@@ -33,6 +39,21 @@ ion-fab {
     margin-top: var(--ion-safe-area-top, 0);
 }
 
+ion-fab-button {
+    margin-top: 8px;
+    margin-right: 8px;
+    --background: none;
+    --border-radius: 15px;
+    --box-shadow:none;
+    --color: white;
+}
+
 .disclaimer {
     margin: 10%;
+}
+
+.center {
+    justify-content: center !important;
+    align-content: center;
+    text-align: center;
 }

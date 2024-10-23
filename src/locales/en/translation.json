@@ -24,9 +24,12 @@
     "UserScreen":{
         "EditUserDtoModal":{
             "Header": "Edit your Data",
-            "Name": "Name",
-            "Username": "Surname",
-            "Password": "Phone Number"
+            "ChangeName": "Change Your Name:",
+            "Surname": "Name",
+            "Familyname": "Family Name",
+            "ChangePassword": "Change Your Password:",
+            "NewPassword": "New Password",
+            "OldPassword": "Old Password"
         },
         "LogOutButton": "Log Out",
         "Lang": "Language",
