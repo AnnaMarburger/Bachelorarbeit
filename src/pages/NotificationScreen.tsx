@@ -9,14 +9,13 @@ import "./main.css"
 
 const NotifScreen: React.FC = () => {
     const { t } = useTranslation();
-    const router = useIonRouter();
     const [notificationsEnabled, setNotificationsEnabled] = useState(false);
     const [selectedTime, setSelectedTime] = useState('12:00');
 
     const handleSave = async () => { 
         //dissable previous notifications
         try {
-            await LocalNotifications.cancel();
+            await LocalNotifications.cancel({ notifications: [] });
         } catch (error) {
             console.error("Error while canceling notifications:", error);
         }

@@ -3,15 +3,16 @@ import { IonButton, IonButtons, IonCard, IonCardContent, IonContent, IonDatetime
 import { useState } from 'react';
 import "./Tab4.css";
 import "./main.css"
-import { CurrentUserClient } from '@api/GatewayAPIClient';
+import { UpdateCurrentUserCommand, UpdateCurrentUserPasswordCommand } from '@api/GatewayAPIClient';
 import { closeSharp, earthOutline, handLeftOutline, newspaperOutline, notificationsOutline, person, shieldCheckmarkOutline } from 'ionicons/icons';
 import { useTranslation } from 'react-i18next';
-import { clearAccount, readActiveAccount } from '../modules/dalAccount';
+import { clearAccount, readActiveAccount, updateAccount } from '../modules/dalAccount';
 import { Account } from '../modules/account';
+import { useGatewayApi } from '@api/useGatewayApi';
 
 
 const Tab4: React.FC = () => {
-  let currentUserApi: CurrentUserClient;
+  const currentUserApi = useGatewayApi().currentUserApi;
   const { t, i18n } = useTranslation();
   const router = useIonRouter();
 
@@ -23,6 +24,18 @@ const Tab4: React.FC = () => {
   const [formValues, setFormValues] = useState({ name: account?.name ?? '', familyName: account?.familyName ?? '', password: '', newpassword: '' });
   const [showModal, setShowModal] = useState(false);
 
+  useIonViewWillEnter(() => {
+    currentUserApi.getCurrentUser().then(user => {
+      if(account){
+        const na = account;
+        na.familyName = user.familyName;
+        na.name = user.givenName;
+        setAccount(na);
+        updateAccount(na);
+      }
+     })
+    }, []
+  );
 
   function handleRefresh(e: any) {
     e.preventDefault();
@@ -44,17 +57,50 @@ const Tab4: React.FC = () => {
     }));
   };
 
-  function saveNameChange() {
-    //saveToServer(updatedUserDto).then(() => { setShowModal(false) });
+  async function saveNameChange() {
+    if (account) {
+      const uc = new UpdateCurrentUserCommand();
+      uc.familyName = formValues.familyName;
+      uc.givenName = formValues.name;
+      try {
+        const response = await currentUserApi.updateCurrentUser(uc);
+        console.log("Sent UpdateNameCommand", response);
+        const na = account;
+        na.familyName = formValues.familyName;
+        na.name = formValues.name;
+        setAccount(na);
+        updateAccount(account);
+        alert("Changed Name successfully!");
+      } catch (error) {
+        alert("There was an error while trying to update your name. Try again.");
+      }
+    }
   }
 
-  function savePasswordChange() {
-    //saveToServer(updatedUserDto).then(() => { setShowModal(false) });
+  async function savePasswordChange() {
+    if (account?.password !== formValues.password) {
+      alert("Password is not correct!");
+    } else {
+      const uc = new UpdateCurrentUserPasswordCommand();
+      uc.oldPassword = formValues.password;
+      uc.newPassword = formValues.newpassword;
+      try {
+        const response = await currentUserApi.updateCurrentUserPassword(uc);
+        console.log("Sent UpdateNameCommand", response);
+        const na = account;
+        na.password = formValues.newpassword;
+        setAccount(na);
+        updateAccount(account);
+        alert("Changed Password successfully!");
+      } catch (error) {
+        alert(error);
+      }
+    }
   };
 
 
   const handleLanguageChange = (result: any) => {
-    if(result){
+    if (result) {
       const lng = result.data.action
       localStorage.removeItem('i18nextLng');
       i18n.changeLanguage(lng);
@@ -70,7 +116,7 @@ const Tab4: React.FC = () => {
               <IonItem lines="none" detail={false} button={true} onClick={() => setShowModal(true)}>
                 <IonIcon aria-hidden="true" color="light" icon={person} size="large" slot="start"></IonIcon>
                 <IonLabel color="light">
-                  <p id='user-name'> {(account?.name || account?.familyName) ? ((account.name ?? " ") + (account.familyName ?? " ")) : ("Anonymous")}</p>
+                  <p id='user-name'> {(account?.name || account?.familyName) ? ((account.name ?? " ") + " " + (account.familyName ?? " ")) : ("Anonymous")}</p>
                   <p id='account-name'>{account?.userName}</p>
                 </IonLabel>
               </IonItem>
@@ -146,69 +192,67 @@ const Tab4: React.FC = () => {
             </IonToolbar>
           </IonHeader>
           <IonContent className='ion-no-padding'>
-              <IonList inset={true} className='modal-list'>
-                <IonItem detail={false} lines="none">
-                  <IonLabel color="light" className="Input-label">{t("UserScreen.EditUserDtoModal.ChangeName")}</IonLabel>
-                </IonItem>
-                <IonItem detail={false} lines="none">
-                  <IonInput
-                    value={formValues.name}
-                    type="text"
-                    color="light"
-                    className='custom'
-                    fill="outline"
-                    label={t("UserScreen.EditUserDtoModal.Surname")}
-                    labelPlacement="floating"
-                    onIonInput={(e: any) => handleInputChange("name", e.detail.value!)}>
-                    {account?.name}
-                  </IonInput>
-                </IonItem>
-                <IonItem detail={false} lines="none">
-                  <IonInput
-                    value={formValues.familyName}
-                    type="text"
-                    color="light"
-                    className='custom'
-                    fill="outline"
-                    label={t("UserScreen.EditUserDtoModal.Familyname")}
-                    labelPlacement="floating"
-                    onIonInput={(e: any) => handleInputChange("name", e.detail.value!)}>
-                    {account?.familyName}
-                  </IonInput>
-                </IonItem>
-                <IonButton expand="block" id="save-button" color="light" onClick={saveNameChange}>Save</IonButton>
-              </IonList>
+            <IonList inset={true} className='modal-list'>
+              <IonItem detail={false} lines="none">
+                <IonLabel color="light" className="Input-label">{t("UserScreen.EditUserDtoModal.ChangeName")}</IonLabel>
+              </IonItem>
+              <IonItem detail={false} lines="none">
+                <IonInput
+                  value={formValues.name}
+                  type="text"
+                  color="light"
+                  className='custom'
+                  fill="outline"
+                  label={t("UserScreen.EditUserDtoModal.Surname")}
+                  labelPlacement="floating"
+                  onIonInput={(e: any) => handleInputChange("name", e.detail.value!)}>
+                </IonInput>
+              </IonItem>
+              <IonItem detail={false} lines="none">
+                <IonInput
+                  value={formValues.familyName}
+                  type="text"
+                  color="light"
+                  className='custom'
+                  fill="outline"
+                  label={t("UserScreen.EditUserDtoModal.Familyname")}
+                  labelPlacement="floating"
+                  onIonInput={(e: any) => handleInputChange("familyName", e.detail.value!)}>
+                </IonInput>
+              </IonItem>
+              <IonButton expand="block" id="save-button" color="light" onClick={saveNameChange}>Save</IonButton>
+            </IonList>
 
-              <IonList inset={true} className='modal-list'>
-                <IonItem detail={false} lines="none">
-                  <IonLabel color="light" className="Input-label">{t("UserScreen.EditUserDtoModal.ChangePassword")}</IonLabel>
-                </IonItem>
-                <IonItem detail={false} lines="none">
-                  <IonInput
-                    value={formValues.password}
-                    type="password"
-                    color="light"
-                    className='custom'
-                    fill="outline"
-                    label={t("UserScreen.EditUserDtoModal.OldPassword")}
-                    labelPlacement="floating"
-                    onIonInput={(e: any) => handleInputChange("password", e.detail.value!)}>
-                  </IonInput>
-                </IonItem>
-                <IonItem detail={false} lines="none">
-                  <IonInput
-                    value={formValues.newpassword}
-                    type="password"
-                    color="light"
-                    className='custom'
-                    fill="outline"
-                    label={t("UserScreen.EditUserDtoModal.NewPassword")}
-                    labelPlacement="floating"
-                    onIonInput={(e: any) => handleInputChange("newpassword", e.detail.value!)}>
-                  </IonInput>
-                </IonItem>
-                <IonButton expand='block' id="save-button" color="light" onClick={savePasswordChange}>Save</IonButton>
-              </IonList>
+            <IonList inset={true} className='modal-list'>
+              <IonItem detail={false} lines="none">
+                <IonLabel color="light" className="Input-label">{t("UserScreen.EditUserDtoModal.ChangePassword")}</IonLabel>
+              </IonItem>
+              <IonItem detail={false} lines="none">
+                <IonInput
+                  value={formValues.password}
+                  type="password"
+                  color="light"
+                  className='custom'
+                  fill="outline"
+                  label={t("UserScreen.EditUserDtoModal.OldPassword")}
+                  labelPlacement="floating"
+                  onIonInput={(e: any) => handleInputChange("password", e.detail.value! || "")}>
+                </IonInput>
+              </IonItem>
+              <IonItem detail={false} lines="none">
+                <IonInput
+                  value={formValues.newpassword}
+                  type="password"
+                  color="light"
+                  className='custom'
+                  fill="outline"
+                  label={t("UserScreen.EditUserDtoModal.NewPassword")}
+                  labelPlacement="floating"
+                  onIonInput={(e: any) => handleInputChange("newpassword", e.detail.value!)}>
+                </IonInput>
+              </IonItem>
+              <IonButton expand='block' id="save-button" color="light" onClick={savePasswordChange}>Save</IonButton>
+            </IonList>
           </IonContent>
         </IonModal>
         <IonModal keepContentsMounted={true}>

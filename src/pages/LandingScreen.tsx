@@ -9,6 +9,7 @@ import {
   IonCardSubtitle,
   IonCardTitle,
   useIonRouter,
+  useIonViewWillEnter,
 } from '@ionic/react';
 import { RouteComponentProps } from 'react-router';
 import './LandingScreen.css';
@@ -26,7 +27,7 @@ const LandingScreen: React.FC<LandingPageProps> = (props: LandingPageProps) => {
   const router = useIonRouter();
   const { t } = useTranslation();
 
-  useEffect(() => {
+  useIonViewWillEnter(() => {
     readFromStorage().then(async acc => {
       if(acc?.userName && acc?.password){
         console.log("perform autologin", acc);
