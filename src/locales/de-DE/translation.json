@@ -7,6 +7,14 @@
         "Login": "Einloggen...",
         "Logout": "Du wirst ausgeloggt..."
     },
+    "LoginScreen": {
+        "Header": "Login",
+        "Name": "Benutzername",
+        "Password": "Passwort",
+        "Button": "Login",
+        "Forgot": "Passwort vergessen?",
+        "SignUp": "Noch kein Konto? Hier registrieren"
+    },
     "HomeScreen": {
         "Tab1": "Home",
         "Tab2": "Fragebögen",
@@ -16,28 +24,26 @@
     "UserScreen":{
         "EditUserDtoModal":{
             "Header": "Deine Daten bearbeiten",
-            "GivenName": "Vorname",
-            "FamilyName": "Name",
-            "Birthday": "Geburtsdatum",
-            "PhoneNumber": "Telefon",
-            "Sex": {
-                "Header": "Geschlecht",
-                "Option1": "Weiblich",
-                "Option2": "Männlich",
-                "Option3": "Divers"
-            },
-            "StreetAdress": "Straße",
-            "PostalCode": "Postleitszahl",
-            "Country": "Land"
+            "ChangeName": "Namen ändern:",
+            "Surname": "Vorname",
+            "Familyname": "Name",
+            "ChangePassword": "Passwort ändern:",
+            "NewPassword": "Neues Passwort",
+            "OldPassword": "Altes Passwort"
         },
         "LogOutButton": "Log Out",
         "Lang": "Sprache",
         "Notif": "Benachrichtigungen",
-        "Disclaimer": "Disclaimer",
+        "Disclaimer": "Haftungsausschluss",
         "PrivacyPolicy": "Datenschutzerklärung",
         "LegalNotice": "Impressum",
         "ASHeader": "Wähle deine Sprache"
-
+    },
+    "NotifScreen": {
+        "Title": "Benachrichtigungseinstellungen",
+        "ToggleLabel": "Benachrichtigungen aktivieren",
+        "TimerPickerLabel": "Zeit einsellen:",
+        "Button": "Änderungen speichern"
     }
    
 }

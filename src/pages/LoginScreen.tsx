@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { loginUser } from '../components/LoginComponent';
+import { Preferences } from '@capacitor/preferences';
 
 interface LoginPageProps extends RouteComponentProps {
 }
@@ -15,7 +16,6 @@ const LoginScreen: React.FC<LoginPageProps> = (props: LoginPageProps) => {
     const router = useIonRouter();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [presentAlert] = useIonAlert();
 
     return (
         <IonPage>
@@ -40,8 +40,15 @@ const LoginScreen: React.FC<LoginPageProps> = (props: LoginPageProps) => {
                         <br />
                         <div className='buttons'>
                             <IonButton shape='round' className='buttons-login' color="light" onClick={async () => {
-                                await loginUser(username, password);
-                                router.push('/home/tab4');
+                                const success = await loginUser(username, password);
+                                const disclaimerSeen = await Preferences.get({key : "acceptedDisclaimer"});
+                                if (disclaimerSeen.value === "true" && success) {
+                                    router.push('/home/tab4');
+                                } else if (success){
+                                    router.push('/disclaimer');
+                                } else {
+                                    alert("Login failed.")
+                                }
                             }}> Login </IonButton>
                         <br />
                         <IonText color="light"><a href='/signup'>{t("LoginScreen.SignUp")}</a></IonText>

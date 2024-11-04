@@ -18,6 +18,7 @@ import { Account } from '../modules/account';
 import { readFromStorage, readActiveAccount, updateAccount } from '../modules/dalAccount';
 import { loginUser } from '@components/LoginComponent';
 import { useTranslation } from 'react-i18next';
+import { Preferences } from '@capacitor/preferences';
 
 
 interface LandingPageProps extends RouteComponentProps {
@@ -78,7 +79,12 @@ const LandingScreen: React.FC<LandingPageProps> = (props: LandingPageProps) => {
                 <IonButton routerLink='/login' shape='round' color="light">Login</IonButton>
                 <IonButton shape='round' color="light" onClick={async() => {
                   await  handleAnonymousSignIn();
-                  router.push('/home/tab4');
+                  const disclaimerSeen = await Preferences.get({key : "acceptedDisclaimer"});
+                  if (disclaimerSeen.value === "true") {
+                    router.push('/home/tab4');
+                  } else {
+                    router.push('/disclaimer');
+                  }
                 }}>Anonym</IonButton>
             </div>
           </IonCardContent>

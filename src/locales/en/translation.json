@@ -9,11 +9,11 @@
     },
     "LoginScreen": {
         "Header": "Login",
-        "Name": "Benutzername",
-        "Password": "Passwort",
+        "Name": "Username",
+        "Password": "Password",
         "Button": "Login",
-        "Forgot": "Passwort vergessen?",
-        "SignUp": "Noch kein Konto? Hier registrieren"
+        "Forgot": "Forgot your password?",
+        "SignUp": "No account? Register here"
     },
     "HomeScreen": {
         "Tab1": "Home",
@@ -42,7 +42,7 @@
     "NotifScreen": {
         "Title": "Notification Settings",
         "ToggleLabel": "Enable Notifications",
-        "TimerPickerLabel": "Set Time",
+        "TimerPickerLabel": "Set Time:",
         "Button": "Save Changes"
     }
    

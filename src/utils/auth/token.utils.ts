@@ -81,7 +81,7 @@ const fetchApiWithToken = async (
   init: RequestInit = {},
 ) => {
   try {
-    const account = await readActiveAccount();
+    const account = readActiveAccount();
     let token = account? account.token : null;
 
     if (!token || !isTokenValid(token)) {

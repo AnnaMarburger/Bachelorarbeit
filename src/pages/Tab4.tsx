@@ -1,5 +1,5 @@
 
-import { IonButton, IonButtons, IonCard, IonCardContent, IonContent, IonDatetime, IonFab, IonFabButton, IonHeader, IonIcon, IonInput, IonInputPasswordToggle, IonItem, IonItemGroup, IonLabel, IonList, IonListHeader, IonModal, IonPage, IonRow, IonSelect, IonSelectOption, IonText, IonThumbnail, IonTitle, IonToolbar, useIonActionSheet, useIonRouter, useIonViewDidLeave, useIonViewWillEnter } from '@ionic/react';
+import { IonButton, IonButtons, IonCard, IonCardContent, IonContent, IonDatetime, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonList, IonModal, IonPage, IonTitle, IonToolbar, useIonActionSheet, useIonRouter, useIonViewWillEnter } from '@ionic/react';
 import { useState } from 'react';
 import "./Tab4.css";
 import "./main.css"
@@ -9,10 +9,10 @@ import { useTranslation } from 'react-i18next';
 import { clearAccount, readActiveAccount, updateAccount } from '../modules/dalAccount';
 import { Account } from '../modules/account';
 import { useGatewayApi } from '@api/useGatewayApi';
+import { Preferences } from '@capacitor/preferences';
 
 
 const Tab4: React.FC = () => {
-  const currentUserApi = useGatewayApi().currentUserApi;
   const { t, i18n } = useTranslation();
   const router = useIonRouter();
 
@@ -25,7 +25,7 @@ const Tab4: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
 
   useIonViewWillEnter(() => {
-    currentUserApi.getCurrentUser().then(user => {
+    useGatewayApi().currentUserApi.getCurrentUser().then(user => {
       if(account){
         const na = account;
         na.familyName = user.familyName;
@@ -37,14 +37,16 @@ const Tab4: React.FC = () => {
     }, []
   );
 
-  function handleRefresh(e: any) {
-    e.preventDefault();
+  function handleRefresh() {
+    
   }
 
   async function handleLogout(e: any) {
     e.preventDefault();
     try {
-      await clearAccount();
+      // remove any user specific data from device
+      await clearAccount(); 
+      await Preferences.remove({ key: 'acceptedDisclaimer' });
     } catch (error) {
       console.error('Error during logout', error);
     }
@@ -63,7 +65,7 @@ const Tab4: React.FC = () => {
       uc.familyName = formValues.familyName;
       uc.givenName = formValues.name;
       try {
-        const response = await currentUserApi.updateCurrentUser(uc);
+        const response = await useGatewayApi().currentUserApi.updateCurrentUser(uc);
         console.log("Sent UpdateNameCommand", response);
         const na = account;
         na.familyName = formValues.familyName;
@@ -80,12 +82,14 @@ const Tab4: React.FC = () => {
   async function savePasswordChange() {
     if (account?.password !== formValues.password) {
       alert("Password is not correct!");
-    } else {
+    } else if(formValues.newpassword.length < 8){
+      alert("Password has to contain at least 8 characters!");
+    }else {
       const uc = new UpdateCurrentUserPasswordCommand();
       uc.oldPassword = formValues.password;
       uc.newPassword = formValues.newpassword;
       try {
-        const response = await currentUserApi.updateCurrentUserPassword(uc);
+        const response = await useGatewayApi().currentUserApi.updateCurrentUserPassword(uc);
         console.log("Sent UpdateNameCommand", response);
         const na = account;
         na.password = formValues.newpassword;
@@ -96,6 +100,8 @@ const Tab4: React.FC = () => {
         alert(error);
       }
     }
+    handleInputChange("newpassword", "");
+    handleInputChange("password", "");
   };
 
 
@@ -123,7 +129,6 @@ const Tab4: React.FC = () => {
               <IonButton color="light" onClick={async (e: any) => {
                 await handleLogout(e);
                 router.push('/landing');
-                console.log("du solltest jetzt geroutet haben");
               }} expand='block'>Log Out</IonButton>
             </IonList>
             <IonList inset={true} className='settings-list'>
