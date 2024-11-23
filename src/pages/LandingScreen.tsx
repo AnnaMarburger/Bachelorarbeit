@@ -30,11 +30,11 @@ const LandingScreen: React.FC<LandingPageProps> = (props: LandingPageProps) => {
 
   useIonViewWillEnter(() => {
     readFromStorage().then(async acc => {
-      if(acc?.userName && acc?.password){
+      if (acc?.userName && acc?.password) {
         console.log("perform autologin", acc);
         await loginUser(acc.userName, acc.password);
         router.push('/home/tab4');
-      } 
+      }
     });
   }, []);
 
@@ -48,18 +48,25 @@ const LandingScreen: React.FC<LandingPageProps> = (props: LandingPageProps) => {
   }
 
   async function handleAnonymousSignIn() {
+    //create new account
     const password = generatePassword();
     const account = new Account(undefined, undefined, undefined, password, undefined, undefined);
-    const response = RegistrationUtils.createAnonymousUser(account);
-    console.log(response);
-    response.then(e => {
-      account.userName = e.userName;
-      account.id = e.id;
-      account.familyName = e.familyName;
-      account.name = e.givenName;
-    });
+    const response = await RegistrationUtils.createAnonymousUser(account);
+    account.userName = response.userName;
+    account.id = response.id;
+    account.familyName = response.familyName;
+    account.name = response.givenName;
     await updateAccount(account);
     console.log("saved new account", readActiveAccount());
+
+    //login with new account
+    await loginUser(account.userName ?? "", account.password);
+
+    //register in tenant and study
+    await RegistrationUtils.registerInTenant();
+    await RegistrationUtils.registerInStudy();
+    console.log("registered");
+
   }
 
   return (
@@ -77,21 +84,21 @@ const LandingScreen: React.FC<LandingPageProps> = (props: LandingPageProps) => {
             <IonCardContent>
               <div className='buttons'>
                 <IonButton routerLink='/login' shape='round' color="light">Login</IonButton>
-                <IonButton shape='round' color="light" onClick={async() => {
-                  await  handleAnonymousSignIn();
-                  const disclaimerSeen = await Preferences.get({key : "acceptedDisclaimer"});
+                <IonButton shape='round' color="light" onClick={async () => {
+                  await handleAnonymousSignIn();
+                  const disclaimerSeen = await Preferences.get({ key: "acceptedDisclaimer" });
                   if (disclaimerSeen.value === "true") {
                     router.push('/home/tab4');
                   } else {
                     router.push('/disclaimer');
                   }
                 }}>Anonym</IonButton>
-            </div>
-          </IonCardContent>
-        </IonCard>
-      </div>
-    </IonContent>
-</IonPage >
+              </div>
+            </IonCardContent>
+          </IonCard>
+        </div>
+      </IonContent>
+    </IonPage >
   );
 };
 

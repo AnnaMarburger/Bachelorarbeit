@@ -1,52 +1,82 @@
-import { IonBadge, IonButton, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonNav, IonNavLink, IonPage, IonText, IonTitle, IonToolbar } from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
-import './Tab2.css';
-import questionnaireExample from '../exampleQuestionnaire.json';
+import { IonBadge, IonButton, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonLoading, IonNav, IonNavLink, IonPage, IonText, IonTitle, IonToolbar, useIonRouter, useIonViewWillEnter } from '@ionic/react';
+import { useEffect, useState } from 'react';
 import Questionnaire from '../components/Questionnaire';
-import { QuestionnaireInstanceDetailsDtoFromJSON } from '../api/backend-tenant/models/QuestionnaireInstanceDetailsDto';
 import { document } from 'ionicons/icons';
+import { useTenantApi } from '@api/useTenantApi';
 
-const questionnaire1 = QuestionnaireInstanceDetailsDtoFromJSON(questionnaireExample);
+import './Tab2.css';
+import "./main.css";
+import { QuestionnaireInstanceDto, QuestionnaireInstanceState } from '@api/TenantAPIClient';
 
 const Tab2: React.FC = () => {
-  return (
-    <IonNav root={() => <QuestionnaireList/>}></IonNav>
-  );
-};
+  const router = useIonRouter();
+  const [questionnaireList, setQuestionnaireList] = useState<QuestionnaireInstanceDto[] | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
 
-const QuestionnaireList: React.FC = () => {
+  async function routeToQuestionnaire(questionnaireId: string) {
+    const latestQ = questionnaireList?.filter(entry => entry.questionnaireId == questionnaireId && entry.state !== QuestionnaireInstanceState.Completed).sort((a, b) => a.created > b.created ? 1 : -1)[questionnaireList.length - 1];
+    let instanceId = latestQ?.id;
+    if (!instanceId) {
+      instanceId = await useTenantApi().questionnairesApi.createQuestionnaireInstance(questionnaireId);
+    }
+    router.push(`/home/tab2/${questionnaireId}/${instanceId}`);
+  }
+
+  async function loadQList() {
+    console.log("Loading questionnaires..."); // Debug
+    try {
+      let questionnaires = (await useTenantApi().questionnairesApi.getQuestionnaireInstances()).items;
+      console.log(questionnaires);
+      if (questionnaires.length < 1) {
+        console.log("keine Inhalte. Creating new Instance...");
+        const answer = await useTenantApi().questionnairesApi.createQuestionnaireInstance("97ad904e-9cb9-4047-a125-d064a8cd4bcf");
+        questionnaires = (await useTenantApi().questionnairesApi.getQuestionnaireInstances()).items;
+        setQuestionnaireList(questionnaires);
+      } else {
+        setQuestionnaireList(questionnaires);
+      }
+      console.log(questionnaires);
+    } catch (error) {
+      console.error("Error loading questionnaire", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+
+  useEffect(() => {
+    loadQList();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <IonLoading isOpen={isLoading} message="Lädt Fragebögen..." spinner="crescent"
+      />
+    );
+  }
+
+  if (!questionnaireList) {
+    return <IonText>Fehler: Fragebogen konnte nicht geladen werden.</IonText>;
+  }
+
   return (
     <IonPage>
       <IonContent fullscreen >
         <IonList inset={true}>
-        <IonText className='questionnaireTitle'><h1>Questionnaires</h1></IonText>
-          <IonNavLink routerDirection="forward" component={() => <Questionnaire questionnaireInstanz={questionnaire1} />}>
-            <IonItem>
-              <IonBadge slot="end">{questionnaire1.state}</IonBadge>
-              <IonIcon icon={document} slot="start"></IonIcon>
-              <IonLabel> Questionnaire 1</IonLabel>
-            </IonItem>
-          </IonNavLink>
-          <IonNavLink routerDirection="forward" component={() => <Questionnaire questionnaireInstanz={questionnaire1} />}>
-            <IonItem>
-              <IonBadge slot="end">{questionnaire1.state}</IonBadge>
-              <IonIcon icon={document} slot="start"></IonIcon>
-              <IonLabel> Questionnaire 2</IonLabel>
-            </IonItem>
-          </IonNavLink>
-          <IonNavLink routerDirection="forward" component={() => <Questionnaire questionnaireInstanz={questionnaire1} />}>
-            <IonItem>
-              <IonBadge slot="end">{questionnaire1.state}</IonBadge>
-              <IonIcon icon={document} slot="start"></IonIcon>
-              <IonLabel> Questionnaire 3</IonLabel>
-            </IonItem>
-          </IonNavLink>
+          <IonText className='questionnaireTitle'><h1>Questionnaires</h1></IonText>
+          <IonItem button={true} onClick={() => { routeToQuestionnaire("97ad904e-9cb9-4047-a125-d064a8cd4bcf") }}>
+            <IonBadge slot="end">{questionnaireList ? questionnaireList[0].state : ""}</IonBadge>
+            <IonIcon className="icon" icon={document} slot="start"></IonIcon>
+            <IonLabel className="label"> SDQ </IonLabel>
+          </IonItem>
+
         </IonList>
       </IonContent>
     </IonPage>
   );
 };
+
 
 export default Tab2;
 

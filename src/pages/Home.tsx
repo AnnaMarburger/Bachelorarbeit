@@ -17,6 +17,7 @@ import Tab3 from './Tab3';
 import Tab4 from './Tab4';
 import { useTranslation } from 'react-i18next';
 import NotifScreen from './NotificationScreen';
+import Questionnaire from '@components/Questionnaire';
 
 const Home: React.FC = () => {
   const { t } = useTranslation();
@@ -34,6 +35,7 @@ const Home: React.FC = () => {
             <Route exact path={`${url}/tab2`}>
               <Tab2 />
             </Route>
+            <Route path={`${url}/tab2/:questionnaireId/:instanceId`} component={Questionnaire} />
             <Route exact path={`${url}/tab3`}>
               <Tab3 />
             </Route>

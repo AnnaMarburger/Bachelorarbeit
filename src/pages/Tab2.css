@@ -1,4 +1,38 @@
-.questionnaireTitle {
-    padding: 2%;
-    margin-left: 2%;
+ion-item {
+    color: white;
 }
+
+.icon {
+    color: #FFF;
+}
+
+ion-badge {
+    color: #ffffff;
+    --background: #db934f;
+    --padding-end: 10px;
+    --padding-start: 10px;
+    --padding-bottom: 4px;
+    --padding-top: 4px;
+}
+
+.label {
+    font-size: large;
+}
+
+#questionnaireTitle {
+    font-size: 22px;
+    margin-top: 4%;
+    margin-top: 6%;
+    margin-bottom: 4%;
+    margin-right: 8%;
+}
+
+
+#pagecontent {
+    padding-left: 0;
+    overflow-y: scroll; 
+    height:600px;
+}
+
+
+ 

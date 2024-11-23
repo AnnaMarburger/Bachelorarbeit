@@ -17,7 +17,7 @@ const Disclaimer: React.FC = () => {
         const answer = await LocalNotifications.requestPermissions();
         console.log(answer.display);
 
-        //change screen
+        //change to homescreen
         router.push('/home/tab4');
     };
 
@@ -28,7 +28,6 @@ const Disclaimer: React.FC = () => {
                 <div className="disclaimer">
                     <h1>Disclaimer</h1>
                     <p>Please read and accept our terms and conditions before proceeding.</p>
-                    {}
                     <IonButton color="light" expand="block" onClick={handleAccept}>Accept</IonButton>
                 </div>
 

@@ -196,7 +196,6 @@ export function QuestionnaireInstanceDetailsDtoFromJSONTyped(json: any, ignoreDi
         return json;
     }
     return {
-        
         'id': json['id'],
         'tenantId': json['tenantId'],
         'name': json['name'],
@@ -224,7 +223,6 @@ export function QuestionnaireInstanceDetailsDtoToJSON(value?: QuestionnaireInsta
         return value;
     }
     return {
-        
         'id': value['id'],
         'tenantId': value['tenantId'],
         'name': value['name'],

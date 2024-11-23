@@ -15,6 +15,7 @@ const loginUser = async (_username: string, _password: string) => {
         const userAcc = new Account(undefined, tokenResponse.access_token, _username, _password, undefined, undefined);
         await updateAccount(userAcc);
         console.log('User successfully logged in with access token:', tokenResponse.access_token);
+
         return true;
     } catch (error) {
         console.error('Login failed:', error);

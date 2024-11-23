@@ -4,7 +4,7 @@ ion-content {
 
 ion-content::part(scroll) {
     padding-top: var(--ion-safe-area-top, 0);
-  }
+}
 
 ion-input.custom {
     --placeholder-color: #FFF;
@@ -31,7 +31,8 @@ ion-title {
     color: #ffff;
 }
 
-h1, h2, h3, h4, p {
+
+ h1, h2, h3, h4, p {
     color: #ffff;
 }
 
@@ -45,7 +46,7 @@ ion-fab-button {
     --background: none;
     --border-radius: 15px;
     --box-shadow:none;
-    --color: white;
+    --color: black;
 }
 
 .disclaimer {

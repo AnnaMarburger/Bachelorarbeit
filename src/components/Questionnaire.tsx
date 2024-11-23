@@ -1,23 +1,32 @@
 
+
+
 /*----------------------------------- Imports -----------------------------------------------------------*/
 
-
-import { IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonRadio, IonRadioGroup, IonText, IonSegment, IonSegmentButton, IonLabel, IonButton, IonProgressBar, IonIcon, IonChip, IonCol, IonGrid, IonRow, IonFab, IonBackButton, IonFabButton, IonNavLink } from "@ionic/react";
-import { QuestionnaireInstanceDetailsDto, ContentPageDto, ContentDto } from "../api/backend-tenant/models";
-import { useState } from "react";
+import { IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonRadio, IonRadioGroup, IonText, IonSegment, IonSegmentButton, IonLabel, IonButton, IonProgressBar, IonIcon, IonChip, IonCol, IonGrid, IonRow, IonFab, IonBackButton, IonFabButton, IonNavLink, useIonViewWillEnter, IonLoading, useIonRouter } from "@ionic/react";
+import { useEffect, useState } from "react";
 import { arrowBack, arrowForward, calendar, close } from 'ionicons/icons';
+import { ContentDto, ContentPageDto, ElementType, LikertQuestionDto, QuestionnaireInstanceDetailsDto, QuestionnaireInstanceDto } from "@api/TenantAPIClient";
+import { useParams } from "react-router-dom";
+import { useTenantApi } from "@api/useTenantApi";
+import { LikertQuestion, TextItem, TextQuestion } from "./QuestionnaireItems";
 
-
+import "../pages/Tab2.css";
+import "../pages/main.css";
+import "./Questionniare.css"
+import i18next from "i18next";
 
 /*----------------------------------- Interfaces -----------------------------------------------------------*/
 
-interface QuestionnaireProps {
-    questionnaireInstanz: QuestionnaireInstanceDetailsDto;
-}
+const componentMap: {
+    [key in ElementType]?: React.FC<{ questionItem: any }>
+} = {
+    [ElementType.LikertQuestion]: LikertQuestion as React.FC<{ questionItem: ContentDto }>,
+    [ElementType.RichTextDisplay]: TextItem as React.FC<{ questionItem: ContentDto }>,
+    [ElementType.TextQuestion]: TextQuestion as React.FC<{ questionItem: ContentDto }>,
 
-interface QuestionSCProps {
-    questionItem: ContentDto;
-}
+};
+
 
 interface PageSegment {
     pages: ContentPageDto[];
@@ -27,6 +36,7 @@ interface ContentFromPage {
     allQuestions: ContentDto[];
 }
 
+
 /*----------------------------------- Funktionen ----------------------------------------------------------------*/
 
 function handleSubmit() {
@@ -35,35 +45,69 @@ function handleSubmit() {
 }
 
 
+
 /*----------------------------------- Funktionskomponenten ------------------------------------------------------*/
 
 
 //creates a questionnaire feed
-const Questionnaire: React.FC<QuestionnaireProps> = ({ questionnaireInstanz }) => {
+const Questionnaire: React.FC = () => {
+    const router = useIonRouter();
+    const { questionnaireId, instanceId } = useParams<{ questionnaireId: string; instanceId: string }>();
+    const [questionnaireInstanz, setQuestionnaireInstanz] = useState<QuestionnaireInstanceDetailsDto | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+
+    let languageId = "00000000-0000-0000-0000-000000000001";
+    if (i18next.language == "de")
+        languageId = "56051e9d-fd94-4fa5-b26e-b5c462326ecd";
+
+
+    useEffect(() => {
+        async function loadQuestionnaire() {
+            if (!questionnaireId || !instanceId) return;
+            try {
+                const qInstance = await useTenantApi().questionnairesApi.getQuestionnaireInstance(questionnaireId, instanceId);
+                console.log(qInstance);
+                setQuestionnaireInstanz(qInstance);
+            } catch (error) {
+                console.error("Error loading questionnaire:", error);
+            } finally {
+                setIsLoading(false);
+            }
+        }
+        loadQuestionnaire();
+    }, []);
+
+    if (isLoading) {
+        return <IonLoading isOpen={isLoading} message="Fragebogen wird geladen..." />;
+    }
+
+    if (!questionnaireInstanz) {
+        return <IonText>Fehler: Fragebogen konnte nicht geladen werden.</IonText>;
+    }
+
     return (
         <div className="questionnaire">
             <IonFab slot="fixed" vertical="top" horizontal="end">
-                <IonNavLink routerDirection="back" component={() =>{}}>
-                    <IonFabButton size="small" >
-                        <IonIcon icon={close}></IonIcon>
-                    </IonFabButton>
-                </IonNavLink>
+                <IonFabButton size="small" onClick={() => {router.push("/home/tab2");}}>
+                    <IonIcon icon={close}></IonIcon>
+                </IonFabButton>
             </IonFab>
-            <IonText><h1>{questionnaireInstanz.questionnaireName}</h1></IonText>
-            
-            <IonGrid>
+            <div id="questionnaireTitle">
+                <IonText>{questionnaireInstanz.questionnaireTitle.translations[languageId]}</IonText>
+            </div>
+            <IonGrid className="ion-no-padding">
                 <IonRow>
                     <IonCol size="auto">
                         <IonChip disabled={true}>
-                            <IonIcon icon={calendar} color="primary"></IonIcon>
-                            <IonLabel>{questionnaireInstanz.started?.toDateString()}</IonLabel>
+                            <IonIcon icon={calendar}></IonIcon>
+                            <IonLabel>{questionnaireInstanz.created?.toDateString()}</IonLabel>
                         </IonChip>
                     </IonCol>
                     <IonCol size="auto">
                         <IonChip disabled={true}>{questionnaireInstanz.state}</IonChip>
                     </IonCol>
                     <IonCol size="auto">
-                        <IonChip disabled={true}>{questionnaireInstanz.amountQuestions} Fragen</IonChip>
+                        <IonChip disabled={true}>{questionnaireInstanz.pages.length} Seiten</IonChip>
                     </IonCol>
                 </IonRow>
             </IonGrid>
@@ -85,15 +129,15 @@ const PageSegment: React.FC<PageSegment> = ({ pages }) => {
     }
 
     return (
-        <div id="Page">
-            <IonButton size="small" shape="round" disabled={(pageID < 1) ? true : false} onClick={() => {
+        <div>
+            <IonButton className="pageButtons" key="forwardB" size="small" shape="round" disabled={(pageID < 1) ? true : false} onClick={() => {
                 let newpage = pageID - 1
                 if (newpage >= 0) {
                     setPageID(newpage);
                 }
             }}> <IonIcon icon={arrowBack} />
             </IonButton>
-            <IonButton size="small" shape="round" disabled={(pageID >= pages.length - 1) ? true : false} onClick={() => {
+            <IonButton className="pageButtons" key="backB" size="small" shape="round" disabled={(pageID >= pages.length - 1) ? true : false} onClick={() => {
                 let newpage = pageID + 1
                 if (newpage < pages.length) {
                     setPageID(newpage);
@@ -110,40 +154,14 @@ const PageSegment: React.FC<PageSegment> = ({ pages }) => {
 
 // creates for every entry in "contents", means for every question, a card
 const ContentFromPage: React.FC<ContentFromPage> = ({ allQuestions }) => {
-    let data = allQuestions.map(quest =>
-        <QuestionSC questionItem={quest} key={quest.id} />
-    )
+    const data = allQuestions.map(quest => {
+        const Component = componentMap[quest.elementType];
+        if (Component) {
+            return <Component questionItem={quest} key={quest.id} />;
+        }
+        return <p key={quest.id}>Item Type Unknown</p>; // Ignore unknown types
+    });
 
-    return (
-        <div>{data}</div>
-    );
+    return <div id="pagecontent">{data}</div>;
 }
 
-
-//creates a single choice question card
-const QuestionSC: React.FC<QuestionSCProps> = ({ questionItem }) => {
-    let description = "description";
-    let choices = 3;
-    let question = questionItem.name;
-
-    return (
-        <IonCard className="questionCard">
-            <IonCardHeader>
-                <IonCardTitle>{question}</IonCardTitle>
-                <IonCardSubtitle>{description}</IonCardSubtitle>
-            </IonCardHeader>
-            <IonCardContent>
-                <IonRadioGroup>
-                    <IonRadio labelPlacement="end">Answer 1</IonRadio>
-                    <br />
-                    <IonRadio labelPlacement="end">Answer 2</IonRadio>
-                    <br />
-                    <IonRadio labelPlacement="end">Answer 3</IonRadio>
-                    <br />
-                    <IonRadio labelPlacement="end">Answer 4</IonRadio>
-                </IonRadioGroup>
-            </IonCardContent>
-        </IonCard>
-
-    );
-}

@@ -37,10 +37,6 @@ const Tab4: React.FC = () => {
     }, []
   );
 
-  function handleRefresh() {
-    
-  }
-
   async function handleLogout(e: any) {
     e.preventDefault();
     try {
@@ -169,7 +165,7 @@ const Tab4: React.FC = () => {
               </IonItem>
             </IonList>
             <IonList inset={true} className='links-list'>
-              <IonItem lines="none" button={true} onClick={() => console.log("todo")}>
+              <IonItem lines="none" button={true} onClick={() => router.push('/disclaimer')}>
                 <IonIcon aria-hidden="true" color="light" icon={handLeftOutline} slot="start"></IonIcon>
                 <IonLabel color="light">{t("UserScreen.Disclaimer")}</IonLabel>
               </IonItem>
