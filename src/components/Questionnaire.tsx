@@ -1,25 +1,23 @@
-
-
-
 /*----------------------------------- Imports -----------------------------------------------------------*/
 
-import { IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonRadio, IonRadioGroup, IonText, IonSegment, IonSegmentButton, IonLabel, IonButton, IonProgressBar, IonIcon, IonChip, IonCol, IonGrid, IonRow, IonFab, IonBackButton, IonFabButton, IonNavLink, useIonViewWillEnter, IonLoading, useIonRouter } from "@ionic/react";
+import {  IonText, IonLabel, IonButton, IonProgressBar, IonIcon, IonChip, IonCol, IonGrid, IonRow, IonFab, IonFabButton, IonLoading, useIonRouter, IonPage } from "@ionic/react";
 import { useEffect, useState } from "react";
 import { arrowBack, arrowForward, calendar, close } from 'ionicons/icons';
-import { ContentDto, ContentPageDto, ElementType, LikertQuestionDto, QuestionnaireInstanceDetailsDto, QuestionnaireInstanceDto } from "@api/TenantAPIClient";
+import { AnswerDto, ContentDto, ContentPageDto, ElementType, QuestionnaireInstanceDetailsDto, UpdateQuestionnaireInstanceCommand } from "@api/TenantAPIClient";
 import { useParams } from "react-router-dom";
 import { useTenantApi } from "@api/useTenantApi";
 import { LikertQuestion, TextItem, TextQuestion } from "./QuestionnaireItems";
+import i18next from "i18next";
 
 import "../pages/Tab2.css";
 import "../pages/main.css";
 import "./Questionniare.css"
-import i18next from "i18next";
+import { useTranslation } from "react-i18next";
 
-/*----------------------------------- Interfaces -----------------------------------------------------------*/
 
+/*----------------------------------- Constants -----------------------------------------------------------*/
 const componentMap: {
-    [key in ElementType]?: React.FC<{ questionItem: any }>
+    [key in ElementType]?: React.FC<{ questionItem: any, onAnswerChange: (questionId: string, answer: any) => void, answer: AnswerDto | null}>
 } = {
     [ElementType.LikertQuestion]: LikertQuestion as React.FC<{ questionItem: ContentDto }>,
     [ElementType.RichTextDisplay]: TextItem as React.FC<{ questionItem: ContentDto }>,
@@ -27,38 +25,61 @@ const componentMap: {
 
 };
 
+/*----------------------------------- Interfaces -----------------------------------------------------------*/
 
 interface PageSegment {
     pages: ContentPageDto[];
+    onAnswerChange: (questionId: string, answer: AnswerDto | null) => void;
+    onSubmit: () => void;
+    answers: { [questionId: string]: AnswerDto | null };
 }
-
-interface ContentFromPage {
-    allQuestions: ContentDto[];
-}
-
-
-/*----------------------------------- Funktionen ----------------------------------------------------------------*/
-
-function handleSubmit() {
-    //TODO
-    console.log("submit button clicked");
-}
-
 
 
 /*----------------------------------- Funktionskomponenten ------------------------------------------------------*/
 
-
-//creates a questionnaire feed
 const Questionnaire: React.FC = () => {
+    const { t } = useTranslation();
     const router = useIonRouter();
     const { questionnaireId, instanceId } = useParams<{ questionnaireId: string; instanceId: string }>();
     const [questionnaireInstanz, setQuestionnaireInstanz] = useState<QuestionnaireInstanceDetailsDto | null>(null);
+    const [answers, setAnswers] = useState<{ [questionId: string]: AnswerDto | null}>({});
     const [isLoading, setIsLoading] = useState(true);
+    const started = new Date();
 
+    //get current language of client
     let languageId = "00000000-0000-0000-0000-000000000001";
     if (i18next.language == "de")
         languageId = "56051e9d-fd94-4fa5-b26e-b5c462326ecd";
+
+    const handleAnswerChange = (questionId: string, answer: AnswerDto | null) => {
+        setAnswers(prev => ({ ...prev, [questionId]: answer }));
+        console.log("Changed Answers:", answers);
+    };
+
+    const handleSubmit = () => {
+        //check if every *required* question is answered*
+        var completed = true;
+        if(Object.values(answers).find(answer => answer == null))
+            completed = false;
+
+        const command = new UpdateQuestionnaireInstanceCommand();
+        command.questionnaireId = questionnaireId;
+        command.questionnaireInstanceId = instanceId;
+        command.answers = Object.values(answers).filter(answer => answer !== null);
+        command.completed = completed ? new Date() : undefined;
+        command.executionLanguageId = languageId;
+        if (!questionnaireInstanz?.started)
+            command.started = started;
+        console.log("Submitting these answers:", command);
+
+        useTenantApi().questionnairesApi.updateQuestionnaireInstance(questionnaireId, instanceId, command)
+            .then(() => {
+                console.log("Successfully sent to server");
+                alert(t("QuestionnaireScreen.AlertSuccess"));
+                //router.push("home/tab2");
+            })
+            .catch(error => console.error("Error sending answers:", error));
+    };
 
 
     useEffect(() => {
@@ -86,47 +107,53 @@ const Questionnaire: React.FC = () => {
     }
 
     return (
-        <div className="questionnaire">
-            <IonFab slot="fixed" vertical="top" horizontal="end">
-                <IonFabButton size="small" onClick={() => {router.push("/home/tab2");}}>
-                    <IonIcon icon={close}></IonIcon>
-                </IonFabButton>
-            </IonFab>
-            <div id="questionnaireTitle">
-                <IonText>{questionnaireInstanz.questionnaireTitle.translations[languageId]}</IonText>
+        <IonPage>
+            <div className="questionnaire">
+                <IonFab slot="fixed" vertical="top" horizontal="end">
+                    <IonFabButton size="small" onClick={() => { router.push("/home/tab2"); }}>
+                        <IonIcon icon={close}></IonIcon>
+                    </IonFabButton>
+                </IonFab>
+                <div id="questionnaireTitle" slot="fixed">
+                    <IonText>{questionnaireInstanz.questionnaireTitle.translations[languageId]}</IonText>
+                </div>
+                <IonGrid className="ion-no-padding">
+                    <IonRow>
+                        <IonCol size="auto">
+                            <IonChip disabled={true}>
+                                <IonIcon icon={calendar}></IonIcon>
+                                <IonLabel>{questionnaireInstanz.created?.toDateString()}</IonLabel>
+                            </IonChip>
+                        </IonCol>
+                        <IonCol size="auto">
+                            <IonChip disabled={true}>{questionnaireInstanz.state}</IonChip>
+                        </IonCol>
+                        <IonCol size="auto">
+                            <IonChip disabled={true}>{questionnaireInstanz.pages.length} Seiten</IonChip>
+                        </IonCol>
+                    </IonRow>
+                </IonGrid>
+                <PageSegment pages={questionnaireInstanz.pages} onAnswerChange={handleAnswerChange} onSubmit={handleSubmit} answers={answers}/>
             </div>
-            <IonGrid className="ion-no-padding">
-                <IonRow>
-                    <IonCol size="auto">
-                        <IonChip disabled={true}>
-                            <IonIcon icon={calendar}></IonIcon>
-                            <IonLabel>{questionnaireInstanz.created?.toDateString()}</IonLabel>
-                        </IonChip>
-                    </IonCol>
-                    <IonCol size="auto">
-                        <IonChip disabled={true}>{questionnaireInstanz.state}</IonChip>
-                    </IonCol>
-                    <IonCol size="auto">
-                        <IonChip disabled={true}>{questionnaireInstanz.pages.length} Seiten</IonChip>
-                    </IonCol>
-                </IonRow>
-            </IonGrid>
-            <PageSegment pages={questionnaireInstanz.pages} />
-        </div>
+        </IonPage>
     );
 }
 
-export default Questionnaire;
 
 
-//creates a segment with a segmentbutton for each page of the questionnaire
-const PageSegment: React.FC<PageSegment> = ({ pages }) => {
+const PageSegment: React.FC<PageSegment> = ({ pages, onAnswerChange, onSubmit, answers }) => {
+    const { t } = useTranslation();
+
     const [pageID, setPageID] = useState(0);
     let content = pages[pageID].contents;
-    let submitB = <div></div>
-    if (pageID == (pages.length - 1)) {
-        submitB = <IonButton onClick={handleSubmit}>submit</IonButton>
-    }
+    const data = content.map(quest => {
+        const Component = componentMap[quest.elementType];
+        if (Component) {
+            return <Component questionItem={quest} key={quest.id} onAnswerChange={onAnswerChange} answer={answers[quest.id] || null}/>;
+        }
+        return <p key={quest.id}>Item Type Unknown</p>; //DEBUG
+    });
+
 
     return (
         <div>
@@ -145,23 +172,17 @@ const PageSegment: React.FC<PageSegment> = ({ pages }) => {
             }}> <IonIcon icon={arrowForward} />
             </IonButton>
             <IonProgressBar className="progressBar" value={pageID / (pages.length - 1)} />
-            <ContentFromPage allQuestions={content}></ContentFromPage>
-            {submitB}
+            <div id="pagecontent" className=" ion-content">
+                {data}
+                <div className="center">{pageID === pages.length - 1 ? (
+                    <IonButton id="submitB" onClick={onSubmit}>{t("QuestionnaireScreen.Button")}</IonButton>
+                ) : null}
+                </div>
+            </div>
+
         </div>
     );
 }
 
 
-// creates for every entry in "contents", means for every question, a card
-const ContentFromPage: React.FC<ContentFromPage> = ({ allQuestions }) => {
-    const data = allQuestions.map(quest => {
-        const Component = componentMap[quest.elementType];
-        if (Component) {
-            return <Component questionItem={quest} key={quest.id} />;
-        }
-        return <p key={quest.id}>Item Type Unknown</p>; // Ignore unknown types
-    });
-
-    return <div id="pagecontent">{data}</div>;
-}
-
+export default Questionnaire;

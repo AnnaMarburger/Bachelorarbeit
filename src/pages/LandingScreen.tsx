@@ -21,10 +21,7 @@ import { useTranslation } from 'react-i18next';
 import { Preferences } from '@capacitor/preferences';
 
 
-interface LandingPageProps extends RouteComponentProps {
-}
-
-const LandingScreen: React.FC<LandingPageProps> = (props: LandingPageProps) => {
+const LandingScreen: React.FC = () => {
   const router = useIonRouter();
   const { t } = useTranslation();
 

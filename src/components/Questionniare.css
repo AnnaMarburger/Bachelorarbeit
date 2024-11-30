@@ -2,8 +2,12 @@
   padding: 6%;
 }
 
+.light {
+  --background: white;
+}
+
 .questionCard {
-  margin-bottom: 18px;
+  margin: 18px 0px 0px 0px;
   border-radius: 6px;
 }
 
@@ -21,7 +25,7 @@
   padding: 5%;
   line-height: 28px;
   color: black;
-  background-color: #e4e7ea;
+  background-color: #eff0f1;
   border-radius: 0px 0px 10px 10px;
 }
 
@@ -29,7 +33,7 @@
   padding: 5%;
   line-height: 22px;
   color: black;
-  background-color: #e4e7ea;
+  background-color: #eff0f1;
   border-radius: 10px;
 }
   
@@ -67,5 +71,25 @@ ion-grid {
 }
 
 .choices {
-  padding-top: 5%;
+  padding-top: 3%;
+}
+
+#submitB {
+  margin-top: 4%;
+  --background: #628299;
+}
+
+#questionnaireTitle {
+  font-size: 22px;
+  margin-top: 4%;
+  margin-top: 6%;
+  margin-bottom: 4%;
+  margin-right: 8%;
+}
+
+#pagecontent {
+  padding: 0;
+  margin: 0;
+  overflow-y: scroll;
+  height: 655px;
 }

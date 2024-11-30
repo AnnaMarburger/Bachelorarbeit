@@ -33,9 +33,8 @@ const Tab4: React.FC = () => {
         setAccount(na);
         updateAccount(na);
       }
-     })
-    }, []
-  );
+    })
+  }, []);
 
   async function handleLogout(e: any) {
     e.preventDefault();
@@ -99,7 +98,6 @@ const Tab4: React.FC = () => {
     handleInputChange("newpassword", "");
     handleInputChange("password", "");
   };
-
 
   const handleLanguageChange = (result: any) => {
     if (result) {
@@ -223,7 +221,6 @@ const Tab4: React.FC = () => {
               </IonItem>
               <IonButton expand="block" id="save-button" color="light" onClick={saveNameChange}>Save</IonButton>
             </IonList>
-
             <IonList inset={true} className='modal-list'>
               <IonItem detail={false} lines="none">
                 <IonLabel color="light" className="Input-label">{t("UserScreen.EditUserDtoModal.ChangePassword")}</IonLabel>

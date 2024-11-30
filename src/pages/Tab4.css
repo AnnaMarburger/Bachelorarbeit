@@ -5,13 +5,7 @@
     padding: 0px !important;
 }
 
-.user-list {
-    margin-bottom: 4.8%;
-}
-
 .settings-list, .links-list{
-    padding: 10px;
-    margin-top: 12px;
     --ion-background-color: #718da2;
     border-radius: 12px !important;
 }

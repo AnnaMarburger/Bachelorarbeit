@@ -19,20 +19,29 @@ ion-badge {
     font-size: large;
 }
 
-#questionnaireTitle {
-    font-size: 22px;
-    margin-top: 4%;
-    margin-top: 6%;
-    margin-bottom: 4%;
-    margin-right: 8%;
+.instances-list{
+    margin-top: 24px !important;
+    --ion-background-color: #718da2;
+    border-radius: 12px !important;
+}
+
+.card {
+    --ion-background-color: transparent !important;
+    box-shadow: none !important;
 }
 
 
-#pagecontent {
-    padding-left: 0;
-    overflow-y: scroll; 
-    height:600px;
+.title {
+    color: #FFF;
+    font-size:x-large;
+    font-weight: 500;
+    margin-top: 12px !important;
 }
 
+.blocktext {
+    color: #FFF;
+    font-size:medium;
+
+}
 
  
