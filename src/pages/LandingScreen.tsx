@@ -30,7 +30,7 @@ const LandingScreen: React.FC = () => {
       if (acc?.userName && acc?.password) {
         console.log("perform autologin", acc);
         await loginUser(acc.userName, acc.password);
-        router.push('/home/tab4');
+        router.push('/home/tab4', "none");
       }
     });
   }, []);
@@ -85,9 +85,9 @@ const LandingScreen: React.FC = () => {
                   await handleAnonymousSignIn();
                   const disclaimerSeen = await Preferences.get({ key: "acceptedDisclaimer" });
                   if (disclaimerSeen.value === "true") {
-                    router.push('/home/tab4');
+                    router.push('/home/tab4', "none");
                   } else {
-                    router.push('/disclaimer');
+                    router.push('/disclaimer', "none");
                   }
                 }}>Anonym</IonButton>
               </div>

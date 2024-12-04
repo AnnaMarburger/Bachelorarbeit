@@ -44,6 +44,21 @@
         "ToggleLabel": "Benachrichtigungen aktivieren",
         "TimerPickerLabel": "Zeit einsellen:",
         "Button": "Änderungen speichern"
+    },
+    "QuestionnaireScreen":{
+        "Button": "Absenden",
+        "AlertSuccess": "Deine Antworten wurden abgeschickt",
+        "AlertAnswerMissing": "Bitte beantworte zuerst alle benötigten (*) Fragen!",
+        "Pages": "Seiten",
+        "LoadingError": "Unbekannter Fehler beim Laden des Fragebogen aufgetreten. Bitte versuche es erneut."
+
+    },
+    "QOverviewScreen": {
+        "TitleQs": "Fragebögen",
+        "TextQs": "Klick auf einen Fragebogen, um diesen auszufüllen.",
+        "TitleH": "Verlauf",
+        "TextH": "Schau dir deine bisher beantworteten Fragebögen an.",
+        "DatumChip": "Unvollständig"
     }
    
 }

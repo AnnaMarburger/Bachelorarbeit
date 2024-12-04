@@ -8,6 +8,7 @@
 .settings-list, .links-list{
     --ion-background-color: #718da2;
     border-radius: 12px !important;
+    padding: 6px;
 }
 
 .modal-list{
@@ -38,6 +39,11 @@
     color: white;
     margin-bottom: 0px;
     font-weight: 600;
+}
+
+.modalContent {
+    align-items: start;
+    padding-top: 24px;
 }
 
 #user-name {

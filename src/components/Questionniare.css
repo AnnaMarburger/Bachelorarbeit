@@ -1,7 +1,3 @@
-.questionnaire {
-  padding: 6%;
-}
-
 .light {
   --background: white;
 }
@@ -74,22 +70,30 @@ ion-grid {
   padding-top: 3%;
 }
 
+#header {
+  padding-top: 24px;
+  padding-left: 6%;
+  padding-right: 6%;
+}
+
 #submitB {
   margin-top: 4%;
   --background: #628299;
 }
 
 #questionnaireTitle {
-  font-size: 22px;
-  margin-top: 4%;
-  margin-top: 6%;
-  margin-bottom: 4%;
-  margin-right: 8%;
+  color: black;
+  font-size: 18px;
+}
+
+#chip-grid{
+  padding-top: 6px;
 }
 
 #pagecontent {
-  padding: 0;
-  margin: 0;
-  overflow-y: scroll;
-  height: 655px;
+  --background: #fff;
+  padding-left: 6%;
+  padding-right: 6%;
+  padding-bottom: 32px;
+  margin: 0px;
 }

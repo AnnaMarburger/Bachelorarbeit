@@ -1,6 +1,6 @@
 
 import { IonButton, IonButtons, IonCard, IonCardContent, IonContent, IonDatetime, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonList, IonModal, IonPage, IonTitle, IonToolbar, useIonActionSheet, useIonRouter, useIonViewWillEnter } from '@ionic/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import "./Tab4.css";
 import "./main.css"
 import { UpdateCurrentUserCommand, UpdateCurrentUserPasswordCommand } from '@api/GatewayAPIClient';
@@ -36,10 +36,16 @@ const Tab4: React.FC = () => {
     })
   }, []);
 
+  useEffect(() => {
+    if(account === null)
+      router.push('/landing', 'root');
+  }, [account])
+
   async function handleLogout(e: any) {
     e.preventDefault();
     try {
       // remove any user specific data from device
+      setAccount(null);
       await clearAccount(); 
       await Preferences.remove({ key: 'acceptedDisclaimer' });
     } catch (error) {
@@ -109,7 +115,7 @@ const Tab4: React.FC = () => {
 
   return (
     <IonPage>
-      <IonContent fullscreen={true} className='ion-no-padding'>
+      <IonContent fullscreen={true} className='ion-content-safe'>
         <IonCard className='user-card'>
           <IonCardContent>
             <IonList inset={true} className="user-list">
@@ -122,7 +128,6 @@ const Tab4: React.FC = () => {
               </IonItem>
               <IonButton color="light" onClick={async (e: any) => {
                 await handleLogout(e);
-                router.push('/landing');
               }} expand='block'>Log Out</IonButton>
             </IonList>
             <IonList inset={true} className='settings-list'>
@@ -190,7 +195,7 @@ const Tab4: React.FC = () => {
               </IonButtons>
             </IonToolbar>
           </IonHeader>
-          <IonContent className='ion-no-padding'>
+          <IonContent className='modalContent'>
             <IonList inset={true} className='modal-list'>
               <IonItem detail={false} lines="none">
                 <IonLabel color="light" className="Input-label">{t("UserScreen.EditUserDtoModal.ChangeName")}</IonLabel>

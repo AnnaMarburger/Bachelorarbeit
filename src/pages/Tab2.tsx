@@ -1,34 +1,48 @@
 import { IonBadge, IonCard, IonCardContent, IonCardHeader, IonChip, IonContent, IonIcon, IonItem, IonLabel, IonList, IonLoading, IonPage, IonText, useIonRouter } from '@ionic/react';
 import { useEffect, useState } from 'react';
-import { calendar, document } from 'ionicons/icons';
+import { calendar, document, documentTextOutline } from 'ionicons/icons';
 import { useTenantApi } from '@api/useTenantApi';
 import { QuestionnaireInstanceDto, QuestionnaireInstanceState } from '@api/TenantAPIClient';
+import { useTranslation } from 'react-i18next';
+import i18next from "i18next";
 
 import './Tab2.css';
 import "./main.css";
 
+
 const Tab2: React.FC = () => {
+  const { t } = useTranslation();
   const router = useIonRouter();
   const [questionnaireList, setQuestionnaireList] = useState<QuestionnaireInstanceDto[] | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  var history = questionnaireList?.map(elem => {
-    return <IonItem key={elem.id} lines="none" button={true} onClick={() => { console.log("todo"); }}>
+  var history = questionnaireList?.sort((a, b) => a.created > b.created ? -1 : 1).map(elem => {
+    return <IonItem key={elem.id} lines="none" button={true} onClick={() => { router.push(`/home/tab2/${elem.questionnaireId}/${elem.id}/view`); }}>
+      <IonIcon aria-hidden="true" color="light" icon={documentTextOutline} size="large" slot="start" />
       <IonLabel className="label"> {elem.questionnaireName} </IonLabel>
       <IonChip disabled={true}>
         <IonIcon icon={calendar}></IonIcon>
-        <IonLabel>{elem.completed?.toDateString() ?? "Pending"}</IonLabel>
+        <IonLabel>{elem.completed?.toLocaleDateString(i18next.language) ?? t("QOverviewScreen.DatumChip")}</IonLabel>
       </IonChip>
 
     </IonItem>
   })
 
   async function routeToQuestionnaire(questionnaireId: string) {
-    const latestQ = questionnaireList?.filter(entry => entry.questionnaireId == questionnaireId && entry.state !== QuestionnaireInstanceState.Completed).sort((a, b) => a.created > b.created ? 1 : -1)[questionnaireList.length - 1];
-    let instanceId = latestQ?.id;
-    if (!instanceId) {
-      instanceId = await useTenantApi().questionnairesApi.createQuestionnaireInstance(questionnaireId);
+    var questionnaires = (await useTenantApi().questionnairesApi.getQuestionnaireInstances()).items;
+    var latestQ = questionnaires?.filter(entry => entry.questionnaireId == questionnaireId && entry.state !== QuestionnaireInstanceState.Completed).sort((a, b) => a.created > b.created ? -1 : 1)[0];
+    if (latestQ == undefined) {
+      await useTenantApi().questionnairesApi.createQuestionnaireInstance(questionnaireId);
+      questionnaires = (await useTenantApi().questionnairesApi.getQuestionnaireInstances()).items;
+      setQuestionnaireList(questionnaires);
+      latestQ = questionnaires?.filter(entry => entry.questionnaireId == questionnaireId && entry.state !== QuestionnaireInstanceState.Completed).sort((a, b) => a.created > b.created ? -1 : 1)[0];
     }
-    router.push(`/home/tab2/${questionnaireId}/${instanceId}`);
+
+    var instanceId = latestQ?.id;
+    if(instanceId == undefined){
+      alert(t("QuestionnaireScreen.LoadingError"));
+    } else {
+      router.push(`/home/tab2/${questionnaireId}/${instanceId}/edit`);
+    }
   }
 
 
@@ -37,14 +51,7 @@ const Tab2: React.FC = () => {
       console.log("Loading questionnaires..."); // Debug
       try {
         var questionnaires = (await useTenantApi().questionnairesApi.getQuestionnaireInstances()).items;
-        if (questionnaires.length < 1) {
-          console.log("keine Inhalte. Creating new Instance...");
-          await useTenantApi().questionnairesApi.createQuestionnaireInstance("97ad904e-9cb9-4047-a125-d064a8cd4bcf");
-          questionnaires = (await useTenantApi().questionnairesApi.getQuestionnaireInstances()).items;
-          setQuestionnaireList(questionnaires);
-        } else {
-          setQuestionnaireList(questionnaires);
-        }
+        setQuestionnaireList(questionnaires);
         console.log(questionnaires);
       } catch (error) {
         console.error("Error loading questionnaire", error);
@@ -63,19 +70,15 @@ const Tab2: React.FC = () => {
     );
   }
 
-  if (!questionnaireList) {
-    return <IonText>Fehler: Fragebogen konnte nicht geladen werden.</IonText>;
-  }
-
   return (
-    <IonPage className='content'>
-      <IonContent className='ion-padding'>
-        <IonCard className='card'>
+    <IonPage>
+      <IonContent className='ion-content-safe'>
+        <IonCard className='ion-no-padding'>
           <IonCardHeader>
-            <IonText className='title'>Questionnaires</IonText>
+            <IonText className='title'>{t("QOverviewScreen.TitleQs")}</IonText>
           </IonCardHeader>
           <IonCardContent>
-            <IonText className="blocktext"> Click on the following Items to answer a new Questionnaire. </IonText>
+            <IonText className="blocktext"> {t("QOverviewScreen.TextQs")} </IonText>
             <IonList className='instances-list'>
               <IonItem lines="none" button={true} onClick={() => { routeToQuestionnaire("97ad904e-9cb9-4047-a125-d064a8cd4bcf") }}>
                 <IonIcon className="icon" icon={document} slot="start"></IonIcon>
@@ -84,12 +87,12 @@ const Tab2: React.FC = () => {
             </IonList>
           </IonCardContent>
         </IonCard>
-        <IonCard className='card'>
+        <IonCard className='ion-no-padding'>
           <IonCardHeader>
-            <IonText className='title'>History</IonText>
+            <IonText className='title'>{t("QOverviewScreen.TitleH")}</IonText>
           </IonCardHeader>
           <IonCardContent>
-          <IonText className="blocktext"> Take a look at your previously answered Questionnaires. </IonText>
+            <IonText className="blocktext"> {t("QOverviewScreen.TextH")} </IonText>
             <IonList className='instances-list'>
               {history}
             </IonList>

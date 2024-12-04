@@ -1,9 +1,26 @@
-ion-content {
-    --background: #628299;
+
+.light-background {
+    --background: #fff;
 }
 
-ion-content::part(scroll) {
+.ion-content-safe::part(scroll) {
     padding-top: var(--ion-safe-area-top, 0);
+}
+
+
+ion-content {
+    --background: #628299;
+    align-items: flex-start;
+    align-content: flex-start;
+    margin-top: 0px !important;
+    padding-top: 0px !important;
+}
+
+.scroll-content {
+    margin-top: 0px !important;
+    align-items: flex-start;
+    padding-top: 0px !important;
+    align-content: flex-start;
 }
 
 ion-input.custom {
@@ -12,6 +29,34 @@ ion-input.custom {
     --border-color: #FFF;
     margin-top: 12px;
 }
+
+ion-badge {
+    color: #ffffff;
+    --background: #db934f;
+    --padding-end: 10px;
+    --padding-start: 10px;
+    --padding-bottom: 4px;
+    --padding-top: 4px;
+}
+
+ion-radio {
+    --border-radius: 10px;
+    --inner-border-radius: 10px;
+    --color: #ddd;
+    --color-checked: #628299;
+  }
+
+  ion-radio.ios::part(container) {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+  }
+  
+  .radio-checked.ios::part(container) {
+    border-color: #628299;
+  }
+  
 
 ion-button {
     padding-top: 8px;
@@ -29,6 +74,11 @@ ion-select::part(icon) {
 
 ion-title {
     color: #ffff;
+}
+
+ion-tab-button {
+    --color-selected: #628299;
+    --color: #394c5a;
 }
 
 

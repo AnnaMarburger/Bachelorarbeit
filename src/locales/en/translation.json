@@ -48,8 +48,16 @@
     "QuestionnaireScreen":{
         "Button": "Submit",
         "AlertSuccess": "Your answers has been saved",
-        "AlertAnswerMissing": "Please answer every required Question first!"
-
+        "AlertAnswerMissing": "Please answer every required Question first!",
+        "Pages": "pages",
+        "LoadingError": "An unknown error occurred while loading the questionnaire. Please try again."
+    },
+    "QOverviewScreen": {
+        "TitleQs": "Questionnaires",
+        "TextQs": "Click on the following Items to answer a new Questionnaire.",
+        "TitleH": "History",
+        "TextH": "Take a look at your previously answered Questionnaires.",
+        "DatumChip": "Pending"
     }
    
 }

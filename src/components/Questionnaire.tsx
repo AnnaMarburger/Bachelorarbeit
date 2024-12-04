@@ -1,6 +1,6 @@
 /*----------------------------------- Imports -----------------------------------------------------------*/
 
-import {  IonText, IonLabel, IonButton, IonProgressBar, IonIcon, IonChip, IonCol, IonGrid, IonRow, IonFab, IonFabButton, IonLoading, useIonRouter, IonPage } from "@ionic/react";
+import { IonText, IonLabel, IonButton, IonProgressBar, IonIcon, IonChip, IonCol, IonGrid, IonRow, IonFab, IonFabButton, IonLoading, useIonRouter, IonPage, useIonToast, IonContent, IonHeader, IonButtons, IonTitle, IonToolbar } from "@ionic/react";
 import { useEffect, useState } from "react";
 import { arrowBack, arrowForward, calendar, close } from 'ionicons/icons';
 import { AnswerDto, ContentDto, ContentPageDto, ElementType, QuestionnaireInstanceDetailsDto, UpdateQuestionnaireInstanceCommand } from "@api/TenantAPIClient";
@@ -17,7 +17,7 @@ import { useTranslation } from "react-i18next";
 
 /*----------------------------------- Constants -----------------------------------------------------------*/
 const componentMap: {
-    [key in ElementType]?: React.FC<{ questionItem: any, onAnswerChange: (questionId: string, answer: any) => void, answer: AnswerDto | null}>
+    [key in ElementType]?: React.FC<{ questionItem: any, onAnswerChange: (questionId: string, answer: any) => void, answer: AnswerDto | null, viewOnly: boolean }>
 } = {
     [ElementType.LikertQuestion]: LikertQuestion as React.FC<{ questionItem: ContentDto }>,
     [ElementType.RichTextDisplay]: TextItem as React.FC<{ questionItem: ContentDto }>,
@@ -29,9 +29,11 @@ const componentMap: {
 
 interface PageSegment {
     pages: ContentPageDto[];
+    pageId: number;
     onAnswerChange: (questionId: string, answer: AnswerDto | null) => void;
     onSubmit: () => void;
     answers: { [questionId: string]: AnswerDto | null };
+    viewOnly: boolean;
 }
 
 
@@ -40,10 +42,13 @@ interface PageSegment {
 const Questionnaire: React.FC = () => {
     const { t } = useTranslation();
     const router = useIonRouter();
-    const { questionnaireId, instanceId } = useParams<{ questionnaireId: string; instanceId: string }>();
+    const [present] = useIonToast();
+    const { questionnaireId, instanceId, viewOnly } = useParams<{ questionnaireId: string; instanceId: string; viewOnly: string }>();
     const [questionnaireInstanz, setQuestionnaireInstanz] = useState<QuestionnaireInstanceDetailsDto | null>(null);
-    const [answers, setAnswers] = useState<{ [questionId: string]: AnswerDto | null}>({});
+    const [answers, setAnswers] = useState<{ [questionId: string]: AnswerDto | null }>({});
     const [isLoading, setIsLoading] = useState(true);
+    const [pageID, setPageID] = useState(0);
+
     const started = new Date();
 
     //get current language of client
@@ -53,13 +58,20 @@ const Questionnaire: React.FC = () => {
 
     const handleAnswerChange = (questionId: string, answer: AnswerDto | null) => {
         setAnswers(prev => ({ ...prev, [questionId]: answer }));
-        console.log("Changed Answers:", answers);
     };
 
     const handleSubmit = () => {
         //check if every *required* question is answered*
         var completed = true;
-        if(Object.values(answers).find(answer => answer == null))
+        var questionCount = 0;
+        questionnaireInstanz?.pages.forEach(page => {
+            page.contents.forEach(elem => {
+                if (elem.elementType.includes("Question"))
+                    questionCount += 1;
+            })
+        })
+        console.log(questionCount);
+        if (Object.values(answers).length !== questionCount)
             completed = false;
 
         const command = new UpdateQuestionnaireInstanceCommand();
@@ -75,8 +87,12 @@ const Questionnaire: React.FC = () => {
         useTenantApi().questionnairesApi.updateQuestionnaireInstance(questionnaireId, instanceId, command)
             .then(() => {
                 console.log("Successfully sent to server");
-                alert(t("QuestionnaireScreen.AlertSuccess"));
-                //router.push("home/tab2");
+                present({
+                    message: t("QuestionnaireScreen.AlertSuccess"),
+                    duration: 2000,
+                    position: "top",
+                });
+                router.push("/home/tab2", "back");
             })
             .catch(error => console.error("Error sending answers:", error));
     };
@@ -108,78 +124,78 @@ const Questionnaire: React.FC = () => {
 
     return (
         <IonPage>
-            <div className="questionnaire">
-                <IonFab slot="fixed" vertical="top" horizontal="end">
-                    <IonFabButton size="small" onClick={() => { router.push("/home/tab2"); }}>
-                        <IonIcon icon={close}></IonIcon>
-                    </IonFabButton>
-                </IonFab>
-                <div id="questionnaireTitle" slot="fixed">
-                    <IonText>{questionnaireInstanz.questionnaireTitle.translations[languageId]}</IonText>
-                </div>
-                <IonGrid className="ion-no-padding">
+            <IonHeader className="ion-no-border" id="header">
+                <IonToolbar className="light-background">
+                    <IonText id="questionnaireTitle" className="ion-no-padding">{questionnaireInstanz.questionnaireTitle.translations[languageId]}</IonText>
+                    <IonButtons slot="end">
+                        <IonButton onClick={() => { router.push("/home/tab2", "back"); }}>
+                            <IonIcon icon={close}></IonIcon>
+                        </IonButton>
+                    </IonButtons>
+                </IonToolbar>
+                <IonGrid id="chip-grid" className="ion-no-padding">
                     <IonRow>
                         <IonCol size="auto">
                             <IonChip disabled={true}>
                                 <IonIcon icon={calendar}></IonIcon>
-                                <IonLabel>{questionnaireInstanz.created?.toDateString()}</IonLabel>
+                                <IonLabel>{questionnaireInstanz.created?.toLocaleDateString(i18next.language)}</IonLabel>
                             </IonChip>
                         </IonCol>
                         <IonCol size="auto">
-                            <IonChip disabled={true}>{questionnaireInstanz.state}</IonChip>
-                        </IonCol>
-                        <IonCol size="auto">
-                            <IonChip disabled={true}>{questionnaireInstanz.pages.length} Seiten</IonChip>
+                            <IonChip disabled={true}>{questionnaireInstanz.pages.length} {t("QuestionnaireScreen.Pages")}</IonChip>
                         </IonCol>
                     </IonRow>
                 </IonGrid>
-                <PageSegment pages={questionnaireInstanz.pages} onAnswerChange={handleAnswerChange} onSubmit={handleSubmit} answers={answers}/>
-            </div>
+                <IonButton className="pageButtons" key="forwardB" size="small" shape="round" disabled={(pageID < 1) ? true : false} onClick={() => {
+                    let newpage = pageID - 1
+                    if (newpage >= 0) {
+                        setPageID(newpage);
+                    }
+                }}> <IonIcon icon={arrowBack} />
+                </IonButton>
+                <IonButton className="pageButtons" key="backB" size="small" shape="round" disabled={(pageID >= questionnaireInstanz.pages.length - 1) ? true : false} onClick={() => {
+                    let newpage = pageID + 1
+                    if (newpage < questionnaireInstanz.pages.length) {
+                        setPageID(newpage);
+                    }
+                }}> <IonIcon icon={arrowForward} />
+                </IonButton>
+                <IonProgressBar className="progressBar" value={pageID / (questionnaireInstanz.pages.length - 1)} />
+            </IonHeader>
+            <IonContent className="light-background">
+                <PageSegment
+                    pages={questionnaireInstanz.pages}
+                    pageId={pageID}
+                    onAnswerChange={handleAnswerChange}
+                    onSubmit={handleSubmit} answers={answers}
+                    viewOnly={viewOnly === "view"}
+                />
+            </IonContent>
         </IonPage>
     );
 }
 
 
 
-const PageSegment: React.FC<PageSegment> = ({ pages, onAnswerChange, onSubmit, answers }) => {
+const PageSegment: React.FC<PageSegment> = ({ pages, pageId, onAnswerChange, onSubmit, answers, viewOnly }) => {
     const { t } = useTranslation();
-
-    const [pageID, setPageID] = useState(0);
-    let content = pages[pageID].contents;
+    let content = pages[pageId].contents;
     const data = content.map(quest => {
         const Component = componentMap[quest.elementType];
         if (Component) {
-            return <Component questionItem={quest} key={quest.id} onAnswerChange={onAnswerChange} answer={answers[quest.id] || null}/>;
+            return <Component questionItem={quest} key={quest.id} onAnswerChange={onAnswerChange} answer={answers[quest.id] || null} viewOnly={viewOnly} />;
         }
         return <p key={quest.id}>Item Type Unknown</p>; //DEBUG
     });
 
 
     return (
-        <div>
-            <IonButton className="pageButtons" key="forwardB" size="small" shape="round" disabled={(pageID < 1) ? true : false} onClick={() => {
-                let newpage = pageID - 1
-                if (newpage >= 0) {
-                    setPageID(newpage);
-                }
-            }}> <IonIcon icon={arrowBack} />
-            </IonButton>
-            <IonButton className="pageButtons" key="backB" size="small" shape="round" disabled={(pageID >= pages.length - 1) ? true : false} onClick={() => {
-                let newpage = pageID + 1
-                if (newpage < pages.length) {
-                    setPageID(newpage);
-                }
-            }}> <IonIcon icon={arrowForward} />
-            </IonButton>
-            <IonProgressBar className="progressBar" value={pageID / (pages.length - 1)} />
-            <div id="pagecontent" className=" ion-content">
-                {data}
-                <div className="center">{pageID === pages.length - 1 ? (
-                    <IonButton id="submitB" onClick={onSubmit}>{t("QuestionnaireScreen.Button")}</IonButton>
-                ) : null}
-                </div>
+        <div id="pagecontent">
+            {data}
+            <div className="center">{(pageId === pages.length - 1 && !viewOnly) ? (
+                <IonButton id="submitB" onClick={onSubmit}>{t("QuestionnaireScreen.Button")}</IonButton>
+            ) : null}
             </div>
-
         </div>
     );
 }

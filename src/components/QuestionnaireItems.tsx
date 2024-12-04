@@ -9,8 +9,9 @@ import { useEffect } from "react";
 
 interface LikertQuestionProps {
     questionItem: LikertQuestionDto;
-    onAnswerChange: (questionId: string, answer: AnswerDto | null, required: boolean) => void;
+    onAnswerChange: (questionId: string, answer: AnswerDto | null) => void;
     answer: LikertAnswerDto | null;
+    viewOnly: boolean;
 }
 
 interface TextFieldProps {
@@ -20,28 +21,36 @@ interface TextFieldProps {
 
 interface TextQuestionProps {
     questionItem: TextQuestionDto;
-    onAnswerChange: (questionId: string, answer: AnswerDto | null, required: boolean) => void;
+    onAnswerChange: (questionId: string, answer: AnswerDto | null) => void;
     answer: TextAnswerDto | null;
+    viewOnly: boolean;
 }
 
 
 /*-------------------------------------- Komponenten ------------------------------------------------------*/
 
-export const LikertQuestion: React.FC<LikertQuestionProps> = ({ questionItem, onAnswerChange, answer }) => {
+export const LikertQuestion: React.FC<LikertQuestionProps> = ({ questionItem, onAnswerChange, answer, viewOnly }) => {
     var languageId = "00000000-0000-0000-0000-000000000001";
     if (i18next.language == "de")
         languageId = "56051e9d-fd94-4fa5-b26e-b5c462326ecd";
     var question = questionItem.text.translations[languageId];
-    let choices = questionItem.scale.map(answer => <div key={answer.id}><IonRadio labelPlacement="end" value={answer.id}>{answer.label.translations[languageId]}</IonRadio></div>);
+    let choices = questionItem.scale.map(answer => <div key={answer.id}><IonRadio disabled={viewOnly} labelPlacement="end" value={answer.id}>{answer.label.translations[languageId]}</IonRadio></div>);
+
+    useEffect(() => {
+        if(questionItem.answer && answer === null)
+            onAnswerChange(questionItem.id, questionItem.answer);
+    }, []);
 
     function createAnswerDto(questionId: string, answervalue: string) {
+        if(viewOnly)
+            return;
+
         const answerdto = new LikertAnswerDto();
         answerdto.answered = new Date();
         answerdto.questionId = questionId;
         answerdto.value = answervalue;
-        onAnswerChange(questionItem.id, answerdto, questionItem.validation.required);
+        onAnswerChange(questionItem.id, answerdto);
     }
-
 
     return (
         <IonCard key={questionItem.id} className="questionCard">
@@ -49,7 +58,7 @@ export const LikertQuestion: React.FC<LikertQuestionProps> = ({ questionItem, on
             </IonCardHeader>
             <IonCardContent className="questionCard-content">
 
-                <IonRadioGroup value={answer?.value || ''} onIonChange={(e: any) => createAnswerDto(questionItem.id, e.detail.value)}>
+                <IonRadioGroup value={answer?.value || ''}  onIonChange={(e: any) => createAnswerDto(questionItem.id, e.detail.value)}>
                     <div className="choices" >
                         {choices}
                     </div>
@@ -78,25 +87,33 @@ export const TextItem: React.FC<TextFieldProps> = ({ questionItem }) => {
 }
 
 
-export const TextQuestion: React.FC<TextQuestionProps> = ({ questionItem, onAnswerChange, answer }) => {
+export const TextQuestion: React.FC<TextQuestionProps> = ({ questionItem, onAnswerChange, answer, viewOnly }) => {
     var languageId = "00000000-0000-0000-0000-000000000001";
     if (i18next.language == "de")
         languageId = "56051e9d-fd94-4fa5-b26e-b5c462326ecd";
     var question = questionItem.text.translations[languageId];
 
+    useEffect(() => {
+        if(questionItem.answer && answer !== null)
+            onAnswerChange(questionItem.id, questionItem.answer);
+    }, []);
+
     function createAnswerDto(questionId: string, answervalue: string) {
+        if(viewOnly)
+            return;
+        
         const answerdto = new TextAnswerDto();
         answerdto.answered = new Date();
         answerdto.questionId = questionId;
         answerdto.value = answervalue;
-        onAnswerChange(questionItem.id, answerdto, questionItem.validation.required);
+        onAnswerChange(questionItem.id, answerdto);
     }
 
     return (
         <IonCard key={questionItem.id} className="questionCard">
             <IonCardHeader className="questionCard-header">{questionItem.validation.required ? question + " *" : question}</IonCardHeader>
             <IonCardContent className="questionCard-content">
-                <IonTextarea clearOnEdit={false} autoGrow={true} className="questionTextArea" onIonChange={(e: any) => createAnswerDto(questionItem.id, e.detail.value)} value={answer?.value || ''}/>
+                <IonTextarea disabled={viewOnly} clearOnEdit={false} autoGrow={true} className="questionTextArea" onIonChange={(e: any) => createAnswerDto(questionItem.id, e.detail.value)} value={answer?.value || ''}/>
             </IonCardContent>
         </IonCard>
     );

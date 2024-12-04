@@ -43,9 +43,9 @@ const LoginScreen: React.FC<LoginPageProps> = (props: LoginPageProps) => {
                                 const success = await loginUser(username, password);
                                 const disclaimerSeen = await Preferences.get({key : "acceptedDisclaimer"});
                                 if (disclaimerSeen.value === "true" && success) {
-                                    router.push('/home/tab4');
+                                    router.push('/home/tab4', "none");
                                 } else if (success){
-                                    router.push('/disclaimer');
+                                    router.push('/disclaimer', "none");
                                 } else {
                                     alert("Login failed.")
                                 }

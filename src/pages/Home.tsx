@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   IonPage,
   IonIcon,
@@ -19,6 +19,9 @@ import { useTranslation } from 'react-i18next';
 import NotifScreen from './NotificationScreen';
 import Questionnaire from '@components/Questionnaire';
 
+import "./main.css";
+import LandingScreen from './LandingScreen';
+
 const Home: React.FC = () => {
   const { t } = useTranslation();
   const { url } = useRouteMatch();
@@ -26,16 +29,15 @@ const Home: React.FC = () => {
 
   return (
     <IonPage>
-      <IonReactRouter>
         <IonTabs>
           <IonRouterOutlet>
             <Route exact path={`${url}/tab1`}>
               <Tab1 />
-            </Route>
+              </Route>
             <Route exact path={`${url}/tab2`}>
               <Tab2 />
             </Route>
-            <Route path={`${url}/tab2/:questionnaireId/:instanceId`} component={Questionnaire} />
+            <Route path={`${url}/tab2/:questionnaireId/:instanceId/:viewOnly`} component={Questionnaire} />
             <Route exact path={`${url}/tab3`}>
               <Tab3 />
             </Route>
@@ -62,13 +64,12 @@ const Home: React.FC = () => {
               <IonIcon aria-hidden="true" icon={bulb} />
               <IonLabel>{t("HomeScreen.Tab3")}</IonLabel>
             </IonTabButton>
-            <IonTabButton tab="tab4" href={`${url}/tab4`}>
+            <IonTabButton tab="tab4" href={`${url}/tab4`}> 
               <IonIcon aria-hidden="true" icon={person} />
               <IonLabel>{t("HomeScreen.Tab4")}</IonLabel>
             </IonTabButton>
           </IonTabBar>
         </IonTabs>
-      </IonReactRouter>
     </IonPage>
   );
 };
