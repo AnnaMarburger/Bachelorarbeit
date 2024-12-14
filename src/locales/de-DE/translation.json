@@ -46,6 +46,7 @@
         "Button": "Änderungen speichern"
     },
     "QuestionnaireScreen":{
+        "Loading": "Fragebogen wird geladen",
         "Button": "Absenden",
         "AlertSuccess": "Deine Antworten wurden abgeschickt",
         "AlertAnswerMissing": "Bitte beantworte zuerst alle benötigten (*) Fragen!",
@@ -54,6 +55,7 @@
 
     },
     "QOverviewScreen": {
+        "Loading": "Fragebögen werden geladen",
         "TitleQs": "Fragebögen",
         "TextQs": "Klick auf einen Fragebogen, um diesen auszufüllen.",
         "TitleH": "Verlauf",

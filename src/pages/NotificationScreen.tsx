@@ -15,7 +15,7 @@ const NotifScreen: React.FC = () => {
     const handleSave = async () => { 
         //dissable previous notifications
         try {
-            await LocalNotifications.cancel({ notifications: [] });
+            await LocalNotifications.cancel({ notifications: [{ id : 1}] });
         } catch (error) {
             console.error("Error while canceling notifications:", error);
         }
@@ -59,7 +59,7 @@ const NotifScreen: React.FC = () => {
                     }
                 ]
             });
-            alert('Enabled Notifications! Next: ' + notificationDate);
+            alert('Enabled Notifications! Next: ' + notificationDate.toLocaleString());
 
         } 
     };

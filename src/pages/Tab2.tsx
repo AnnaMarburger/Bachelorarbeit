@@ -17,7 +17,7 @@ const Tab2: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   var history = questionnaireList?.sort((a, b) => a.created > b.created ? -1 : 1).map(elem => {
     return <IonItem key={elem.id} lines="none" button={true} onClick={() => { router.push(`/home/tab2/${elem.questionnaireId}/${elem.id}/view`); }}>
-      <IonIcon aria-hidden="true" color="light" icon={documentTextOutline} size="large" slot="start" />
+      <IonIcon aria-hidden="true" color="light" icon={documentTextOutline} slot="start" />
       <IonLabel className="label"> {elem.questionnaireName} </IonLabel>
       <IonChip disabled={true}>
         <IonIcon icon={calendar}></IonIcon>
@@ -45,7 +45,6 @@ const Tab2: React.FC = () => {
     }
   }
 
-
   useEffect(() => {
     async function loadQList() {
       console.log("Loading questionnaires..."); // Debug
@@ -65,7 +64,7 @@ const Tab2: React.FC = () => {
 
   if (isLoading) {
     return (
-      <IonLoading isOpen={isLoading} message="Lädt Fragebögen..." spinner="crescent"
+      <IonLoading isOpen={isLoading} message={t("QOverviewScreen.Loading")} spinner="crescent"
       />
     );
   }
@@ -82,7 +81,15 @@ const Tab2: React.FC = () => {
             <IonList className='instances-list'>
               <IonItem lines="none" button={true} onClick={() => { routeToQuestionnaire("97ad904e-9cb9-4047-a125-d064a8cd4bcf") }}>
                 <IonIcon className="icon" icon={document} slot="start"></IonIcon>
-                <IonText className="label"> SDQ </IonText>
+                <IonText> SDQ </IonText>
+              </IonItem>
+              <IonItem lines="none" button={true} onClick={() => { routeToQuestionnaire("f6766393-117b-4006-9705-09ca2f1cb458") }}>
+                <IonIcon className="icon" icon={document} slot="start"></IonIcon>
+                <IonText> PREDIMED </IonText>
+              </IonItem>
+              <IonItem lines="none" button={true} onClick={() => { routeToQuestionnaire("61266358-7155-46df-b0f2-fbf4bedc7e9f") }}>
+                <IonIcon className="icon" icon={document} slot="start"></IonIcon>
+                <IonText> IPAQ </IonText>
               </IonItem>
             </IonList>
           </IonCardContent>

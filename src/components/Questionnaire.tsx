@@ -6,23 +6,25 @@ import { arrowBack, arrowForward, calendar, close } from 'ionicons/icons';
 import { AnswerDto, ContentDto, ContentPageDto, ElementType, QuestionnaireInstanceDetailsDto, UpdateQuestionnaireInstanceCommand } from "@api/TenantAPIClient";
 import { useParams } from "react-router-dom";
 import { useTenantApi } from "@api/useTenantApi";
-import { LikertQuestion, TextItem, TextQuestion } from "./QuestionnaireItems";
+import { ChoiceQuestion, HeaderItem, LikertQuestion, NumberQuestion, SliderQuestion, TextItem, TextQuestion } from "./QuestionnaireItems";
+import { useTranslation } from "react-i18next";
 import i18next from "i18next";
 
 import "../pages/Tab2.css";
 import "../pages/main.css";
 import "./Questionniare.css"
-import { useTranslation } from "react-i18next";
-
 
 /*----------------------------------- Constants -----------------------------------------------------------*/
 const componentMap: {
     [key in ElementType]?: React.FC<{ questionItem: any, onAnswerChange: (questionId: string, answer: any) => void, answer: AnswerDto | null, viewOnly: boolean }>
 } = {
     [ElementType.LikertQuestion]: LikertQuestion as React.FC<{ questionItem: ContentDto }>,
+    [ElementType.ChoiceQuestion]: ChoiceQuestion as React.FC<{ questionItem: ContentDto }>,
     [ElementType.RichTextDisplay]: TextItem as React.FC<{ questionItem: ContentDto }>,
+    [ElementType.TextDisplay]: HeaderItem as React.FC<{ questionItem: ContentDto }>,
     [ElementType.TextQuestion]: TextQuestion as React.FC<{ questionItem: ContentDto }>,
-
+    [ElementType.NumberQuestion]: NumberQuestion as React.FC<{ questionItem: ContentDto }>,
+    [ElementType.SliderQuestion]: SliderQuestion as React.FC<{ questionItem: ContentDto }>,
 };
 
 /*----------------------------------- Interfaces -----------------------------------------------------------*/
@@ -37,7 +39,7 @@ interface PageSegment {
 }
 
 
-/*----------------------------------- Funktionskomponenten ------------------------------------------------------*/
+/*----------------------------------- Pagecomponents ------------------------------------------------------*/
 
 const Questionnaire: React.FC = () => {
     const { t } = useTranslation();
@@ -71,7 +73,7 @@ const Questionnaire: React.FC = () => {
             })
         })
         console.log(questionCount);
-        if (Object.values(answers).length !== questionCount)
+        if (Object.values(answers).length < questionCount)
             completed = false;
 
         const command = new UpdateQuestionnaireInstanceCommand();
@@ -80,7 +82,7 @@ const Questionnaire: React.FC = () => {
         command.answers = Object.values(answers).filter(answer => answer !== null);
         command.completed = completed ? new Date() : undefined;
         command.executionLanguageId = languageId;
-        if (!questionnaireInstanz?.started)
+        if (questionnaireInstanz?.started == undefined)
             command.started = started;
         console.log("Submitting these answers:", command);
 
@@ -115,7 +117,7 @@ const Questionnaire: React.FC = () => {
     }, []);
 
     if (isLoading) {
-        return <IonLoading isOpen={isLoading} message="Fragebogen wird geladen..." />;
+        return <IonLoading isOpen={isLoading} message={t("QuestionnaireScreen.Loading")} />;
     }
 
     if (!questionnaireInstanz) {
@@ -123,8 +125,8 @@ const Questionnaire: React.FC = () => {
     }
 
     return (
-        <IonPage>
-            <IonHeader className="ion-no-border" id="header">
+        <IonPage className="light-background">
+            <IonHeader translucent={false} className="ion-no-border" id="header">
                 <IonToolbar className="light-background">
                     <IonText id="questionnaireTitle" className="ion-no-padding">{questionnaireInstanz.questionnaireTitle.translations[languageId]}</IonText>
                     <IonButtons slot="end">

@@ -1,5 +1,5 @@
-.light {
-  --background: white;
+.light-background {
+  background-color: #fff;
 }
 
 .questionCard {
@@ -32,9 +32,38 @@
   background-color: #eff0f1;
   border-radius: 10px;
 }
+
+.headerItem {
+  font-size: medium;
+  font-weight: 400;
+  padding: 5%;
+  line-height: 22px;
+  color: black;
+  background-color: #eff0f1;
+  border-radius: 10px;
+}
   
 ion-radio{
   padding-top: 0.8%;
+}
+
+.sliderItem {
+  padding: 16px;
+  --bar-background: #83929d;
+  --bar-background-active: #628299;
+  --bar-height: 6px;
+  --knob-background: white;
+  --knob-size: 30px;
+  --pin-background: #98b2c5;
+  --pin-color: #fff;
+}
+
+.sliderItem::part(tick) {
+  background: #83929d;
+}
+
+.sliderItem::part(tick-active) {
+  background: #628299;
 }
 
 .progressBar {
@@ -66,18 +95,25 @@ ion-grid {
   --highlight-color-focused: white;
 }
 
+.questionNumberInput {
+  --padding-top: 12px;
+  --color: black;
+  --highlight-color-focused: white;
+}
+
 .choices {
   padding-top: 3%;
 }
 
 #header {
+  --background: #fff;
   padding-top: 24px;
   padding-left: 6%;
   padding-right: 6%;
 }
 
 #submitB {
-  margin-top: 4%;
+  margin-top: 6%;
   --background: #628299;
 }
 
@@ -94,6 +130,6 @@ ion-grid {
   --background: #fff;
   padding-left: 6%;
   padding-right: 6%;
-  padding-bottom: 32px;
+  padding-bottom: 40px;
   margin: 0px;
 }
