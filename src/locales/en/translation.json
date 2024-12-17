@@ -63,7 +63,8 @@
     },
     "InfoScreen": {
         "Title": "Information",
-        "Search": "Search"
+        "Search": "Search",
+        "Loading": "Loading Infos"
     }
    
 }

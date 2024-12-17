@@ -15,6 +15,8 @@ const Tab2: React.FC = () => {
   const router = useIonRouter();
   const [questionnaireList, setQuestionnaireList] = useState<QuestionnaireInstanceDto[] | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  // build list of items for questionnaire instance, that the user created up to this point
   var history = questionnaireList?.sort((a, b) => a.created > b.created ? -1 : 1).map(elem => {
     return <IonItem key={elem.id} lines="none" button={true} onClick={() => { router.push(`/home/tab2/${elem.questionnaireId}/${elem.id}/view`); }}>
       <IonIcon aria-hidden="true" color="light" icon={documentTextOutline} slot="start" />
@@ -27,12 +29,14 @@ const Tab2: React.FC = () => {
     </IonItem>
   })
 
+  // route to Questionnaire, that was clicked in the list. Shows the latest unfinished instance or (if that doesn't exist) creates a new one
   async function routeToQuestionnaire(questionnaireId: string) {
-    var questionnaires = (await useTenantApi().questionnairesApi.getQuestionnaireInstances()).items;
+    var api = useTenantApi().questionnairesApi;
+    var questionnaires = (await (api.getQuestionnaireInstances())).items;
     var latestQ = questionnaires?.filter(entry => entry.questionnaireId == questionnaireId && entry.state !== QuestionnaireInstanceState.Completed).sort((a, b) => a.created > b.created ? -1 : 1)[0];
     if (latestQ == undefined) {
-      await useTenantApi().questionnairesApi.createQuestionnaireInstance(questionnaireId);
-      questionnaires = (await useTenantApi().questionnairesApi.getQuestionnaireInstances()).items;
+      api.createQuestionnaireInstance(questionnaireId);
+      questionnaires = (await api.getQuestionnaireInstances()).items;
       setQuestionnaireList(questionnaires);
       latestQ = questionnaires?.filter(entry => entry.questionnaireId == questionnaireId && entry.state !== QuestionnaireInstanceState.Completed).sort((a, b) => a.created > b.created ? -1 : 1)[0];
     }
@@ -45,8 +49,9 @@ const Tab2: React.FC = () => {
     }
   }
 
+  // get questionnaires list from api
   useEffect(() => {
-    async function loadQList() {
+    async function loadQList(){
       console.log("Loading questionnaires..."); // Debug
       try {
         var questionnaires = (await useTenantApi().questionnairesApi.getQuestionnaireInstances()).items;
@@ -62,10 +67,9 @@ const Tab2: React.FC = () => {
     loadQList();
   }, []);
 
-  if (isLoading) {
+  if(isLoading){
     return (
-      <IonLoading isOpen={isLoading} message={t("QOverviewScreen.Loading")} spinner="crescent"
-      />
+      <IonLoading isOpen={isLoading} message={t("QOverviewScreen.Loading")} spinner="crescent"/>
     );
   }
 
