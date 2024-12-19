@@ -87,6 +87,12 @@ p {
     color: #ffff;
 }
 
+.title {
+    color: #FFF;
+    font-size: x-large;
+    font-weight: 500;
+}
+
 ion-fab {
     margin-top: var(--ion-safe-area-top, 0);
 }

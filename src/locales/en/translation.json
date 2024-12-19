@@ -15,7 +15,7 @@
         "Forgot": "Forgot your password?",
         "SignUp": "No account? Register here"
     },
-    "HomeScreen": {
+    "Tabs": {
         "Tab1": "Home",
         "Tab2": "Questionnaires",
         "Tab3": "Infos",
@@ -65,6 +65,26 @@
         "Title": "Information",
         "Search": "Search",
         "Loading": "Loading Infos"
+    },
+    "HomeScreen": {
+        "Title": "Welcome back",
+        "Loading": "Fetching data...",
+        "Stats": {
+            "Title": "Evaluation",
+            "Description": "Based on your latest answer"
+        },
+        "Infos": {
+            "Title": "Read Me",
+            "Description": "Get more information about:"
+        },
+        "Questionnaires": {
+            "Title": "Check-In",
+            "Description": "Answer a new Questionnaire"
+        },
+        "Profile": {
+            "Title": "Profile",
+            "Description": "Edit your data"
+        }
     }
    
 }

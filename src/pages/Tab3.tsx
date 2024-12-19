@@ -94,7 +94,6 @@ const Tab3: React.FC = () => {
             </IonList>
           </IonCardContent>
         </IonCard>
-
       </IonContent>
     </IonPage>
   );

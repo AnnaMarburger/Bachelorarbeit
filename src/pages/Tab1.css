@@ -1,0 +1,49 @@
+.home-title {
+    color: #FFF;
+    font-size:x-large;
+    font-weight: 500;
+    margin-top: 6%;
+    margin-left: 12px;
+}
+
+.home-subtitle {
+    color: #FFF;
+    font-size: large;
+    font-weight: 400;
+}
+
+.home-text {
+    color: #FFF;
+    line-height: 24px;
+    font-size: 13px;
+}
+
+.home-card, .home-card-grid {
+    margin-top: 24px;
+    --background: #718da2;
+    border-radius: 12px;
+    padding: 0px !important;
+    text-align: start;
+}
+
+.home-card-grid {
+    width: 100% !important;
+    height: 100%;
+}
+
+
+.home-list{
+    margin-top: 12px !important;
+    --ion-background-color: #577287;
+    border-radius: 12px !important;
+    margin-bottom: 0px !important;
+}
+
+.home-img {
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    width: 180px;
+}
+
+

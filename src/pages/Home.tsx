@@ -55,19 +55,19 @@ const Home: React.FC = () => {
           <IonTabBar slot="bottom">
             <IonTabButton tab="tab1" href={`${url}/tab1`}>
               <IonIcon aria-hidden="true" icon={home} />
-              <IonLabel>{t("HomeScreen.Tab1")}</IonLabel>
+              <IonLabel>{t("Tabs.Tab1")}</IonLabel>
             </IonTabButton>
             <IonTabButton tab="tab2" href={`${url}/tab2`}>
               <IonIcon aria-hidden="true" icon={bookmarks} />
-              <IonLabel>{t("HomeScreen.Tab2")}</IonLabel>
+              <IonLabel>{t("Tabs.Tab2")}</IonLabel>
             </IonTabButton>
             <IonTabButton tab="tab3" href={`${url}/tab3`}>
               <IonIcon aria-hidden="true" icon={bulb} />
-              <IonLabel>{t("HomeScreen.Tab3")}</IonLabel>
+              <IonLabel>{t("Tabs.Tab3")}</IonLabel>
             </IonTabButton>
             <IonTabButton tab="tab4" href={`${url}/tab4`}> 
               <IonIcon aria-hidden="true" icon={person} />
-              <IonLabel>{t("HomeScreen.Tab4")}</IonLabel>
+              <IonLabel>{t("Tabs.Tab4")}</IonLabel>
             </IonTabButton>
           </IonTabBar>
         </IonTabs>
