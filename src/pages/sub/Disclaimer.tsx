@@ -1,8 +1,9 @@
 import React from "react";
 import { IonButton, IonContent, IonPage, useIonRouter } from "@ionic/react";
-import "./main.css";
 import { LocalNotifications } from "@capacitor/local-notifications";
 import { Preferences } from "@capacitor/preferences";
+
+import "../main.css";
 
 const Disclaimer: React.FC = () => {
     const router = useIonRouter();

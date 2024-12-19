@@ -1,6 +1,4 @@
 import { IonCard, IonCardContent, IonCardHeader, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonLoading, IonPage, IonSearchbar, IonText, IonTitle, IonToolbar, useIonRouter } from '@ionic/react';
-import './main.css';
-import './Tab3.css';
 import { chevronForward } from 'ionicons/icons';
 import { useTenantApi } from '@api/useTenantApi';
 import { useTranslation } from 'react-i18next';
@@ -8,18 +6,31 @@ import { useEffect, useState } from 'react';
 import { AppPageDto } from '@api/TenantAPIClient';
 import i18next from 'i18next';
 
+import './main.css';
+import './Tab3.css';
+
+
 const Tab3: React.FC = () => {
   const { t } = useTranslation();
   const router = useIonRouter();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [pages, setPages] = useState<AppPageDto[] | null>([]);
   const [filteredPages, setFilteredPages] = useState<AppPageDto[] | undefined>([]);
+  const api = useTenantApi().appPagesApi;
 
 
   // set language
   var languageId = "00000000-0000-0000-0000-000000000001";
   if (i18next.language == "de")
     languageId = "56051e9d-fd94-4fa5-b26e-b5c462326ecd";
+
+  function routeToInfoPage(pageId: string){
+    if (pageId === "" || !pageId) {
+      alert(t("QuestionnaireScreen.LoadingError"));
+    } else {
+      router.push(`/home/tab3/${pageId}`);
+    }
+  }
 
 
   // only show info items whose titles contain the given keyword
@@ -37,8 +48,7 @@ const Tab3: React.FC = () => {
   // get info pages list from api
   async function loadInfos() {
     const projectId = import.meta.env.VITE_HSP_STUDY_IDENTIFIER;
-    var api = useTenantApi().appPagesApi;
-    var response = await api.getAppPages(projectId);
+    let response = await api.getAppPages(projectId);
     console.log(response);
     setPages(response);
     setFilteredPages(response);
@@ -48,7 +58,7 @@ const Tab3: React.FC = () => {
     async function load() {
       try {
         await loadInfos();
-      } catch (error) {
+       } catch (error) {
         console.error("Error loading informations", error);
       } finally {
         setIsLoading(false);
@@ -76,7 +86,7 @@ const Tab3: React.FC = () => {
             <IonSearchbar className="searchbar" animated={true} debounce={300} placeholder={t("InfoScreen.Search")} onIonChange={(ev: any) => { handleSearch(ev.detail.value) }}></IonSearchbar>
             <IonList className='instances-list'>{
               filteredPages?.map(page => {
-                return <IonItem key={page.id} lines="none" button={true} onClick={() => { console.log("todo") }}>
+                return <IonItem key={page.id} lines="none" button={true} onClick={() => { routeToInfoPage(page.id) }}>
                   <IonText>{page.title.translations[languageId]} </IonText>
                   <IonIcon size="small" className="icon" icon={chevronForward} slot='end'></IonIcon>
                 </IonItem>

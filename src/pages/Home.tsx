@@ -9,18 +9,18 @@ import {
   IonTabs
 } from '@ionic/react';
 import { Redirect, Route, useRouteMatch } from 'react-router';
-import { IonReactRouter } from '@ionic/react-router';
 import { home, bookmarks, bulb, person } from 'ionicons/icons';
 import Tab1 from './Tab1';
 import Tab2 from './Tab2';
 import Tab3 from './Tab3';
 import Tab4 from './Tab4';
 import { useTranslation } from 'react-i18next';
-import NotifScreen from './NotificationScreen';
-import Questionnaire from '@components/Questionnaire';
+import NotifScreen from './sub/NotificationScreen';
+import Questionnaire from './sub/Questionnaire';
+import InfoPage from './sub/InfoPage';
 
 import "./main.css";
-import LandingScreen from './LandingScreen';
+
 
 const Home: React.FC = () => {
   const { t } = useTranslation();
@@ -41,6 +41,7 @@ const Home: React.FC = () => {
             <Route exact path={`${url}/tab3`}>
               <Tab3 />
             </Route>
+            <Route path={`${url}/tab3/:pageId`} component={InfoPage} />
             <Route exact path={`${url}/tab4`}>
               <Tab4 />
             </Route>

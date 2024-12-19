@@ -1,0 +1,40 @@
+.light-background {
+    background-color: #fff;
+}
+
+.infoContent {
+    --background: #fff;
+    --padding-start: 8%;
+    --padding-end: 8%;
+    --padding-bottom: 50px;
+}
+
+.infoItem-text {
+    line-height: 22px;
+    color: black;
+    padding: 0px;
+}
+
+.infoItem-img {
+    padding: 0px;
+}
+
+.infoItem-header {
+    font-size: medium;
+    font-weight: 400;
+    padding: 0px;
+    color: black;
+}
+
+#infoPage-title {
+    color: black;
+    font-size: 18px;
+    padding: 0px;
+}
+
+#infoPage-header {
+    background-color: #fff;
+    padding-left: 8%;
+    padding-right: 8%;
+    padding-top: 8%;
+}

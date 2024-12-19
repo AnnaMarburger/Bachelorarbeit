@@ -42,8 +42,8 @@
   background-color: #eff0f1;
   border-radius: 10px;
 }
-  
-ion-radio{
+
+ion-radio {
   padding-top: 0.8%;
 }
 
@@ -122,7 +122,7 @@ ion-grid {
   font-size: 18px;
 }
 
-#chip-grid{
+#chip-grid {
   padding-top: 6px;
 }
 

@@ -1,7 +1,7 @@
 import { AnswerDto, ChoiceAnswerDto, ChoiceQuestionDto, LikertAnswerDto, LikertQuestionDto, NumberAnswerDto, NumberQuestionDto, RichTextDisplayDto, SliderAnswerDto, SliderQuestionDto, TextAnswerDto, TextDisplayDto, TextQuestionDto } from "@api/TenantAPIClient";
-import { IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonRadioGroup, IonRadio, IonInput, IonItem, IonTextarea, IonRange } from "@ionic/react";
+import { IonCard, IonCardHeader, IonCardContent, IonRadioGroup, IonRadio, IonInput, IonItem, IonTextarea, IonRange } from "@ionic/react";
 import i18next from 'i18next';
-import "./Questionniare.css"
+import "../pages/sub/Questionniare.css"
 import { useEffect } from "react";
 
 

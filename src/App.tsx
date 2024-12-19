@@ -8,11 +8,11 @@ import { IonReactRouter } from "@ionic/react-router";
 import { Redirect, Route } from "react-router-dom";
 import { PrivateRoute } from './routes/PrivateRoute';
 
-import { AuthenticationProvider } from './providers/AuthenticationProvider';
+import NotFound from "./pages/NotFoundSreen";
 import Home from "./pages/Home";
-import LandingScreen from "@pages/LandingScreen";
-import Disclaimer from "@pages/Disclaimer";
-import LoginScreen from "@pages/LoginScreen";
+import LandingScreen from "./pages/LandingScreen";
+import Disclaimer from "./pages/sub/Disclaimer";
+import LoginScreen from "./pages/LoginScreen";
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -43,7 +43,7 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
-import NotFound from "./pages/NotFoundSreen";
+
 setupIonicReact();
 
 const App: React.FC = () => (

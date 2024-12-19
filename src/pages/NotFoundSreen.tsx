@@ -6,7 +6,7 @@ const NotFound: React.FC = () => {
             <IonContent>
                 <div className="disclaimer" >
                     <h1>Not Found</h1>
-                    <p>The page you're looking for does not exist :(</p>
+                    <p>The page you're looking for does not exist.</p>
                 </div>
 
             </IonContent>

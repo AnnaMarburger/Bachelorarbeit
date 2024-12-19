@@ -1,12 +1,14 @@
 /*----------------------------------- Imports -----------------------------------------------------------*/
 
-import {IonButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonInput, IonInputPasswordToggle, IonPage, IonText, useIonAlert, useIonRouter} from '@ionic/react';
-import './LoginScreens.css';
+import {IonButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonInput, IonInputPasswordToggle, IonPage, IonText, useIonRouter} from '@ionic/react';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { loginUser } from '../components/LoginComponent';
 import { Preferences } from '@capacitor/preferences';
+
+import './LoginScreens.css';
+
 
 interface LoginPageProps extends RouteComponentProps {
 }

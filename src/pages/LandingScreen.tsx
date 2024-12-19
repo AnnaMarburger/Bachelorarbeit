@@ -1,4 +1,4 @@
-import React, { startTransition, useContext, useEffect, useState } from 'react';
+import React from 'react';
 import {
   IonContent,
   IonButton,
@@ -11,14 +11,14 @@ import {
   useIonRouter,
   useIonViewWillEnter,
 } from '@ionic/react';
-import { RouteComponentProps } from 'react-router';
-import './LandingScreen.css';
 import { RegistrationUtils } from '../utils/auth/registration.utils'
 import { Account } from '../modules/account';
 import { readFromStorage, readActiveAccount, updateAccount } from '../modules/dalAccount';
 import { loginUser } from '@components/LoginComponent';
 import { useTranslation } from 'react-i18next';
 import { Preferences } from '@capacitor/preferences';
+
+import './LandingScreen.css';
 
 
 const LandingScreen: React.FC = () => {

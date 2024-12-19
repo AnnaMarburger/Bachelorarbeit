@@ -1,4 +1,4 @@
-import { IonCol, IonContent, IonGrid, IonHeader, IonPage, IonRow, IonSearchbar, IonTitle, IonToolbar, useIonViewWillEnter } from '@ionic/react';
+import {IonContent, IonHeader, IonPage,IonTitle, IonToolbar, useIonViewWillEnter } from '@ionic/react';
 import './Tab1.css';
 
 const Tab1: React.FC = () => {

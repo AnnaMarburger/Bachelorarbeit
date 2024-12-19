@@ -1,8 +1,6 @@
 
 import { IonButton, IonButtons, IonCard, IonCardContent, IonContent, IonDatetime, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonList, IonModal, IonPage, IonTitle, IonToolbar, useIonActionSheet, useIonRouter, useIonViewWillEnter } from '@ionic/react';
 import { useEffect, useState } from 'react';
-import "./Tab4.css";
-import "./main.css"
 import { UpdateCurrentUserCommand, UpdateCurrentUserPasswordCommand } from '@api/GatewayAPIClient';
 import { closeSharp, earthOutline, handLeftOutline, newspaperOutline, notificationsOutline, person, shieldCheckmarkOutline } from 'ionicons/icons';
 import { useTranslation } from 'react-i18next';
@@ -10,6 +8,9 @@ import { clearAccount, readActiveAccount, updateAccount } from '../modules/dalAc
 import { Account } from '../modules/account';
 import { useGatewayApi } from '@api/useGatewayApi';
 import { Preferences } from '@capacitor/preferences';
+
+import "./Tab4.css";
+import "./main.css"
 
 
 const Tab4: React.FC = () => {

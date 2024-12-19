@@ -1,11 +1,10 @@
-import "./main.css";
 import { LocalNotifications } from "@capacitor/local-notifications";
 import { IonPage, IonContent, IonButton, IonDatetime, IonHeader, IonItem, IonLabel, IonTitle, IonToggle, IonToolbar, IonButtons, IonIcon, IonList, IonBackButton, useIonRouter } from "@ionic/react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import "./Tab4.css";
-import "./main.css"
+import "../Tab4.css";
+import "../main.css"
 
 const NotifScreen: React.FC = () => {
     const { t } = useTranslation();
