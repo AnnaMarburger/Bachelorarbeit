@@ -68,7 +68,6 @@ const Tab4: React.FC = () => {
       uc.givenName = formValues.name;
       try {
         const response = await useGatewayApi().currentUserApi.updateCurrentUser(uc);
-        console.log("Sent UpdateNameCommand", response);
         const na = account;
         na.familyName = formValues.familyName;
         na.name = formValues.name;
@@ -173,11 +172,11 @@ const Tab4: React.FC = () => {
                 <IonIcon aria-hidden="true" color="light" icon={handLeftOutline} slot="start"></IonIcon>
                 <IonLabel color="light">{t("UserScreen.Disclaimer")}</IonLabel>
               </IonItem>
-              <IonItem lines="none" button={true} onClick={() => console.log("todo")}>
+              <IonItem lines="none" button={true} onClick={() => router.push('/home/tab4/policy')}>
                 <IonIcon aria-hidden="true" color="light" icon={shieldCheckmarkOutline} slot="start"></IonIcon>
                 <IonLabel color="light">{t("UserScreen.PrivacyPolicy")}</IonLabel>
               </IonItem>
-              <IonItem lines="none" button={true} onClick={() => console.log("todo")}>
+              <IonItem lines="none" button={true} onClick={() => router.push('/home/tab4/legalnotice')}>
                 <IonIcon aria-hidden="true" color="light" icon={newspaperOutline} slot="start"></IonIcon>
                 <IonLabel color="light">{t("UserScreen.LegalNotice")}</IonLabel>
               </IonItem>

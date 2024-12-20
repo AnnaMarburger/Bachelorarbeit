@@ -20,6 +20,8 @@ import Questionnaire from './sub/Questionnaire';
 import InfoPage from './sub/InfoPage';
 
 import "./main.css";
+import PolicyScreen from './sub/PolicyScreen';
+import LegalNoticeScreen from './sub/LegalNoticeScreen';
 
 
 const Home: React.FC = () => {
@@ -47,6 +49,12 @@ const Home: React.FC = () => {
             </Route>
             <Route exact path={`${url}/tab4/notifs`}>
               <NotifScreen />
+            </Route>
+            <Route exact path={`${url}/tab4/policy`}>
+              <PolicyScreen />
+            </Route>
+            <Route exact path={`${url}/tab4/legalnotice`}>
+              <LegalNoticeScreen />
             </Route>
             <Route exact path={url}>
               <Redirect to={`${url}/tab1`} />

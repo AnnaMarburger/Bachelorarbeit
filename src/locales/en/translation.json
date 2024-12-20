@@ -85,6 +85,12 @@
             "Title": "Profile",
             "Description": "Edit your data"
         }
+    },
+    "PolicyScreen": {
+        "Title": "Privacy Policy"
+    },
+    "LegalNotice": {
+        "Title": "Legal Notice"
     }
    
 }

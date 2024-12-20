@@ -24,6 +24,7 @@ const Tab1: React.FC = () => {
   if (i18next.language == "de")
     languageId = "56051e9d-fd94-4fa5-b26e-b5c462326ecd";
 
+
   async function loadInfos() {
     const projectId = import.meta.env.VITE_HSP_STUDY_IDENTIFIER;
     let response = await useTenantApi().appPagesApi.getAppPages(projectId);
@@ -38,12 +39,13 @@ const Tab1: React.FC = () => {
     }
   }
 
+
   useEffect(() => {
     async function load() {
       try {
         await loadInfos();
       } catch (error) {
-        console.error("Error loading informations", error);
+        console.error("Error loading data for homescreen", error);
       } finally {
         setIsLoading(false);
       }
@@ -51,6 +53,13 @@ const Tab1: React.FC = () => {
 
     load();
   }, []);
+
+  if (isLoading) {
+    return (
+      <IonLoading isOpen={isLoading} message={t("InfoScreen.Loading")} spinner="crescent"
+      />
+    );
+  }
 
   return (
     <IonPage className='home-page'>
