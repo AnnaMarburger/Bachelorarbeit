@@ -69,7 +69,7 @@ const Tab1: React.FC = () => {
             <IonText className='home-title'>{t("HomeScreen.Title") + (account?.name ? (", " + account.name) : "") + "!"}</IonText>
           </IonCardHeader>
           <IonCardContent>
-            <IonCard className='home-card' >
+            <IonCard className='home-card'>
               <IonCardHeader>
                 <IonText className='home-subtitle'>{t("HomeScreen.Infos.Title")}</IonText>
               </IonCardHeader>
@@ -89,7 +89,7 @@ const Tab1: React.FC = () => {
             <IonGrid>
               <IonRow>
                 <IonCol >
-                  <IonCard className='home-card-grid' >
+                  <IonCard className='home-card-grid' button={true} onClick={() =>{router.push("/home/tab2")}}>
                     <IonCardHeader>
                       <IonText className='home-subtitle'>{t("HomeScreen.Questionnaires.Title")}</IonText>
                     </IonCardHeader>
@@ -99,7 +99,7 @@ const Tab1: React.FC = () => {
                   </IonCard>
                 </IonCol>
                 <IonCol>
-                  <IonCard className='home-card-grid' >
+                  <IonCard className='home-card-grid' button={true} onClick={() =>{router.push("/home/tab4")}}>
                     <IonCardHeader>
                       <IonText className='home-subtitle'>{t("HomeScreen.Profile.Title")}</IonText>
                     </IonCardHeader>
