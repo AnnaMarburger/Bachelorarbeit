@@ -1,4 +1,4 @@
-import { IonCard, IonCardContent, IonCardHeader, IonChip, IonContent, IonIcon, IonItem, IonLabel, IonList, IonLoading, IonPage, IonText, useIonRouter } from '@ionic/react';
+import { IonCard, IonCardContent, IonCardHeader, IonChip, IonContent, IonIcon, IonItem, IonLabel, IonList, IonLoading, IonPage, IonRefresher, IonRefresherContent, IonText, RefresherEventDetail, useIonRouter } from '@ionic/react';
 import { useEffect, useState } from 'react';
 import { calendar, document, documentTextOutline } from 'ionicons/icons';
 import { useTenantApi } from '@api/useTenantApi';
@@ -22,6 +22,15 @@ const Tab2: React.FC = () => {
   if (i18next.language == "de")
     languageId = "56051e9d-fd94-4fa5-b26e-b5c462326ecd";
 
+  function handleRefresh(event: CustomEvent<RefresherEventDetail>) {
+    console.log("Refresher triggered");
+
+    setTimeout(() => {
+      loadQList().then(() => {
+        event.detail.complete();
+      });
+    }, 5000);
+  }
 
   // route to Questionnaire, that was clicked in the list. Shows the latest unfinished instance or (if that doesn't exist) creates a new one
   async function routeToQuestionnaire(questionnaireId: string) {
@@ -29,7 +38,7 @@ const Tab2: React.FC = () => {
     let questionnaires = (await (api.getQuestionnaireInstances())).items;
     let latestQ = questionnaires?.filter(entry => entry.questionnaireId == questionnaireId && entry.state !== QuestionnaireInstanceState.Completed).sort((a, b) => a.created > b.created ? -1 : 1)[0];
     if (latestQ == undefined) {
-      api.createQuestionnaireInstance(questionnaireId);
+      await api.createQuestionnaireInstance(questionnaireId);
       questionnaires = (await api.getQuestionnaireInstances()).items;
       setHistoryList(questionnaires);
       latestQ = questionnaires?.filter(entry => entry.questionnaireId == questionnaireId && entry.state !== QuestionnaireInstanceState.Completed).sort((a, b) => a.created > b.created ? -1 : 1)[0];
@@ -44,20 +53,20 @@ const Tab2: React.FC = () => {
   }
 
   // get questionnaires list from api
-  useEffect(() => {
-    async function loadQList() {
-      try {
-        let questionnaires = (await useTenantApi().questionnairesApi.getQuestionnaires()).items
-        setQuestionnaireList(questionnaires);
-        let history = (await useTenantApi().questionnairesApi.getQuestionnaireInstances()).items;
-        setHistoryList(history);
-      } catch (error) {
-        console.error("Error loading questionnaires", error);
-      } finally {
-        setIsLoading(false);
-      }
+  async function loadQList() {
+    try {
+      let questionnaires = (await useTenantApi().questionnairesApi.getQuestionnaires()).items
+      setQuestionnaireList(questionnaires);
+      let history = (await useTenantApi().questionnairesApi.getQuestionnaireInstances()).items;
+      setHistoryList(history);
+    } catch (error) {
+      console.error("Error loading questionnaires", error);
+    } finally {
+      setIsLoading(false);
     }
+  }
 
+  useEffect(() => {
     loadQList();
   }, []);
 
@@ -78,7 +87,7 @@ const Tab2: React.FC = () => {
             <IonText className="blocktext"> {t("QOverviewScreen.TextQs")} </IonText>
             <IonList className='instances-list'>
               {questionnaireList?.map(elem => {
-                return <IonItem key={elem.id} lines="none" button={true} onClick={() => { routeToQuestionnaire(elem.id)}}>
+                return <IonItem key={elem.id} lines="none" button={true} onClick={() => { routeToQuestionnaire(elem.id) }}>
                   <IonIcon className="icon" icon={document} slot="start"></IonIcon>
                   <IonText> {elem.title.translations[languageId]} </IonText>
                 </IonItem>

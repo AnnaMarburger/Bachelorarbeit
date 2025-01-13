@@ -3,7 +3,7 @@
 import { IonText, IonLabel, IonButton, IonProgressBar, IonIcon, IonChip, IonCol, IonGrid, IonRow, IonLoading, useIonRouter, IonPage, useIonToast, IonContent, IonHeader, IonButtons, IonToolbar } from "@ionic/react";
 import { useEffect, useState } from "react";
 import { arrowBack, arrowForward, calendar, close } from 'ionicons/icons';
-import { AnswerDto, ContentDto, ContentPageDto, ElementType, QuestionnaireInstanceDetailsDto, UpdateQuestionnaireInstanceCommand } from "@api/TenantAPIClient";
+import { AnswerDto, ChoiceQuestionDto, ContentDto, ContentPageDto, ElementType, LikertQuestionDto, NumberQuestionDto, QuestionnaireInstanceDetailsDto, SliderQuestionDto, TextQuestionDto, UpdateQuestionnaireInstanceCommand } from "@api/TenantAPIClient";
 import { useParams } from "react-router-dom";
 import { useTenantApi } from "@api/useTenantApi";
 import { ChoiceQuestion, HeaderItem, LikertQuestion, NumberQuestion, SliderQuestion, TextItem, TextQuestion } from "../../components/QuestionnaireItems";
@@ -37,6 +37,17 @@ interface PageSegment {
     answers: { [questionId: string]: AnswerDto | null };
     viewOnly: boolean;
 }
+
+/*----------------------------------- Functions -----------------------------------------------------------*/
+
+
+function isQuestionWithAnswer(item: ContentDto): item is ChoiceQuestionDto | NumberQuestionDto | LikertQuestionDto | TextQuestionDto | SliderQuestionDto{
+    return (
+        'answer' in item && 
+        typeof (item as any).answer !== 'undefined' 
+    );
+}
+
 
 /*----------------------------------- Pagecomponents ------------------------------------------------------*/
 
@@ -106,6 +117,18 @@ const Questionnaire: React.FC = () => {
                 const qInstance = await useTenantApi().questionnairesApi.getQuestionnaireInstance(questionnaireId, instanceId);
                 console.log(qInstance);
                 setQuestionnaireInstance(qInstance);
+
+                // Setze die initialen Antworten
+                const initialAnswers = qInstance.pages
+                    .flatMap(page => page.contents)
+                    .filter(isQuestionWithAnswer) // Nur Fragen mit Antworten
+                    .reduce((acc, item) => {
+                        acc[item.id] = item.answer ?? null;
+                        return acc;
+                    }, {} as { [questionId: string]: AnswerDto | null });
+
+                setAnswers(initialAnswers);
+
             } catch (error) {
                 console.error("Error loading questionnaire:", error);
             } finally {
@@ -168,7 +191,8 @@ const Questionnaire: React.FC = () => {
                     pages={questionnaireInstance.pages}
                     pageId={pageID}
                     onAnswerChange={handleAnswerChange}
-                    onSubmit={handleSubmit} answers={answers}
+                    onSubmit={handleSubmit}
+                    answers={answers}
                     viewOnly={viewOnly === "view"}
                 />
             </IonContent>

@@ -206,8 +206,10 @@ export const NumberQuestion: React.FC<NumberQuestionProps> = ({ questionItem, on
     var question = questionItem.text.translations[languageId];
 
     useEffect(() => {
-        if (questionItem.answer && answer !== null)
+        if (questionItem.answer && answer !== null){
             onAnswerChange(questionItem.id, questionItem.answer);
+            console.log(answer);
+        }
     }, []);
 
     function createAnswerDto(questionId: string, answervalue: number) {
@@ -241,8 +243,10 @@ export const SliderQuestion: React.FC<SliderQuestionProps> = ({ questionItem, on
 
 
     useEffect(() => {
-        if (questionItem.answer && answer !== null)
+        if (questionItem.answer && answer !== null){
             onAnswerChange(questionItem.id, questionItem.answer);
+            console.log(answer);
+        }
     }, []);
 
     function createAnswerDto(questionId: string, answervalue: number) {

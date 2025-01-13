@@ -69,7 +69,7 @@ const Tab1: React.FC = () => {
             <IonText className='home-title'>{t("HomeScreen.Title") + (account?.name ? (", " + account.name) : "") + "!"}</IonText>
           </IonCardHeader>
           <IonCardContent>
-            <IonCard className='home-card'>
+            <IonCard className='home-card' button={true}>
               <IonCardHeader>
                 <IonText className='home-subtitle'>{t("HomeScreen.Infos.Title")}</IonText>
               </IonCardHeader>
