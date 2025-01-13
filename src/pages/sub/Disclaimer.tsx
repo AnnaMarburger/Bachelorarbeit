@@ -25,7 +25,7 @@ const Disclaimer: React.FC = () => {
 
     return (
         <IonPage>
-            <IonContent>
+            <IonContent className='ion-content-safe'>
                 <div className="disclaimer">
                     <h1>Disclaimer</h1>
                     <p>Please read and accept our terms and conditions before proceeding.</p>

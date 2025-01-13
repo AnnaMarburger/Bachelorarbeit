@@ -12,7 +12,7 @@ const PolicyScreen: React.FC = () => {
     const [policyText, setPolicyText] = useState<string>("");
 
     useEffect(() => {
-        fetch("/public/policy.txt")
+        fetch("/policy.txt")
             .then(response => response.text())
             .then(data => setPolicyText(data))
             .catch(error => console.error("Error loading policy text:", error));

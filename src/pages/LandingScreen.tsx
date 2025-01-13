@@ -71,7 +71,7 @@ const LandingScreen: React.FC = () => {
       <IonContent fullscreen className='landing-content'>
         <div className='welcomescreen-card'>
           <IonCard className='landing-card'>
-            <img src='../img/graphic-login.png' height="300"></img>
+            <img src='graphic-login.png' height="300"></img>
             <IonCardHeader>
               <IonCardTitle color="light" className='landing-title'>
                 {t("WelcomeScreen.Header")}

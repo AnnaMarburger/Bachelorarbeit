@@ -44,6 +44,10 @@ ion-radio {
     --color-checked: #628299;
 }
 
+ion-toolbar {
+    --background: white;
+}
+
 ion-radio.ios::part(container) {
     width: 20px;
     height: 20px;

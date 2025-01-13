@@ -62,13 +62,13 @@ const Tab1: React.FC = () => {
   }
 
   return (
-    <IonPage className='home-page'>
+    <IonPage>
       <IonContent className='ion-content-safe'>
         <IonCard className='ion-no-padding'>
           <IonCardHeader>
             <IonText className='home-title'>{t("HomeScreen.Title") + (account?.name ? (", " + account.name) : "") + "!"}</IonText>
           </IonCardHeader>
-          <IonCardContent>
+          <IonCardContent className='ion-no-padding'>
             <IonCard className='home-card' button={true}>
               <IonCardHeader>
                 <IonText className='home-subtitle'>{t("HomeScreen.Infos.Title")}</IonText>
@@ -85,7 +85,6 @@ const Tab1: React.FC = () => {
                 </IonList>
               </IonCardContent>
             </IonCard>
-
             <IonGrid>
               <IonRow>
                 <IonCol >
@@ -121,9 +120,6 @@ const Tab1: React.FC = () => {
             </IonCard>
           </IonCardContent>
         </IonCard>
-        <div >
-          <IonImg src='../public/home.png' className='home-img'></IonImg>
-        </div>
       </IonContent>
     </IonPage>
   );

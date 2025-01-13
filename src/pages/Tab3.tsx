@@ -83,12 +83,11 @@ const Tab3: React.FC = () => {
             <IonText className='title'>{t("InfoScreen.Title")}</IonText>
           </IonCardHeader>
           <IonCardContent>
-            <IonSearchbar className="searchbar" animated={true} debounce={300} placeholder={t("InfoScreen.Search")} onIonChange={(ev: any) => { handleSearch(ev.detail.value) }}></IonSearchbar>
+            <IonSearchbar className="searchbar" debounce={300} placeholder={t("InfoScreen.Search")} onIonChange={(ev: any) => { handleSearch(ev.detail.value) }}></IonSearchbar>
             <IonList className='instances-list'>{
               filteredPages?.map(page => {
                 return <IonItem key={page.id} lines="none" button={true} onClick={() => { routeToInfoPage(page.id) }}>
                   <IonText>{page.title.translations[languageId]} </IonText>
-                  <IonIcon size="small" className="icon" icon={chevronForward} slot='end'></IonIcon>
                 </IonItem>
               })}
             </IonList>
