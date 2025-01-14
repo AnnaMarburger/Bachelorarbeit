@@ -15,7 +15,10 @@ const LegalNoticeScreen: React.FC = () => {
         fetch("/legalnotice.txt")
             .then(response => response.text())
             .then(data => setPolicyText(data))
-            .catch(error => console.error("Error loading policy text:", error));
+            .catch(error => {
+                console.error("Error loading legal notice text:", error);
+                setPolicyText("Policy could not be loaded.");
+            });
     }, []);
 
     return (

@@ -10,57 +10,50 @@ const NotifScreen: React.FC = () => {
     const { t } = useTranslation();
     const [notificationsEnabled, setNotificationsEnabled] = useState(false);
     const [selectedTime, setSelectedTime] = useState('12:00');
+    
 
-    const handleSave = async () => { 
+    const handleSave = async () => {
         //dissable previous notifications
-        try {
-            await LocalNotifications.cancel({ notifications: [{ id : 1}] });
-        } catch (error) {
-            console.error("Error while canceling notifications:", error);
+        const pending = await LocalNotifications.getPending();
+        if (pending.notifications.length > 0) {
+            await LocalNotifications.cancel({ notifications: pending.notifications });
         }
 
-        if(notificationsEnabled){
+        if (notificationsEnabled) {
             // check permissions for notifications
             let permission = await LocalNotifications.checkPermissions();
-            if(permission.display !== "granted"){
+            if (permission.display !== "granted") {
                 permission = await LocalNotifications.requestPermissions();
-                if(permission.display !== "granted"){
-                    alert("Due to no permissions, no notifications were set.");
+                if (permission.display !== "granted") {
+                    alert(t("NotifScreen.AlertAccessFail"));
                     setNotificationsEnabled(false);
                     return;
                 }
             }
 
-            // get notification time
-            const currentDate = new Date(Date.now());
+            // schedule
             const [hours, minutes] = selectedTime.split(':').map(Number);
-            const notificationDate = new Date(currentDate);
-            notificationDate.setHours(hours);
-            notificationDate.setMinutes(minutes);
-            notificationDate.setSeconds(0);
-
-            if (notificationDate < currentDate) {
-                notificationDate.setDate(notificationDate.getDate() + 1);
-            }
-
             await LocalNotifications.schedule({
                 notifications: [
                     {
-                        title: "Erinnerung!",
-                        body: "Es ist Zeit für deine geplante Aufgabe.",
+                        title: t("NotifScreen.NotifTitle"),
+                        body: t("NotifScreen.NotifBody"),
                         id: 1,
-                        schedule: { 
-                            at: notificationDate, 
-                            repeats: true
+                        schedule: {
+                            on: {hour: hours, minute: minutes, second: 0},
+                            repeats: true,
+                            every: "day"
+
                         },
                         actionTypeId: "",
                         extra: null,
                     }
                 ]
             });
-            alert('Enabled Notifications! Next: ' + notificationDate.toLocaleString());
 
-        } 
+            alert(t("NotifScreen.AlertSuccess"));
+
+        }
     };
 
     return (

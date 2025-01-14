@@ -43,7 +43,11 @@
         "Title": "Notification Settings",
         "ToggleLabel": "Enable Notifications",
         "TimerPickerLabel": "Set Time:",
-        "Button": "Save Changes"
+        "Button": "Save Changes",
+        "NotifTitle": "Reminder",
+        "NotifBody": "It's time to answer a new questionnaire",
+        "AlertAccessFail": "Due to no permissions, no notifications were set.",
+        "AlertSuccess": "Enabled notifications!"
     },
     "QuestionnaireScreen":{
         "Loading": "Loading questionnaire",
