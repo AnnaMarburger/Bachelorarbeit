@@ -10,6 +10,7 @@ import {
   IonCardTitle,
   useIonRouter,
   useIonViewWillEnter,
+  IonText,
 } from '@ionic/react';
 import { RegistrationUtils } from '../utils/auth/registration.utils'
 import { Account } from '../modules/account';
@@ -26,7 +27,7 @@ const LandingScreen: React.FC = () => {
   const { t } = useTranslation();
 
   useIonViewWillEnter(() => {
-    readFromStorage().then(async acc => {
+    readFromStorage().then(async (acc) => {
       if (acc?.userName && acc?.password) {
         console.log("perform autologin", acc);
         await loginUser(acc.userName, acc.password);
@@ -63,25 +64,25 @@ const LandingScreen: React.FC = () => {
     await RegistrationUtils.registerInTenant();
     await RegistrationUtils.registerInStudy();
     console.log("registered");
-
   }
 
   return (
     <IonPage>
       <IonContent fullscreen className='landing-content'>
-        <div className='welcomescreen-card'>
+        <div>
           <IonCard className='landing-card'>
             <img src='graphic-login.png' height="300"></img>
             <IonCardHeader>
               <IonCardTitle color="light" className='landing-title'>
                 {t("WelcomeScreen.Header")}
               </IonCardTitle>
-              <IonCardSubtitle color="light">{t("WelcomeScreen.SkipLogin")}</IonCardSubtitle>
             </IonCardHeader>
             <IonCardContent>
+              <IonText color='light'>{t("WelcomeScreen.Text")}</IonText>
               <div className='buttons'>
-                <IonButton routerLink='/login' shape='round' color="light">Login</IonButton>
-                <IonButton shape='round' color="light" onClick={async () => {
+                <IonButton routerLink='/login' expand="block" color="light">{t("WelcomeScreen.Login")}</IonButton>
+                <IonButton routerLink='/signup' expand="block" color="light">{t("WelcomeScreen.SignUp")}</IonButton>
+                <IonButton expand='block' color="light" onClick={async () => {
                   await handleAnonymousSignIn();
                   const disclaimerSeen = await Preferences.get({ key: "acceptedDisclaimer" });
                   if (disclaimerSeen.value === "true") {
@@ -89,7 +90,7 @@ const LandingScreen: React.FC = () => {
                   } else {
                     router.push('/disclaimer', "none");
                   }
-                }}>Anonym</IonButton>
+                }}>{t("WelcomeScreen.Anonymous")}</IonButton>
               </div>
             </IonCardContent>
           </IonCard>

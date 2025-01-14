@@ -1,19 +1,28 @@
 {
     "WelcomeScreen": {
-        "Header": "Hello",
-        "SkipLogin": "You don't want an account? Skip LogIn"
-    },
-    "RedirectScreen": {
-        "Login": "Logging in... Please wait!",
-        "Logout": "Logging out..."
+        "Header": "Hello!",
+        "Text": "Click 'anonymous', if you want to create a new anonymous account. Be aware that you will loose your data with this option, once you logout.",
+        "Login": "Login",
+        "Anonymous": "Anonymous",
+        "SignUp": "Sign Up"
+
     },
     "LoginScreen": {
         "Header": "Login",
         "Name": "Username",
         "Password": "Password",
         "Button": "Login",
-        "Forgot": "Forgot your password?",
-        "SignUp": "No account? Register here"
+        "SignUp": "No account? Register here",
+        "AlertFail": "Login failed"
+    },
+    "SignUpScreen": {
+        "Header": "Sign Up",
+        "Name": "Name",
+        "Password": "Password",
+        "Button": "Sign Up",
+        "Back": "Back to landing page",
+        "Anonymous": "Don't want an account? Login anonymously!",
+        "AlertFail": "Sign Up failed"
     },
     "Tabs": {
         "Tab1": "Home",

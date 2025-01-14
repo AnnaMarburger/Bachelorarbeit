@@ -43,6 +43,7 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import SignUpScreen from "@pages/SignUpScreen";
 
 setupIonicReact();
 
@@ -52,6 +53,7 @@ const App: React.FC = () => (
         <IonRouterOutlet>
           <Route path="/landing" component={LandingScreen} exact />
           <Route path="/login" component={LoginScreen} exact />
+          <Route path="/signup" component={SignUpScreen} exact />
           <Route path="/disclaimer" component={Disclaimer} exact />
           <Route path="/home">
             <PrivateRoute>
