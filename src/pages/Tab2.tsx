@@ -1,4 +1,4 @@
-import { IonCard, IonCardContent, IonCardHeader, IonChip, IonContent, IonIcon, IonItem, IonLabel, IonList, IonLoading, IonPage, IonRefresher, IonRefresherContent, IonText, RefresherEventDetail, useIonRouter } from '@ionic/react';
+import { IonCard, IonCardContent, IonCardHeader, IonChip, IonContent, IonIcon, IonItem, IonLabel, IonList, IonLoading, IonPage, IonRefresher, IonRefresherContent, IonText, RefresherEventDetail, useIonRouter, useIonViewWillEnter } from '@ionic/react';
 import { useEffect, useState } from 'react';
 import { calendar, document, documentTextOutline } from 'ionicons/icons';
 import { useTenantApi } from '@api/useTenantApi';
@@ -22,15 +22,9 @@ const Tab2: React.FC = () => {
   if (i18next.language == "de")
     languageId = "56051e9d-fd94-4fa5-b26e-b5c462326ecd";
 
-  function handleRefresh(event: CustomEvent<RefresherEventDetail>) {
-    console.log("Refresher triggered");
-
-    setTimeout(() => {
-      loadQList().then(() => {
-        event.detail.complete();
-      });
-    }, 5000);
-  }
+  useIonViewWillEnter(() => {
+    loadQList(); // Lädt die Daten bei jedem Betreten der Seite
+  });
 
   // route to Questionnaire, that was clicked in the list. Shows the latest unfinished instance or (if that doesn't exist) creates a new one
   async function routeToQuestionnaire(questionnaireId: string) {
