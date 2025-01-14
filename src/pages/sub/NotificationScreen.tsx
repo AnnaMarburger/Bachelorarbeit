@@ -1,7 +1,8 @@
 import { LocalNotifications } from "@capacitor/local-notifications";
 import { IonPage, IonContent, IonButton, IonDatetime, IonHeader, IonItem, IonLabel, IonTitle, IonToggle, IonToolbar, IonButtons, IonIcon, IonList, IonBackButton, useIonRouter } from "@ionic/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Preferences } from '@capacitor/preferences';
 
 import "../Tab4.css";
 import "../main.css"
@@ -11,8 +12,23 @@ const NotifScreen: React.FC = () => {
     const [notificationsEnabled, setNotificationsEnabled] = useState(false);
     const [selectedTime, setSelectedTime] = useState('12:00');
     
+      useEffect(() => {
+        async function load() {
+          try {
+            const { value } = await Preferences.get({ key: 'NotifTime' });
+            if (value) {
+                setNotificationsEnabled(true);
+                setSelectedTime(value);
+            }
+           } catch (error) {
+            console.error("Error loading notif preferences", error);
+          } 
+        }
+    
+        load();
+      }, []);
 
-    const handleSave = async () => {
+    async function handleSave() {
         //dissable previous notifications
         const pending = await LocalNotifications.getPending();
         if (pending.notifications.length > 0) {
@@ -43,18 +59,21 @@ const NotifScreen: React.FC = () => {
                             on: {hour: hours, minute: minutes, second: 0},
                             repeats: true,
                             every: "day"
-
                         },
                         actionTypeId: "",
                         extra: null,
                     }
                 ]
             });
-
+            await Preferences.set({
+                key: 'NotifTime',
+                value: selectedTime,
+            });
             alert(t("NotifScreen.AlertSuccess"));
 
         }
     };
+
 
     return (
         <IonPage>
@@ -83,7 +102,7 @@ const NotifScreen: React.FC = () => {
                         </IonItem>
                     )}
                 </IonList>
-                <IonButton color="light" id="save-button" expand="block" onClick={handleSave}>{t("NotifScreen.Button")}</IonButton>
+                <IonButton color="light" id="save-button" expand="block" onClick={() =>handleSave()}>{t("NotifScreen.Button")}</IonButton>
 
             </IonContent>
         </IonPage>
