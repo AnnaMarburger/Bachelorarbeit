@@ -143,7 +143,7 @@ const Questionnaire: React.FC = () => {
     }
 
     if (!questionnaireInstance) {
-        return <IonText>Fehler: Fragebogen konnte nicht geladen werden.</IonText>;
+        return <IonText></IonText>;
     }
 
     return (

@@ -1,7 +1,7 @@
 {
     "WelcomeScreen": {
         "Header": "Hello!",
-        "Text": "Click 'anonymous', if you want to create a new anonymous account. Be aware that you will loose your data with this option, once you logout.",
+        "Text": "Welcome to this App. Login or create a new account!",
         "Login": "Login",
         "Anonymous": "Anonymous",
         "SignUp": "Sign Up"
@@ -84,7 +84,7 @@
         "Loading": "Fetching data...",
         "Stats": {
             "Title": "Evaluation",
-            "Description": "Based on your latest answer"
+            "Description": "Based on your latest answers"
         },
         "Infos": {
             "Title": "Read Me",

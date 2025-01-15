@@ -1,6 +1,107 @@
 {
     "WelcomeScreen": {
-        "Header": "Hola",
-        "SkipLogin": "No quieres crear una cuenta? Continuar anónimamente"
+        "Header": "¡Hola!",
+        "Text": "Bienvenido a esta aplicación. ¡Inicia sesión o crea una nueva cuenta!",
+        "Login": "Iniciar sesión",
+        "Anonymous": "Anónimo",
+        "SignUp": "Registrarse"
+    },
+    "LoginScreen": {
+        "Header": "Iniciar sesión",
+        "Name": "Nombre de usuario",
+        "Password": "Contraseña",
+        "Button": "Iniciar sesión",
+        "SignUp": "¿No tienes cuenta? Regístrate aquí",
+        "AlertFail": "Inicio de sesión fallido"
+    },
+    "SignUpScreen": {
+        "Header": "Registrarse",
+        "Name": "Nombre",
+        "Password": "Contraseña",
+        "Button": "Registrarse",
+        "Back": "Volver a la página principal",
+        "Anonymous": "¿No quieres una cuenta? ¡Inicia sesión como anónimo!",
+        "AlertFail": "Registro fallido"
+    },
+    "Tabs": {
+        "Tab1": "Inicio",
+        "Tab2": "Cuestionarios",
+        "Tab3": "Información",
+        "Tab4": "Usuario"
+    },
+    "UserScreen": {
+        "EditUserDtoModal": {
+            "Header": "Edita tus datos",
+            "ChangeName": "Cambia tu nombre:",
+            "Surname": "Nombre",
+            "Familyname": "Apellido",
+            "ChangePassword": "Cambia tu contraseña:",
+            "NewPassword": "Nueva contraseña",
+            "OldPassword": "Contraseña antigua"
+        },
+        "LogOutButton": "Cerrar sesión",
+        "Lang": "Idioma",
+        "Notif": "Notificaciones",
+        "Disclaimer": "Aviso legal",
+        "PrivacyPolicy": "Política de privacidad",
+        "LegalNotice": "Aviso legal",
+        "ASHeader": "Elige tu idioma preferido"
+    },
+    "NotifScreen": {
+        "Title": "Configuración de notificaciones",
+        "ToggleLabel": "Habilitar notificaciones",
+        "TimerPickerLabel": "Establecer hora:",
+        "Button": "Guardar cambios",
+        "NotifTitle": "Recordatorio",
+        "NotifBody": "Es hora de responder un nuevo cuestionario",
+        "AlertAccessFail": "Debido a la falta de permisos, no se configuraron notificaciones.",
+        "AlertSuccess": "¡Notificaciones habilitadas!"
+    },
+    "QuestionnaireScreen": {
+        "Loading": "Cargando cuestionario",
+        "Button": "Enviar",
+        "AlertSuccess": "Tus respuestas se han guardado",
+        "AlertAnswerMissing": "¡Por favor responde todas las preguntas requeridas primero!",
+        "Pages": "páginas",
+        "LoadingError": "Ocurrió un error desconocido al cargar el cuestionario. Por favor, inténtalo de nuevo."
+    },
+    "QOverviewScreen": {
+        "Loading": "Cargando cuestionarios",
+        "TitleQs": "Cuestionarios",
+        "TextQs": "Haz clic en los siguientes elementos para responder un nuevo cuestionario.",
+        "TitleH": "Historial",
+        "TextH": "Consulta tus cuestionarios respondidos anteriormente.",
+        "DatumChip": "Pendiente"
+    },
+    "InfoScreen": {
+        "Title": "Base de conocimientos",
+        "Search": "Buscar",
+        "Loading": "Cargando información"
+    },
+    "HomeScreen": {
+        "Title": "Bienvenido de nuevo",
+        "Loading": "Obteniendo datos...",
+        "Stats": {
+            "Title": "Evaluación",
+            "Description": "Basado en tu últimas respuestas"
+        },
+        "Infos": {
+            "Title": "Léeme",
+            "Description": "Obtén más información sobre:"
+        },
+        "Questionnaires": {
+            "Title": "Check in diario",
+            "Description": "Responde un nuevo cuestionario"
+        },
+        "Profile": {
+            "Title": "Perfil",
+            "Description": "Edita tus datos"
+        }
+    },
+    "PolicyScreen": {
+        "Title": "Política de privacidad"
+    },
+    "LegalNotice": {
+        "Title": "Aviso legal"
     }
 }

@@ -69,26 +69,10 @@ const Tab1: React.FC = () => {
             <IonText className='home-title'>{t("HomeScreen.Title") + (account?.name ? (", " + account.name) : "") + "!"}</IonText>
           </IonCardHeader>
           <IonCardContent className='ion-no-padding'>
-            <IonCard className='home-card' button={true}>
-              <IonCardHeader>
-                <IonText className='home-subtitle'>{t("HomeScreen.Infos.Title")}</IonText>
-              </IonCardHeader>
-              <IonCardContent>
-                <IonText className='home-text'>{t("HomeScreen.Infos.Description")}</IonText>
-                <IonList className='home-list'>
-                  {pages?.map(page => {
-                    return <IonItem key={page.id} lines="none" button={true} onClick={() => { routeToInfoPage(page.id) }}>
-                      <IonText className='home-text'>{page.title.translations[languageId]} </IonText>
-                    </IonItem>
-                  })
-                  }
-                </IonList>
-              </IonCardContent>
-            </IonCard>
             <IonGrid>
               <IonRow>
                 <IonCol >
-                  <IonCard className='home-card-grid' button={true} onClick={() =>{router.push("/home/tab2")}}>
+                  <IonCard className='home-card-grid' button={true} onClick={() => { router.push("/home/tab2") }}>
                     <IonCardHeader>
                       <IonText className='home-subtitle'>{t("HomeScreen.Questionnaires.Title")}</IonText>
                     </IonCardHeader>
@@ -98,7 +82,7 @@ const Tab1: React.FC = () => {
                   </IonCard>
                 </IonCol>
                 <IonCol>
-                  <IonCard className='home-card-grid' button={true} onClick={() =>{router.push("/home/tab4")}}>
+                  <IonCard className='home-card-grid' button={true} onClick={() => { router.push("/home/tab4") }}>
                     <IonCardHeader>
                       <IonText className='home-subtitle'>{t("HomeScreen.Profile.Title")}</IonText>
                     </IonCardHeader>
@@ -109,15 +93,22 @@ const Tab1: React.FC = () => {
                 </IonCol>
               </IonRow>
             </IonGrid>
-
-            <IonCard className='home-card' >
-              <IonCardHeader>
-                <IonText className='home-subtitle'>{t("HomeScreen.Stats.Title")}</IonText>
-              </IonCardHeader>
-              <IonCardContent>
-                <IonText className='home-text'>{t("HomeScreen.Stats.Description")}</IonText>
-              </IonCardContent>
-            </IonCard>
+            <IonCard className='home-card' button={true}>
+                <IonCardHeader>
+                  <IonText className='home-subtitle'>{t("HomeScreen.Infos.Title")}</IonText>
+                </IonCardHeader>
+                <IonCardContent>
+                  <IonText className='home-text'>{t("HomeScreen.Infos.Description")}</IonText>
+                  <IonList className='home-list'>
+                    {pages?.map(page => {
+                      return <IonItem key={page.id} lines="none" button={true} onClick={() => { routeToInfoPage(page.id) }}>
+                        <IonText className='home-text'>{page.title.translations[languageId]} </IonText>
+                      </IonItem>
+                    })
+                    }
+                  </IonList>
+                </IonCardContent>
+              </IonCard>
           </IonCardContent>
         </IonCard>
       </IonContent>

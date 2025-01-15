@@ -6,11 +6,10 @@ import {
   IonCardContent,
   IonCard,
   IonCardHeader,
-  IonCardSubtitle,
   IonCardTitle,
   useIonRouter,
   useIonViewWillEnter,
-  IonText,
+  IonText
 } from '@ionic/react';
 import { RegistrationUtils } from '../utils/auth/registration.utils'
 import { Account } from '../modules/account';
@@ -68,33 +67,31 @@ const LandingScreen: React.FC = () => {
 
   return (
     <IonPage>
-      <IonContent fullscreen className='landing-content'>
-        <div>
-          <IonCard className='landing-card'>
-            <img src='graphic-login.png' height="300"></img>
-            <IonCardHeader>
-              <IonCardTitle color="light" className='landing-title'>
-                {t("WelcomeScreen.Header")}
-              </IonCardTitle>
-            </IonCardHeader>
-            <IonCardContent>
-              <IonText color='light'>{t("WelcomeScreen.Text")}</IonText>
-              <div className='buttons'>
-                <IonButton routerLink='/login' expand="block" color="light">{t("WelcomeScreen.Login")}</IonButton>
-                <IonButton routerLink='/signup' expand="block" color="light">{t("WelcomeScreen.SignUp")}</IonButton>
-                <IonButton expand='block' color="light" onClick={async () => {
-                  await handleAnonymousSignIn();
-                  const disclaimerSeen = await Preferences.get({ key: "acceptedDisclaimer" });
-                  if (disclaimerSeen.value === "true") {
-                    router.push('/home/tab4', "none");
-                  } else {
-                    router.push('/disclaimer', "none");
-                  }
-                }}>{t("WelcomeScreen.Anonymous")}</IonButton>
-              </div>
-            </IonCardContent>
-          </IonCard>
-        </div>
+      <IonContent className='landing-content'>
+        <IonCard className='landing-card'>
+          <img src='graphic-login.png' height="300"></img>
+          <IonCardHeader>
+            <IonCardTitle color="light" className='landing-title'>
+              {t("WelcomeScreen.Header")}
+            </IonCardTitle>
+          </IonCardHeader>
+          <IonCardContent>
+            <IonText color='light'>{t("WelcomeScreen.Text")}</IonText>
+            <div className='buttons'>
+              <IonButton routerLink='/login' expand="block" color="light">{t("WelcomeScreen.Login")}</IonButton>
+              <IonButton routerLink='/signup' expand="block" color="light">{t("WelcomeScreen.SignUp")}</IonButton>
+              <IonButton expand='block' color="light" onClick={async () => {
+                await handleAnonymousSignIn();
+                const disclaimerSeen = await Preferences.get({ key: "acceptedDisclaimer" });
+                if (disclaimerSeen.value === "true") {
+                  router.push('/home/tab4', "none");
+                } else {
+                  router.push('/disclaimer', "none");
+                }
+              }}>{t("WelcomeScreen.Anonymous")}</IonButton>
+            </div>
+          </IonCardContent>
+        </IonCard>
       </IonContent>
     </IonPage >
   );

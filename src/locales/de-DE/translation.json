@@ -1,66 +1,107 @@
 {
     "WelcomeScreen": {
-        "Header": "Hallo",
-        "SkipLogin": "Du möchtest keinen Account? LogIn Überspringen "
-    },
-    "RedirectScreen": {
-        "Login": "Einloggen...",
-        "Logout": "Du wirst ausgeloggt..."
+        "Header": "Hallo!",
+        "Text": "Willkommen in dieser App. Melde dich an oder erstelle ein neues Konto!",
+        "Login": "Anmelden",
+        "Anonymous": "Anonym",
+        "SignUp": "Registrieren"
     },
     "LoginScreen": {
-        "Header": "Login",
+        "Header": "Anmelden",
         "Name": "Benutzername",
         "Password": "Passwort",
-        "Button": "Login",
-        "Forgot": "Passwort vergessen?",
-        "SignUp": "Noch kein Konto? Hier registrieren"
+        "Button": "Anmelden",
+        "SignUp": "Kein Konto? Hier registrieren",
+        "AlertFail": "Anmeldung fehlgeschlagen"
     },
-    "HomeScreen": {
-        "Tab1": "Home",
+    "SignUpScreen": {
+        "Header": "Registrieren",
+        "Name": "Name",
+        "Password": "Passwort",
+        "Button": "Registrieren",
+        "Back": "Zurück zur Startseite",
+        "Anonymous": "Kein Konto? Melde dich anonym an!",
+        "AlertFail": "Registrierung fehlgeschlagen"
+    },
+    "Tabs": {
+        "Tab1": "Start",
         "Tab2": "Fragebögen",
         "Tab3": "Infos",
-        "Tab4": "Profil"
+        "Tab4": "Benutzer"
     },
-    "UserScreen":{
-        "EditUserDtoModal":{
-            "Header": "Deine Daten bearbeiten",
-            "ChangeName": "Namen ändern:",
+    "UserScreen": {
+        "EditUserDtoModal": {
+            "Header": "Bearbeite deine Daten",
+            "ChangeName": "Ändere deinen Namen:",
             "Surname": "Vorname",
-            "Familyname": "Name",
-            "ChangePassword": "Passwort ändern:",
+            "Familyname": "Nachname",
+            "ChangePassword": "Ändere dein Passwort:",
             "NewPassword": "Neues Passwort",
             "OldPassword": "Altes Passwort"
         },
-        "LogOutButton": "Log Out",
+        "LogOutButton": "Abmelden",
         "Lang": "Sprache",
         "Notif": "Benachrichtigungen",
         "Disclaimer": "Haftungsausschluss",
-        "PrivacyPolicy": "Datenschutzerklärung",
+        "PrivacyPolicy": "Datenschutzrichtlinie",
         "LegalNotice": "Impressum",
-        "ASHeader": "Wähle deine Sprache"
+        "ASHeader": "Wähle deine bevorzugte Sprache"
     },
     "NotifScreen": {
         "Title": "Benachrichtigungseinstellungen",
         "ToggleLabel": "Benachrichtigungen aktivieren",
-        "TimerPickerLabel": "Zeit einsellen:",
-        "Button": "Änderungen speichern"
+        "TimerPickerLabel": "Uhrzeit einstellen:",
+        "Button": "Änderungen speichern",
+        "NotifTitle": "Erinnerung",
+        "NotifBody": "Es ist Zeit, einen neuen Fragebogen auszufüllen",
+        "AlertAccessFail": "Aufgrund fehlender Berechtigungen wurden keine Benachrichtigungen eingerichtet.",
+        "AlertSuccess": "Benachrichtigungen aktiviert!"
     },
-    "QuestionnaireScreen":{
+    "QuestionnaireScreen": {
         "Loading": "Fragebogen wird geladen",
         "Button": "Absenden",
-        "AlertSuccess": "Deine Antworten wurden abgeschickt",
-        "AlertAnswerMissing": "Bitte beantworte zuerst alle benötigten (*) Fragen!",
+        "AlertSuccess": "Deine Antworten wurden gespeichert",
+        "AlertAnswerMissing": "Bitte beantworte zuerst alle erforderlichen Fragen!",
         "Pages": "Seiten",
-        "LoadingError": "Unbekannter Fehler beim Laden des Fragebogen aufgetreten. Bitte versuche es erneut."
-
+        "LoadingError": "Ein unbekannter Fehler ist beim Laden des Fragebogens aufgetreten. Bitte versuche es erneut."
     },
     "QOverviewScreen": {
         "Loading": "Fragebögen werden geladen",
         "TitleQs": "Fragebögen",
-        "TextQs": "Klick auf einen Fragebogen, um diesen auszufüllen.",
+        "TextQs": "Klicke auf die folgenden Elemente, um einen neuen Fragebogen auszufüllen.",
         "TitleH": "Verlauf",
-        "TextH": "Schau dir deine bisher beantworteten Fragebögen an.",
-        "DatumChip": "Unvollständig"
+        "TextH": "Sieh dir deine zuvor beantworteten Fragebögen an.",
+        "DatumChip": "Ausstehend"
+    },
+    "InfoScreen": {
+        "Title": "Informationen",
+        "Search": "Suchen",
+        "Loading": "Infos werden geladen"
+    },
+    "HomeScreen": {
+        "Title": "Willkommen zurück",
+        "Loading": "Daten werden abgerufen...",
+        "Stats": {
+            "Title": "Auswertung",
+            "Description": "Basierend auf deinen letzten Antworten"
+        },
+        "Infos": {
+            "Title": "Lies mich",
+            "Description": "Erhalte mehr Informationen über:"
+        },
+        "Questionnaires": {
+            "Title": "Check-In",
+            "Description": "Beantworte einen neuen Fragebogen"
+        },
+        "Profile": {
+            "Title": "Profil",
+            "Description": "Bearbeite deine Daten"
+        }
+    },
+    "PolicyScreen": {
+        "Title": "Datenschutzrichtlinie"
+    },
+    "LegalNotice": {
+        "Title": "Impressum"
     }
-   
 }
