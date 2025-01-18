@@ -123,7 +123,7 @@ const Tab1: React.FC = () => {
                 </IonCol>
               </IonRow>
             </IonGrid>
-            <IonCard className='home-card' button={true}>
+            <IonCard className='home-card' button={false}>
               <IonCardHeader>
                 <IonText className='home-subtitle'>{t("HomeScreen.Stats.Title")}</IonText>
               </IonCardHeader>

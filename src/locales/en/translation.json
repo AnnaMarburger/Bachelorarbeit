@@ -85,7 +85,8 @@
         "Loading": "Fetching data...",
         "Stats": {
             "Title": "Evaluation",
-            "Description": "Based on your latest answers"
+            "Description": "Based on your latest answers",
+            "YLabel": "Scores"
         },
         "Infos": {
             "Title": "Read Me",

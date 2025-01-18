@@ -10,6 +10,8 @@ import {
     Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
+import { useTranslation } from "react-i18next";
+
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 
@@ -40,12 +42,13 @@ export function evaluateQuestionnaire(questionnaire: QuestionnaireInstanceDetail
 
 
 export function LineChart({ evaluation }: { evaluation: { name: string; scores: number[] }[] }) {
-    console.log(evaluation);
+    const { t } = useTranslation();
+    
     const maxLength = Math.max(...evaluation.map((q) => q.scores.length));
     const colors = [
-        "rgb(157, 198, 211)",
-        "rgba(135, 206, 250, 1)", 
-        "rgb(202, 230, 246)",
+        "rgb(199, 178, 161)",
+        "rgb(217, 176, 132)", 
+        "rgb(246, 225, 202)",
         "rgba(72, 209, 204, 1)", 
         "rgba(0, 191, 255, 1)",   
       ];
@@ -78,7 +81,7 @@ export function LineChart({ evaluation }: { evaluation: { name: string; scores: 
                 },
                 scales: {
                     y: {
-                        title: { display: true, text: "Scores", color: "#FFFFFF" },
+                        title: { display: true, text: t("HomeScreen.Stats.YLabel"), color: "#FFFFFF" },
                         ticks: {color: "#FFFFFF"},
                         beginAtZero: true,
                     }

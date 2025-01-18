@@ -170,7 +170,7 @@ const Questionnaire: React.FC = () => {
                             <IonChip disabled={true}>{questionnaireInstance.pages.length} {t("QuestionnaireScreen.Pages")}</IonChip>
                         </IonCol>
 
-                        {viewOnly && (
+                        {(viewOnly === "view" && questionnaireInstance.completed)&& (
                             <IonCol size="auto">
                                 <IonChip disabled={true}>{t("QuestionnaireScreen.Score")} {evaluateQuestionnaire(questionnaireInstance)} </IonChip>
                             </IonCol>
