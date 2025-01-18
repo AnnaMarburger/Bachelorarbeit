@@ -49,14 +49,20 @@ const NotifScreen: React.FC = () => {
 
             // schedule
             const [hours, minutes] = selectedTime.split(':').map(Number);
-            await LocalNotifications.schedule({
+            var notifDate = new Date();
+            notifDate.setHours(hours, minutes, 0, 0);
+            if(notifDate < new Date()){
+                notifDate.setDate(notifDate.getDate()+1);
+            }
+            console.log("--------- Scheduled time: " + hours + ":" + minutes);
+            const result = await LocalNotifications.schedule({
                 notifications: [
                     {
                         title: t("NotifScreen.NotifTitle"),
                         body: t("NotifScreen.NotifBody"),
                         id: 1,
                         schedule: {
-                            on: {hour: hours, minute: minutes, second: 0},
+                            at: notifDate,
                             repeats: true,
                             every: "day"
                         },
@@ -69,8 +75,9 @@ const NotifScreen: React.FC = () => {
                 key: 'NotifTime',
                 value: selectedTime,
             });
-            alert(t("NotifScreen.AlertSuccess"));
 
+            console.log(result.notifications);
+            alert(t("NotifScreen.AlertSuccess"));
         }
     };
 
