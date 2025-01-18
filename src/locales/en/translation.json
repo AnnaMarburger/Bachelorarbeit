@@ -64,6 +64,7 @@
         "AlertSuccess": "Your answers has been saved",
         "AlertAnswerMissing": "Please answer every required Question first!",
         "Pages": "pages",
+        "Score": "score:",
         "LoadingError": "An unknown error occurred while loading the questionnaire. Please try again."
     },
     "QOverviewScreen": {

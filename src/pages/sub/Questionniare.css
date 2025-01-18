@@ -73,6 +73,14 @@ ion-radio {
   margin-bottom: 3%;
 }
 
+.sliderItem[disabled]::part(tick) {
+  background: none; 
+}
+
+.sliderItem[disabled]::part(tick-active) {
+  background:none; 
+}
+
 ion-col {
   display: flex;
   align-items: center;

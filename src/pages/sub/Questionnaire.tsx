@@ -13,6 +13,7 @@ import i18next from "i18next";
 import "../Tab2.css";
 import "../main.css";
 import "./Questionniare.css"
+import { evaluateQuestionnaire } from "@components/Evaluation";
 
 /*----------------------------------- Constants -----------------------------------------------------------*/
 const componentMap: {
@@ -41,10 +42,10 @@ interface PageSegment {
 /*----------------------------------- Functions -----------------------------------------------------------*/
 
 
-function isQuestionWithAnswer(item: ContentDto): item is ChoiceQuestionDto | NumberQuestionDto | LikertQuestionDto | TextQuestionDto | SliderQuestionDto{
+function isQuestionWithAnswer(item: ContentDto): item is ChoiceQuestionDto | NumberQuestionDto | LikertQuestionDto | TextQuestionDto | SliderQuestionDto {
     return (
-        'answer' in item && 
-        typeof (item as any).answer !== 'undefined' 
+        'answer' in item &&
+        typeof (item as any).answer !== 'undefined'
     );
 }
 
@@ -58,8 +59,9 @@ const Questionnaire: React.FC = () => {
     const { questionnaireId, instanceId, viewOnly } = useParams<{ questionnaireId: string; instanceId: string; viewOnly: string }>();
     const [questionnaireInstance, setQuestionnaireInstance] = useState<QuestionnaireInstanceDetailsDto | null>(null);
     const [answers, setAnswers] = useState<{ [questionId: string]: AnswerDto | null }>({});
-    const [isLoading, setIsLoading] = useState(true);
-    const [pageID, setPageID] = useState(0);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [pageID, setPageID] = useState<number>(0);
+    const [score, setScore] = useState<number>(0);
 
     const started = new Date();
 
@@ -108,7 +110,6 @@ const Questionnaire: React.FC = () => {
             })
             .catch(error => console.error("Error sending answers:", error));
     };
-
 
     useEffect(() => {
         async function loadQuestionnaire() {
@@ -168,6 +169,12 @@ const Questionnaire: React.FC = () => {
                         <IonCol size="auto">
                             <IonChip disabled={true}>{questionnaireInstance.pages.length} {t("QuestionnaireScreen.Pages")}</IonChip>
                         </IonCol>
+
+                        {viewOnly && (
+                            <IonCol size="auto">
+                                <IonChip disabled={true}>{t("QuestionnaireScreen.Score")} {evaluateQuestionnaire(questionnaireInstance)} </IonChip>
+                            </IonCol>
+                        )}
                     </IonRow>
                 </IonGrid>
                 <IonButton className="pageButtons" key="forwardB" size="small" shape="round" disabled={(pageID < 1) ? true : false} onClick={() => {

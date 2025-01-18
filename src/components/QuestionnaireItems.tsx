@@ -239,8 +239,6 @@ export const SliderQuestion: React.FC<SliderQuestionProps> = ({ questionItem, on
     if (i18next.language == "de")
         languageId = "56051e9d-fd94-4fa5-b26e-b5c462326ecd";
     var question = questionItem.text.translations[languageId];
-    var slider = <IonRange  value={answer?.value} disabled={viewOnly} className="sliderItem" pin={true} pinFormatter={(value: number) => `${value}`} snaps={true} min={0} max={7} onIonChange={(e: any) => createAnswerDto(questionItem.id, e.detail.value)}/>;
-
 
     useEffect(() => {
         if (questionItem.answer && answer !== null){

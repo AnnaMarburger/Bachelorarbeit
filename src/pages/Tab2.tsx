@@ -23,7 +23,7 @@ const Tab2: React.FC = () => {
     languageId = "56051e9d-fd94-4fa5-b26e-b5c462326ecd";
 
   useIonViewWillEnter(() => {
-    loadQList(); // Lädt die Daten bei jedem Betreten der Seite
+    loadQList(); 
   });
 
   // route to Questionnaire, that was clicked in the list. Shows the latest unfinished instance or (if that doesn't exist) creates a new one

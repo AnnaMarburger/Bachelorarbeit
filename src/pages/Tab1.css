@@ -16,8 +16,9 @@
     font-size: 13px;
 }
 
-.home-card, .home-card-grid {
-    margin-top: 18px;
+
+.home-card {
+    margin-top: 24px;
     --background: #718da2;
     border-radius: 12px;
     padding: 0px !important;
@@ -25,10 +26,19 @@
 }
 
 .home-card-grid {
+    --background: #718da2;
+    border-radius: 12px;
+    padding: 0px !important;
+    text-align: start;
     width: 100% !important;
     height: 100%;
+    margin-bottom: 0;
+    padding-bottom: 0;
 }
 
+.grid {
+    margin-top: 8px;
+}
 
 .home-list{
     margin-top: 12px !important;

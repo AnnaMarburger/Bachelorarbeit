@@ -29,6 +29,7 @@ export const TextItem: React.FC<TextFieldProps> = ({ contentItem }) => {
     var text = "";
     if (cont !== undefined)
         text = cont[0] ? (cont[0].content ? (cont[0].content[0].text ?? "fehlender text") : "fehlender text") : "fehlender text";
+    
     return (
         <IonCard key={contentItem.id} className="questionCard">
             <IonCardContent className="infoItem-text">{text}</IonCardContent>
@@ -52,8 +53,6 @@ export const HeaderItem: React.FC<HeaderItemProps> = ({ contentItem }) => {
 }
 
 export const ImageItem: React.FC<ImageItemProps> = ({ contentItem }) => {
-
-
     return (
         <IonCard key={contentItem.id} className="questionCard">
             <IonCardContent className="infoItem-img">

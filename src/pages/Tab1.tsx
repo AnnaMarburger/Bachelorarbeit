@@ -2,10 +2,10 @@ import { IonCard, IonCardContent, IonCardHeader, IonCol, IonContent, IonGrid, Io
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import i18next from 'i18next';
-import { AppPageDto } from '@api/TenantAPIClient';
+import { AppPageDto, QuestionnaireInstanceState } from '@api/TenantAPIClient';
 import { useTenantApi } from '@api/useTenantApi';
 import { readActiveAccount } from '../modules/dalAccount';
-
+import { evaluateQuestionnaire, LineChart } from '@components/Evaluation';
 
 import './Tab1.css';
 import "./main.css";
@@ -16,6 +16,7 @@ const Tab1: React.FC = () => {
   const router = useIonRouter();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [pages, setPages] = useState<AppPageDto[] | null>([]);
+  const [evaluation, setEvaluation] = useState<{ name: string, scores: number[] }[]>([]);
   const account = readActiveAccount();
 
 
@@ -28,7 +29,30 @@ const Tab1: React.FC = () => {
   async function loadInfos() {
     const projectId = import.meta.env.VITE_HSP_STUDY_IDENTIFIER;
     let response = await useTenantApi().appPagesApi.getAppPages(projectId);
-    setPages(response.slice(0, 3));
+    setPages([response[Math.floor(Math.random() * response.length)]]);
+  }
+
+  async function loadEvaluation() {
+    const api = useTenantApi().questionnairesApi;
+    const qlist = (await api.getQuestionnaires()).items;
+
+    const newEvaluation = [];
+    for (const q of qlist) {
+      const instances = (await api.getQuestionnaireInstances())
+        .items.filter((entry) => entry.questionnaireId === q.id && entry.completed)
+        .sort((a, b) => (a.created > b.created ? -1 : 1))
+        .slice(0, 10);
+
+      const scoreArr: number[] = [];
+      for (const instance of instances) {
+        const qInstance = await api.getQuestionnaireInstance(instance.questionnaireId, instance.id);
+        const score = evaluateQuestionnaire(qInstance);
+        scoreArr.push(score);
+      }
+
+      newEvaluation.push({ name: q.name ?? "", scores: scoreArr });
+    }
+    setEvaluation(newEvaluation);
   }
 
   function routeToInfoPage(pageId: string) {
@@ -39,11 +63,11 @@ const Tab1: React.FC = () => {
     }
   }
 
-
   useEffect(() => {
     async function load() {
       try {
         await loadInfos();
+        await loadEvaluation();
       } catch (error) {
         console.error("Error loading data for homescreen", error);
       } finally {
@@ -53,6 +77,12 @@ const Tab1: React.FC = () => {
 
     load();
   }, []);
+
+  useIonViewWillEnter(() => {
+    loadEvaluation(); 
+    loadInfos();
+  });
+
 
   if (isLoading) {
     return (
@@ -69,7 +99,7 @@ const Tab1: React.FC = () => {
             <IonText className='home-title'>{t("HomeScreen.Title") + (account?.name ? (", " + account.name) : "") + "!"}</IonText>
           </IonCardHeader>
           <IonCardContent className='ion-no-padding'>
-            <IonGrid>
+            <IonGrid className='grid'>
               <IonRow>
                 <IonCol >
                   <IonCard className='home-card-grid' button={true} onClick={() => { router.push("/home/tab2") }}>
@@ -94,21 +124,30 @@ const Tab1: React.FC = () => {
               </IonRow>
             </IonGrid>
             <IonCard className='home-card' button={true}>
-                <IonCardHeader>
-                  <IonText className='home-subtitle'>{t("HomeScreen.Infos.Title")}</IonText>
-                </IonCardHeader>
-                <IonCardContent>
-                  <IonText className='home-text'>{t("HomeScreen.Infos.Description")}</IonText>
-                  <IonList className='home-list'>
-                    {pages?.map(page => {
-                      return <IonItem key={page.id} lines="none" button={true} onClick={() => { routeToInfoPage(page.id) }}>
-                        <IonText className='home-text'>{page.title.translations[languageId]} </IonText>
-                      </IonItem>
-                    })
-                    }
-                  </IonList>
-                </IonCardContent>
-              </IonCard>
+              <IonCardHeader>
+                <IonText className='home-subtitle'>{t("HomeScreen.Stats.Title")}</IonText>
+              </IonCardHeader>
+              <IonCardContent>
+                <IonText className='home-text'>{t("HomeScreen.Stats.Description")}</IonText>
+                <LineChart evaluation={evaluation} />
+              </IonCardContent>
+            </IonCard>
+            <IonCard className='home-card' button={true}>
+              <IonCardHeader>
+                <IonText className='home-subtitle'>{t("HomeScreen.Infos.Title")}</IonText>
+              </IonCardHeader>
+              <IonCardContent>
+                <IonText className='home-text'>{t("HomeScreen.Infos.Description")}</IonText>
+                <IonList className='home-list'>
+                  {pages?.map(page => {
+                    return <IonItem key={page.id} lines="none" button={true} onClick={() => { routeToInfoPage(page.id) }}>
+                      <IonText className='home-text'>{page.title.translations[languageId]} </IonText>
+                    </IonItem>
+                  })
+                  }
+                </IonList>
+              </IonCardContent>
+            </IonCard>
           </IonCardContent>
         </IonCard>
       </IonContent>
