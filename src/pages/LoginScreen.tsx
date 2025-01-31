@@ -1,7 +1,7 @@
 import {IonButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonInput, IonInputPasswordToggle, IonPage, IonText, useIonRouter} from '@ionic/react';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
-import { loginUser } from '../components/LoginComponent';
+import { loginUser } from '../modules/LoginComponent';
 import { Preferences } from '@capacitor/preferences';
 
 import './LoginScreens.css';

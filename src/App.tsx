@@ -8,8 +8,9 @@ import { IonReactRouter } from "@ionic/react-router";
 import { Redirect, Route } from "react-router-dom";
 import { PrivateRoute } from './routes/PrivateRoute';
 
-import NotFound from "./pages/NotFoundSreen";
+import NotFound from "./pages/sub/NotFoundSreen";
 import Home from "./pages/Home";
+import SignUpScreen from "@pages/SignUpScreen";
 import LandingScreen from "./pages/LandingScreen";
 import Disclaimer from "./pages/sub/Disclaimer";
 import LoginScreen from "./pages/LoginScreen";
@@ -41,9 +42,6 @@ import '@ionic/react/css/display.css';
 /* import '@ionic/react/css/palettes/dark.class.css'; */
 /* import '@ionic/react/css/palettes/dark.system.css'; */
 
-/* Theme variables */
-import './theme/variables.css';
-import SignUpScreen from "@pages/SignUpScreen";
 
 setupIonicReact();
 

@@ -1,8 +1,9 @@
 import { AnswerDto, ChoiceAnswerDto, ChoiceQuestionDto, LikertAnswerDto, LikertQuestionDto, NumberAnswerDto, NumberQuestionDto, RichTextDisplayDto, SliderAnswerDto, SliderQuestionDto, TextAnswerDto, TextDisplayDto, TextQuestionDto } from "@api/TenantAPIClient";
-import { IonCard, IonCardHeader, IonCardContent, IonRadioGroup, IonRadio, IonInput, IonItem, IonTextarea, IonRange } from "@ionic/react";
+import { IonCard, IonCardHeader, IonCardContent, IonRadioGroup, IonRadio, IonInput, IonTextarea, IonRange } from "@ionic/react";
 import i18next from 'i18next';
-import "../pages/sub/Questionniare.css"
 import { useEffect } from "react";
+
+import "../pages/sub/Questionniare.css"
 
 
 /*----------------------------------- Interfaces -----------------------------------------------------------*/
@@ -134,7 +135,6 @@ export const ChoiceQuestion: React.FC<ChoiceQuestionProps> = ({ questionItem, on
     );
 }
 
-
 export const TextItem: React.FC<TextFieldProps> = ({ questionItem }) => {
     let languageId = "00000000-0000-0000-0000-000000000001";
     if (i18next.language == "de" && questionItem.value.translations["56051e9d-fd94-4fa5-b26e-b5c462326ecd"])
@@ -198,7 +198,6 @@ export const TextQuestion: React.FC<TextQuestionProps> = ({ questionItem, onAnsw
     );
 }
 
-
 export const NumberQuestion: React.FC<NumberQuestionProps> = ({ questionItem, onAnswerChange, answer, viewOnly }) => {
     var languageId = "00000000-0000-0000-0000-000000000001";
     if (i18next.language == "de")
@@ -232,7 +231,6 @@ export const NumberQuestion: React.FC<NumberQuestionProps> = ({ questionItem, on
         </IonCard>
     );
 }
-
 
 export const SliderQuestion: React.FC<SliderQuestionProps> = ({ questionItem, onAnswerChange, answer, viewOnly }) => {
     var languageId = "00000000-0000-0000-0000-000000000001";

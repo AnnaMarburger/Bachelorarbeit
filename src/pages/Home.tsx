@@ -28,7 +28,6 @@ const Home: React.FC = () => {
   const { t } = useTranslation();
   const { url } = useRouteMatch();
 
-
   return (
     <IonPage>
         <IonTabs>

@@ -1,7 +1,7 @@
 import { updateAccount } from '../../modules/dalAccount';
 import { useGatewayApi } from '../../api/useGatewayApi';
 import { useTenantApi } from '../../api/useTenantApi';
-import { CreateAnonymousUserCommand, UpdateCurrentUserCommand} from '../../api/GatewayAPIClient';
+import { CreateAnonymousUserCommand, UpdateCurrentUserCommand } from '../../api/GatewayAPIClient';
 import { Account } from '../../modules/account';
 
 export class RegistrationUtils {

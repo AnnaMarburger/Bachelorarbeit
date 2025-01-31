@@ -14,7 +14,7 @@ import {
 import { RegistrationUtils } from '../utils/auth/registration.utils'
 import { Account } from '../modules/account';
 import { readFromStorage, readActiveAccount, updateAccount } from '../modules/dalAccount';
-import { loginUser } from '@components/LoginComponent';
+import { loginUser } from '../modules/LoginComponent';
 import { useTranslation } from 'react-i18next';
 import { Preferences } from '@capacitor/preferences';
 

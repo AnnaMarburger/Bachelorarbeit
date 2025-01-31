@@ -1,7 +1,5 @@
-import { Auth } from '../../services/AuthService';
 import { readActiveAccount, updateAccount } from '../../modules/dalAccount';
 import * as jose from 'jose'
-import { Account } from '../../modules/account';
 
 interface ClientCredentialsTokenResponse {
   access_token: string;
@@ -93,12 +91,6 @@ const fetchApiWithToken = async (
         );
         token = clientCredentialsToken.access_token;
         account.token = token;
-        await updateAccount(account);
-      } else {
-        const authToken = await Auth.Instance.getValidToken();
-        token = authToken.accessToken;
-        console.log("Sind hier im fetchApiWithToken, await Auth.Instance.getValidToken hat funktioniert. Token: " + token);
-        const account = new Account(undefined, token, undefined, "", undefined, undefined);
         await updateAccount(account);
       }
     }

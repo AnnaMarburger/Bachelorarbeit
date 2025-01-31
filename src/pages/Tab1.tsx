@@ -1,8 +1,8 @@
-import { IonCard, IonCardContent, IonCardHeader, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonImg, IonItem, IonList, IonLoading, IonPage, IonRow, IonSearchbar, IonText, IonTitle, IonToolbar, useIonRouter, useIonViewWillEnter } from '@ionic/react';
+import { IonCard, IonCardContent, IonCardHeader, IonCol, IonContent, IonGrid, IonItem, IonList, IonLoading, IonPage, IonRow, IonText, useIonRouter, useIonViewWillEnter } from '@ionic/react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import i18next from 'i18next';
-import { AppPageDto, QuestionnaireInstanceState } from '@api/TenantAPIClient';
+import { AppPageDto } from '@api/TenantAPIClient';
 import { useTenantApi } from '@api/useTenantApi';
 import { readActiveAccount } from '../modules/dalAccount';
 import { evaluateQuestionnaire, LineChart } from '@components/Evaluation';

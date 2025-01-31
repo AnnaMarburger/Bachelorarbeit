@@ -14,7 +14,6 @@ import { useTranslation } from "react-i18next";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-
 export function evaluateQuestionnaire(questionnaire: QuestionnaireInstanceDetailsDto): number {
     let score: number = 0;
 

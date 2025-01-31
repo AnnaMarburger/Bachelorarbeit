@@ -3,6 +3,8 @@ import { IonCard, IonCardContent, IonImg } from "@ionic/react";
 import i18next from 'i18next';
 
 import "../pages/sub/InfoPage.css";
+
+
 /*----------------------------------- Interfaces -----------------------------------------------------------*/
 
 interface TextFieldProps {
@@ -17,8 +19,8 @@ interface ImageItemProps {
     contentItem: ImageDisplayDto;
 }
 
-/*-------------------------------------- Komponenten ------------------------------------------------------*/
 
+/*-------------------------------------- Komponenten ------------------------------------------------------*/
 
 export const TextItem: React.FC<TextFieldProps> = ({ contentItem }) => {
     let languageId = "00000000-0000-0000-0000-000000000001";

@@ -1,19 +1,19 @@
 /*----------------------------------- Imports -----------------------------------------------------------*/
 
 import { IonText, IonLabel, IonButton, IonProgressBar, IonIcon, IonChip, IonCol, IonGrid, IonRow, IonLoading, useIonRouter, IonPage, useIonToast, IonContent, IonHeader, IonButtons, IonToolbar } from "@ionic/react";
+import { ChoiceQuestion, HeaderItem, LikertQuestion, NumberQuestion, SliderQuestion, TextItem, TextQuestion } from "@components/QuestionnaireItems";
+import { evaluateQuestionnaire } from "@components/Evaluation";
+import { AnswerDto, ChoiceQuestionDto, ContentDto, ContentPageDto, ElementType, LikertQuestionDto, NumberQuestionDto, QuestionnaireInstanceDetailsDto, SliderQuestionDto, TextQuestionDto, UpdateQuestionnaireInstanceCommand } from "@api/TenantAPIClient";
 import { useEffect, useState } from "react";
 import { arrowBack, arrowForward, calendar, close } from 'ionicons/icons';
-import { AnswerDto, ChoiceQuestionDto, ContentDto, ContentPageDto, ElementType, LikertQuestionDto, NumberQuestionDto, QuestionnaireInstanceDetailsDto, SliderQuestionDto, TextQuestionDto, UpdateQuestionnaireInstanceCommand } from "@api/TenantAPIClient";
 import { useParams } from "react-router-dom";
 import { useTenantApi } from "@api/useTenantApi";
-import { ChoiceQuestion, HeaderItem, LikertQuestion, NumberQuestion, SliderQuestion, TextItem, TextQuestion } from "../../components/QuestionnaireItems";
 import { useTranslation } from "react-i18next";
 import i18next from "i18next";
 
 import "../Tab2.css";
 import "../main.css";
 import "./Questionniare.css"
-import { evaluateQuestionnaire } from "@components/Evaluation";
 
 /*----------------------------------- Constants -----------------------------------------------------------*/
 const componentMap: {

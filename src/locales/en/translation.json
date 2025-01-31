@@ -19,10 +19,15 @@
         "Header": "Sign Up",
         "Name": "Name",
         "Password": "Password",
+        "PasswordCheck": "Confirm Password",
         "Button": "Sign Up",
         "Back": "Back to landing page",
         "Anonymous": "Don't want an account? Login anonymously!",
-        "AlertFail": "Sign Up failed"
+        "AlertFail": "Sign Up failed",
+        "AlertNameTooShort": "You must enter a name that contains at least 2 characters!",
+        "AlertPasswordCheckFail": "Please make sure that both passwords match!",
+        "AlertPasswordTooShort": "Please make sure your password contains at least 8 characters!"
+
     },
     "Tabs": {
         "Tab1": "Home",

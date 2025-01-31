@@ -1,5 +1,4 @@
-import { IonCard, IonCardContent, IonCardHeader, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonLoading, IonPage, IonSearchbar, IonText, IonTitle, IonToolbar, useIonRouter } from '@ionic/react';
-import { chevronForward } from 'ionicons/icons';
+import { IonCard, IonCardContent, IonCardHeader, IonContent, IonItem, IonList, IonLoading, IonPage, IonSearchbar, IonText, useIonRouter } from '@ionic/react';
 import { useTenantApi } from '@api/useTenantApi';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';

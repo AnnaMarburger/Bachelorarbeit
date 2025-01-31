@@ -1,4 +1,5 @@
 import { IonPage, IonContent } from "@ionic/react";
+import "../main.css";
 
 const NotFound: React.FC = () => {
     return (
@@ -8,7 +9,6 @@ const NotFound: React.FC = () => {
                     <h1>Not Found</h1>
                     <p>The page you're looking for does not exist.</p>
                 </div>
-
             </IonContent>
         </IonPage>
     );

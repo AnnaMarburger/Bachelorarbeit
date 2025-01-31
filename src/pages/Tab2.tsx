@@ -1,4 +1,4 @@
-import { IonCard, IonCardContent, IonCardHeader, IonChip, IonContent, IonIcon, IonItem, IonLabel, IonList, IonLoading, IonPage, IonRefresher, IonRefresherContent, IonText, RefresherEventDetail, useIonRouter, useIonViewWillEnter } from '@ionic/react';
+import { IonCard, IonCardContent, IonCardHeader, IonChip, IonContent, IonIcon, IonItem, IonLabel, IonList, IonLoading, IonPage, IonText, useIonRouter, useIonViewWillEnter } from '@ionic/react';
 import { useEffect, useState } from 'react';
 import { calendar, document, documentTextOutline } from 'ionicons/icons';
 import { useTenantApi } from '@api/useTenantApi';
