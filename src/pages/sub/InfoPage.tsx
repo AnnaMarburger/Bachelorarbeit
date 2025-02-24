@@ -1,5 +1,6 @@
 import { ElementType, ContentDto, AppPageDto } from "@api/TenantAPIClient";
 import { useTenantApi } from "@api/useTenantApi";
+import { HeaderItem, ImageItem, TextItem } from "@components/InfopageItems";
 import { useIonRouter, IonLoading, IonText, IonPage, IonHeader, IonToolbar, IonButtons, IonButton, IonIcon, IonContent, IonTitle } from "@ionic/react";
 import i18next from "i18next";
 import { close } from 'ionicons/icons';
@@ -9,7 +10,6 @@ import { useParams } from "react-router";
 
 import "../main.css"
 import "./InfoPage.css"
-import { HeaderItem, ImageItem, TextItem } from "@components/InfopageItems";
 
 /*----------------------------------- Constants -----------------------------------------------------------*/
 const componentMap: {
@@ -21,7 +21,7 @@ const componentMap: {
 };
 
 
-/*----------------------------------- Pagecomponents ------------------------------------------------------*/
+/*----------------------------------- page components ------------------------------------------------------*/
 
 const InfoPage: React.FC = () => {
     const { t } = useTranslation();
@@ -34,7 +34,6 @@ const InfoPage: React.FC = () => {
     let languageId = "00000000-0000-0000-0000-000000000001";
     if (i18next.language == "de")
         languageId = "56051e9d-fd94-4fa5-b26e-b5c462326ecd";
-
 
     useEffect(() => {
         async function loadQuestionnaire() {
@@ -58,7 +57,7 @@ const InfoPage: React.FC = () => {
     }
 
     if (pageInstance == null) {
-        return <IonText>Fehler: Fragebogen konnte nicht geladen werden.</IonText>;
+        return <IonText>Error: Questionnaire could not be loaded.</IonText>;
     }
 
     return (
@@ -80,7 +79,7 @@ const InfoPage: React.FC = () => {
                         if (Component) {
                             return <Component contentItem={item} key={item.id} />;
                         }
-                        return <p key={item.id}>Item Type Unknown</p>; //DEBUG
+                        return <p key={item.id}>Item Type Unknown</p>;
                     })
                 }
             </IonContent>

@@ -29,6 +29,11 @@
         "AlertPasswordTooShort": "Please make sure your password contains at least 8 characters!"
 
     },
+    "DisclaimerScreen": {
+        "Header": "Disclaimer",
+        "Text": "Please read and accept our terms and conditions before proceeding.",
+        "Button": "Accept"
+    },
     "Tabs": {
         "Tab1": "Home",
         "Tab2": "Questionnaires",
@@ -43,7 +48,15 @@
             "Familyname": "Family Name",
             "ChangePassword": "Change Your Password:",
             "NewPassword": "New Password",
-            "OldPassword": "Old Password"
+            "OldPassword": "Old Password",
+            "AlertSuccessName": "Changed Name successfully!",
+            "AlertFailName": "There was an error while updating your name. Please try again!",
+            "Button": "Save",
+            "AlertPasswordTooShort": "Please make sure your new password contains at least 8 characters.",
+            "AlertPasswordIncorrect": "Password is not correct!",
+            "AlertSuccessPassword": "Changed Password successfully!",
+            "AlertFailPassword": "There was an error while updating your password. Please try again!"
+
         },
         "LogOutButton": "Log Out",
         "Lang": "Language",

@@ -3,12 +3,10 @@ import { Preferences } from '@capacitor/preferences';
 
 let account: Account | null;
 
-// return current account object
 const readActiveAccount = (): Account | null => {
     return account;
 }
 
-// update account, emit changes
 const updateAccount = async (_acc: Account): Promise<Account> => {
     account = _acc;
     await Preferences.set({
@@ -19,7 +17,6 @@ const updateAccount = async (_acc: Account): Promise<Account> => {
     return account;
 }
 
-//read account from storage
 const readFromStorage = async (): Promise<Account | null> => {
     const { value } = await Preferences.get({ key: 'activeAccount' });
     if (value) {
@@ -29,11 +26,9 @@ const readFromStorage = async (): Promise<Account | null> => {
     return null;
 };
 
-
 const clearAccount = async () => {
     account = null;
     await Preferences.remove({ key: 'activeAccount' });
-    console.log("cleared account", account);
 }
 
 const acctoString = (): String => {

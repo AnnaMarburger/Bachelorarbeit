@@ -8,6 +8,7 @@ import { clearAccount, readActiveAccount, updateAccount } from '../modules/dalAc
 import { Account } from '../modules/account';
 import { useTranslation } from 'react-i18next';
 import { Preferences } from '@capacitor/preferences';
+import { LocalNotifications } from '@capacitor/local-notifications';
 
 import "./Tab4.css";
 import "./main.css"
@@ -16,15 +17,14 @@ import "./main.css"
 const Tab4: React.FC = () => {
   const { t, i18n } = useTranslation();
   const router = useIonRouter();
-
-  //Nutzerdaten abrufen
   const [account, setAccount] = useState<Account | null>(readActiveAccount());
 
-  //state vars for modal and action sheet
+  // state vars for modal and action sheet
   const [present] = useIonActionSheet();
   const [formValues, setFormValues] = useState({ name: account?.name ?? '', familyName: account?.familyName ?? '', password: '', newpassword: '' });
   const [showModal, setShowModal] = useState(false);
 
+  // load user data asynchronous
   useIonViewWillEnter(() => {
     useGatewayApi().currentUserApi.getCurrentUser().then(user => {
       if(account){
@@ -37,30 +37,36 @@ const Tab4: React.FC = () => {
     })
   }, []);
 
+  // root to landing page immediately if account is not set (e.g. after logout)
   useEffect(() => {
     if(account === null)
       router.push('/landing', 'root');
   }, [account])
 
+  // logout method that removes any user specific data from device and application storage
   async function handleLogout(e: any) {
-    e.preventDefault();
     try {
-      // remove any user specific data from device
       setAccount(null);
       await clearAccount(); 
+      // clear all pending notifications 
+      const pendingNotifs = (await LocalNotifications.getPending()).notifications;
+      await LocalNotifications.cancel({
+        notifications: pendingNotifs
+      });
       await Preferences.remove({ key: 'acceptedDisclaimer' });
     } catch (error) {
       console.error('Error during logout', error);
     }
-  };
+  }
 
   function handleInputChange(field: keyof typeof formValues, value: string) {
     setFormValues((prevValues) => ({
       ...prevValues,
       [field]: value
     }));
-  };
+  }
 
+  // update account with new username
   async function saveNameChange() {
     if (account) {
       const uc = new UpdateCurrentUserCommand();
@@ -69,49 +75,52 @@ const Tab4: React.FC = () => {
       try {
         const response = await useGatewayApi().currentUserApi.updateCurrentUser(uc);
         const na = account;
-        na.familyName = formValues.familyName;
-        na.name = formValues.name;
+        na.familyName = response.familyName;
+        na.name = response.givenName;
         setAccount(na);
         updateAccount(account);
-        alert("Changed Name successfully!");
+        alert(t("UserScreen.EditUserDtoModal.AlertSuccessName"));
       } catch (error) {
-        alert("There was an error while trying to update your name. Try again.");
+        alert(t("UserScreen.EditUserDtoModal.AlertFailName"));
       }
     }
   }
 
+  // update account with new password
   async function savePasswordChange() {
     if (account?.password !== formValues.password) {
-      alert("Password is not correct!");
+      alert(t("UserScreen.EditUserDtoModal.AlertPasswordIncorrect"));
     } else if(formValues.newpassword.length < 8){
-      alert("Password has to contain at least 8 characters!");
+      alert(t("UserScreen.EditUserDtoModal.AlertPasswordTooShort"));
     }else {
       const uc = new UpdateCurrentUserPasswordCommand();
       uc.oldPassword = formValues.password;
       uc.newPassword = formValues.newpassword;
       try {
-        const response = await useGatewayApi().currentUserApi.updateCurrentUserPassword(uc);
-        console.log("Sent UpdateNameCommand", response);
+        await useGatewayApi().currentUserApi.updateCurrentUserPassword(uc);
         const na = account;
         na.password = formValues.newpassword;
         setAccount(na);
         updateAccount(account);
-        alert("Changed Password successfully!");
+        alert(t("UserScreen.EditUserDtoModal.AlertSuccessPassword"));
       } catch (error) {
-        alert(error);
+        alert(t("UserScreen.EditUserDtoModal.AlertFailPassword"));
       }
     }
+
+    // reset form values
     handleInputChange("newpassword", "");
     handleInputChange("password", "");
-  };
+  }
 
+  // update interface language
   const handleLanguageChange = (result: any) => {
     if (result) {
       const lng = result.data.action
       localStorage.removeItem('i18nextLng');
       i18n.changeLanguage(lng);
     }
-  };
+  }
 
   return (
     <IonPage>
@@ -135,7 +144,8 @@ const Tab4: React.FC = () => {
                 present({
                   header: `${t("UserScreen.ASHeader")}`,
                   onDidDismiss(event) {
-                    handleLanguageChange(event.detail);
+                    if(event)
+                      handleLanguageChange(event.detail);
                   },
                   buttons: [
                     {
@@ -258,18 +268,9 @@ const Tab4: React.FC = () => {
             </IonList>
           </IonContent>
         </IonModal>
-        <IonModal keepContentsMounted={true}>
-          <IonDatetime id="date" presentation="date" ></IonDatetime>
-        </IonModal>
       </IonContent>
     </IonPage>
   );
 };
 
 export default Tab4;
-
-const Loader = () => (
-  <div className="App">
-    <div>loading...</div>
-  </div>
-);

@@ -20,8 +20,9 @@ interface ImageItemProps {
 }
 
 
-/*-------------------------------------- Komponenten ------------------------------------------------------*/
+/*-------------------------------------- Components ------------------------------------------------------*/
 
+// ui-item in infopage to show text
 export const TextItem: React.FC<TextFieldProps> = ({ contentItem }) => {
     let languageId = "00000000-0000-0000-0000-000000000001";
     if (i18next.language == "de" && contentItem.value.translations["56051e9d-fd94-4fa5-b26e-b5c462326ecd"])
@@ -39,6 +40,7 @@ export const TextItem: React.FC<TextFieldProps> = ({ contentItem }) => {
     );
 }
 
+// ui-item  in infopage to show a header
 export const HeaderItem: React.FC<HeaderItemProps> = ({ contentItem }) => {
     let languageId = "00000000-0000-0000-0000-000000000001";
     if (i18next.language == "de" && contentItem.value.translations["56051e9d-fd94-4fa5-b26e-b5c462326ecd"])
@@ -54,6 +56,7 @@ export const HeaderItem: React.FC<HeaderItemProps> = ({ contentItem }) => {
     );
 }
 
+// ui-item in infopage to embed a picture
 export const ImageItem: React.FC<ImageItemProps> = ({ contentItem }) => {
     return (
         <IonCard key={contentItem.id} className="questionCard">

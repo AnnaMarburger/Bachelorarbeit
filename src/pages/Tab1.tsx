@@ -19,28 +19,30 @@ const Tab1: React.FC = () => {
   const [evaluation, setEvaluation] = useState<{ name: string, scores: number[] }[]>([]);
   const account = readActiveAccount();
 
-
   // set language
   var languageId = "00000000-0000-0000-0000-000000000001";
   if (i18next.language == "de")
     languageId = "56051e9d-fd94-4fa5-b26e-b5c462326ecd";
 
 
+  // get info page dto's for the info card
   async function loadInfos() {
     const projectId = import.meta.env.VITE_HSP_STUDY_IDENTIFIER;
     let response = await useTenantApi().appPagesApi.getAppPages(projectId);
     setPages([response[Math.floor(Math.random() * response.length)]]);
   }
 
+  // calculate the scores of the latest 10 answered questionnaires for the evaluation card
   async function loadEvaluation() {
     const api = useTenantApi().questionnairesApi;
     const qlist = (await api.getQuestionnaires()).items;
 
     const newEvaluation = [];
     for (const q of qlist) {
+      // get questionnaire instances, sort them by date and choose the latest 10
       const instances = (await api.getQuestionnaireInstances())
         .items.filter((entry) => entry.questionnaireId === q.id && entry.completed)
-        .sort((a, b) => (a.created > b.created ? -1 : 1))
+        .sort((a, b) => (a.created > b.created ? 1 : -1))
         .slice(0, 10);
 
       const scoreArr: number[] = [];
@@ -55,6 +57,7 @@ const Tab1: React.FC = () => {
     setEvaluation(newEvaluation);
   }
 
+  // route to according info page from info card if it's clicked
   function routeToInfoPage(pageId: string) {
     if (pageId === "" || !pageId) {
       alert(t("QuestionnaireScreen.LoadingError"));
@@ -79,11 +82,11 @@ const Tab1: React.FC = () => {
   }, []);
 
   useIonViewWillEnter(() => {
-    loadEvaluation(); 
+    loadEvaluation();
     loadInfos();
   });
 
-
+  // load data before screen is showing, show a loading alert during this process
   if (isLoading) {
     return (
       <IonLoading isOpen={isLoading} message={t("InfoScreen.Loading")} spinner="crescent"
@@ -143,8 +146,7 @@ const Tab1: React.FC = () => {
                     return <IonItem key={page.id} lines="none" button={true} onClick={() => { routeToInfoPage(page.id) }}>
                       <IonText className='home-text'>{page.title.translations[languageId]} </IonText>
                     </IonItem>
-                  })
-                  }
+                  })}
                 </IonList>
               </IonCardContent>
             </IonCard>

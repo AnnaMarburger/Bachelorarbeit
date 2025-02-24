@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { loginUser } from '../modules/LoginComponent';
 import { Account } from '../modules/account';
 import { RegistrationUtils } from '@utils/auth/registration.utils';
-import { readActiveAccount, updateAccount } from '../modules/dalAccount';
+import { updateAccount } from '../modules/dalAccount';
 
 import './LoginScreens.css';
 import "./main.css"
@@ -16,9 +16,9 @@ const SignUpScreen: React.FC = () => {
     const [passwordCheck, setPasswordCheck] = useState("");
     const [name, setName] = useState("");
 
-
+    // sign up to server and login with new account
     async function signUp() {
-        //check passwort 
+        // check password
         if(password !== passwordCheck){
             alert(t("SignUpScreen.AlertPasswordCheckFail"));
             return;
@@ -28,13 +28,13 @@ const SignUpScreen: React.FC = () => {
             return;
         }
 
-        //check name
+        // check name
         if(name.length < 2){
             alert(t("SignUpScreen.AlertNameTooShort"));
             return;
         }
 
-        //create new account
+        // create new account
         const account = new Account(undefined, undefined, undefined, password, undefined, name);
         const response = await RegistrationUtils.createAnonymousUser(account);
         if(response)
@@ -68,12 +68,12 @@ const SignUpScreen: React.FC = () => {
                         <div className='InputFieldsLogIn'>
                             <IonInput value={name} onIonInput={(e: any) => setName(e.detail.value || "")} color="light" className='custom' fill="outline" label={t("SignUpScreen.Name")} labelPlacement="floating"></IonInput>
                             <br/>
-                            <IonInput value={password} onIonInput={(e: any) => setPassword(e.detail.value || "")} color="light" className='custom' fill="outline" label={t("SignUpScreen.Password")} labelPlacement="floating">
+                            <IonInput  type="password" value={password} onIonInput={(e: any) => setPassword(e.detail.value || "")} color="light" className='custom' fill="outline" label={t("SignUpScreen.Password")} labelPlacement="floating">
                                 <IonInputPasswordToggle color="light" slot="end"></IonInputPasswordToggle>
                             </IonInput>
                             <br/>
-                            <IonInput value={passwordCheck} onIonInput={(e: any) => setPasswordCheck(e.detail.value || "")} color="light" className='custom' fill="outline" label={t("SignUpScreen.PasswordCheck")} labelPlacement="floating">
-                                <IonInputPasswordToggle color="light" slot="end"></IonInputPasswordToggle>
+                            <IonInput  type="password" value={passwordCheck} onIonInput={(e: any) => setPasswordCheck(e.detail.value || "")} color="light" className='custom' fill="outline" label={t("SignUpScreen.PasswordCheck")} labelPlacement="floating">
+                                <IonInputPasswordToggle color="light" slot="end"/>
                             </IonInput>
                         </div>
                         <br/>

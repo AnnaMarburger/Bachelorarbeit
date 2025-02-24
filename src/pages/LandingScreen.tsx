@@ -13,7 +13,7 @@ import {
 } from '@ionic/react';
 import { RegistrationUtils } from '../utils/auth/registration.utils'
 import { Account } from '../modules/account';
-import { readFromStorage, readActiveAccount, updateAccount } from '../modules/dalAccount';
+import { readFromStorage, updateAccount } from '../modules/dalAccount';
 import { loginUser } from '../modules/LoginComponent';
 import { useTranslation } from 'react-i18next';
 import { Preferences } from '@capacitor/preferences';
@@ -26,15 +26,16 @@ const LandingScreen: React.FC = () => {
   const { t } = useTranslation();
 
   useIonViewWillEnter(() => {
+    // check if there is a local account instance on this device and login automatically if so
     readFromStorage().then(async (acc) => {
       if (acc?.userName && acc?.password) {
-        console.log("perform autologin", acc);
         await loginUser(acc.userName, acc.password);
         router.push('/home/tab4', "none");
       }
     });
   }, []);
 
+  // creates a unique random 12 character password, used for anonymous sign ups
   function generatePassword() {
     const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&()';
     let password = '';
@@ -54,15 +55,13 @@ const LandingScreen: React.FC = () => {
     account.familyName = response.familyName;
     account.name = response.givenName;
     await updateAccount(account);
-    console.log("saved new account", readActiveAccount());
 
     //login with new account
     await loginUser(account.userName ?? "", account.password);
 
-    //register in tenant and study
+    //register in tenant and study of this application
     await RegistrationUtils.registerInTenant();
     await RegistrationUtils.registerInStudy();
-    console.log("registered");
   }
 
   return (

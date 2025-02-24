@@ -2,23 +2,21 @@ import React from "react";
 import { IonButton, IonContent, IonPage, useIonRouter } from "@ionic/react";
 import { LocalNotifications } from "@capacitor/local-notifications";
 import { Preferences } from "@capacitor/preferences";
+import { useTranslation } from "react-i18next";
 
 import "../main.css";
 
 const Disclaimer: React.FC = () => {
+    const { t } = useTranslation();
     const router = useIonRouter();
     const handleAccept = async () => {
-        // Set the flag in local storage
+        // set the flag in local storage that the disclaimer was accepted
         await Preferences.set({
             key: 'acceptedDisclaimer',
             value: 'true',
         });
 
-        //accept notifications
-        const answer = await LocalNotifications.requestPermissions();
-        console.log(answer.display);
-
-        //change to homescreen
+        await LocalNotifications.requestPermissions();
         router.push('/home/tab4');
     };
 
@@ -27,11 +25,10 @@ const Disclaimer: React.FC = () => {
         <IonPage>
             <IonContent className='ion-content-safe'>
                 <div className="disclaimer">
-                    <h1>Disclaimer</h1>
-                    <p>Please read and accept our terms and conditions before proceeding.</p>
-                    <IonButton color="light" expand="block" onClick={handleAccept}>Accept</IonButton>
+                    <h1>{t("DisclaimerScreen.Header")}</h1>
+                    <p>{t("DisclaimerScreen.Text")}</p>
+                    <IonButton color="light" expand="block" onClick={handleAccept}>{t("DisclaimerScreen.Button")}</IonButton>
                 </div>
-
             </IonContent>
         </IonPage>
     );

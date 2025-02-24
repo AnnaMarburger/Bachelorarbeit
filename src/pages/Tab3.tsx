@@ -23,6 +23,7 @@ const Tab3: React.FC = () => {
   if (i18next.language == "de")
     languageId = "56051e9d-fd94-4fa5-b26e-b5c462326ecd";
 
+  // route to according info page if a list item was clicked. Shows an error if the page id is faulty
   function routeToInfoPage(pageId: string){
     if (pageId === "" || !pageId) {
       alert(t("QuestionnaireScreen.LoadingError"));
@@ -31,16 +32,14 @@ const Tab3: React.FC = () => {
     }
   }
 
-
   // only show info items whose titles contain the given keyword
   function handleSearch(keyword: string) {
     if(keyword.length==0 || keyword.replace(/\s/g, '').length==0) { 
-      setFilteredPages(pages?? []);
+      setFilteredPages(pages?? []); // reset search if the keyword is empty or only contains spaces
       return;
     }
 
     let filterResult = pages?.filter(page => page.title.translations[languageId].toLowerCase().includes(keyword.toLowerCase()));
-    console.log(filterResult);
     setFilteredPages(filterResult);
   }
 
@@ -48,7 +47,6 @@ const Tab3: React.FC = () => {
   async function loadInfos() {
     const projectId = import.meta.env.VITE_HSP_STUDY_IDENTIFIER;
     let response = await api.getAppPages(projectId);
-    console.log(response);
     setPages(response);
     setFilteredPages(response);
   }

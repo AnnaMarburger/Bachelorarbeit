@@ -54,24 +54,27 @@ interface SliderQuestionProps {
 }
 
 
-/*-------------------------------------- Komponenten ------------------------------------------------------*/
+/*-------------------------------------- Components ------------------------------------------------------*/
 
+// ui-item to implement an interactive likert question
 export const LikertQuestion: React.FC<LikertQuestionProps> = ({ questionItem, onAnswerChange, answer, viewOnly }) => {
     var languageId = "00000000-0000-0000-0000-000000000001";
     if (i18next.language == "de")
         languageId = "56051e9d-fd94-4fa5-b26e-b5c462326ecd";
+
     var question = questionItem.text.translations[languageId];
     let choices = questionItem.scale.map(answer => <div key={answer.id}><IonRadio disabled={viewOnly} labelPlacement="end" value={answer.id}>{answer.label.translations[languageId]}</IonRadio></div>);
 
     useEffect(() => {
+        // check for previous given answer to this question and save it to local answer variable
         if (questionItem.answer && answer === null)
             onAnswerChange(questionItem.id, questionItem.answer);
     }, []);
 
+    // create Answer Dto that will be send to the server
     function createAnswerDto(questionId: string, answervalue: string) {
         if (viewOnly)
             return;
-
         const answerdto = new LikertAnswerDto();
         answerdto.answered = new Date();
         answerdto.questionId = questionId;
@@ -95,10 +98,12 @@ export const LikertQuestion: React.FC<LikertQuestionProps> = ({ questionItem, on
     );
 }
 
+// ui-item to implement an interactive single choice question
 export const ChoiceQuestion: React.FC<ChoiceQuestionProps> = ({ questionItem, onAnswerChange, answer, viewOnly }) => {
     var languageId = "00000000-0000-0000-0000-000000000001";
     if (i18next.language == "de")
         languageId = "56051e9d-fd94-4fa5-b26e-b5c462326ecd";
+
     var question = questionItem.text.translations[languageId];
     let choices = questionItem.choices.map(item => <div key={item.id}><IonRadio disabled={viewOnly} labelPlacement="end" value={item.id}>{item.label.translations[languageId]}</IonRadio></div>);
 
@@ -110,7 +115,6 @@ export const ChoiceQuestion: React.FC<ChoiceQuestionProps> = ({ questionItem, on
     function createAnswerDto(questionId: string, answervalue: string) {
         if (viewOnly)
             return;
-
         const answerdto = new ChoiceAnswerDto();
         answerdto.answered = new Date();
         answerdto.questionId = questionId;
@@ -135,6 +139,7 @@ export const ChoiceQuestion: React.FC<ChoiceQuestionProps> = ({ questionItem, on
     );
 }
 
+// ui-item to show text fields on the questionnaire screen
 export const TextItem: React.FC<TextFieldProps> = ({ questionItem }) => {
     let languageId = "00000000-0000-0000-0000-000000000001";
     if (i18next.language == "de" && questionItem.value.translations["56051e9d-fd94-4fa5-b26e-b5c462326ecd"])
@@ -151,6 +156,7 @@ export const TextItem: React.FC<TextFieldProps> = ({ questionItem }) => {
     );
 }
 
+// ui-item to show a header on the questionnaire screen
 export const HeaderItem: React.FC<HeaderItemProps> = ({ questionItem }) => {
     let languageId = "00000000-0000-0000-0000-000000000001";
     if (i18next.language == "de" && questionItem.value.translations["56051e9d-fd94-4fa5-b26e-b5c462326ecd"])
@@ -166,6 +172,7 @@ export const HeaderItem: React.FC<HeaderItemProps> = ({ questionItem }) => {
     );
 }
 
+// ui-item to implement a text question with a text area to answer it
 export const TextQuestion: React.FC<TextQuestionProps> = ({ questionItem, onAnswerChange, answer, viewOnly }) => {
     var languageId = "00000000-0000-0000-0000-000000000001";
     if (i18next.language == "de")
@@ -180,7 +187,6 @@ export const TextQuestion: React.FC<TextQuestionProps> = ({ questionItem, onAnsw
     function createAnswerDto(questionId: string, answervalue: string) {
         if (viewOnly)
             return;
-
         const answerdto = new TextAnswerDto();
         answerdto.answered = new Date();
         answerdto.questionId = questionId;
@@ -198,23 +204,23 @@ export const TextQuestion: React.FC<TextQuestionProps> = ({ questionItem, onAnsw
     );
 }
 
+// ui-item to implement a number question 
 export const NumberQuestion: React.FC<NumberQuestionProps> = ({ questionItem, onAnswerChange, answer, viewOnly }) => {
     var languageId = "00000000-0000-0000-0000-000000000001";
     if (i18next.language == "de")
         languageId = "56051e9d-fd94-4fa5-b26e-b5c462326ecd";
+
     var question = questionItem.text.translations[languageId];
 
     useEffect(() => {
         if (questionItem.answer && answer !== null){
             onAnswerChange(questionItem.id, questionItem.answer);
-            console.log(answer);
         }
     }, []);
 
     function createAnswerDto(questionId: string, answervalue: number) {
         if (viewOnly)
             return;
-
         const answerdto = new NumberAnswerDto();
         answerdto.answered = new Date();
         answerdto.questionId = questionId;
@@ -232,23 +238,23 @@ export const NumberQuestion: React.FC<NumberQuestionProps> = ({ questionItem, on
     );
 }
 
+// ui-item to implement a slider question between 0 and 7 (used to choose number of days)
 export const SliderQuestion: React.FC<SliderQuestionProps> = ({ questionItem, onAnswerChange, answer, viewOnly }) => {
     var languageId = "00000000-0000-0000-0000-000000000001";
     if (i18next.language == "de")
         languageId = "56051e9d-fd94-4fa5-b26e-b5c462326ecd";
+
     var question = questionItem.text.translations[languageId];
 
     useEffect(() => {
         if (questionItem.answer && answer !== null){
             onAnswerChange(questionItem.id, questionItem.answer);
-            console.log(answer);
         }
     }, []);
 
     function createAnswerDto(questionId: string, answervalue: number) {
         if (viewOnly)
             return;
-
         const answerdto = new SliderAnswerDto();
         answerdto.answered = new Date();
         answerdto.questionId = questionId;

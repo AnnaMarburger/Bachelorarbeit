@@ -32,6 +32,7 @@ const Tab2: React.FC = () => {
     let questionnaires = (await (api.getQuestionnaireInstances())).items;
     let latestQ = questionnaires?.filter(entry => entry.questionnaireId == questionnaireId && entry.state !== QuestionnaireInstanceState.Completed).sort((a, b) => a.created > b.created ? -1 : 1)[0];
     if (latestQ == undefined) {
+      // there is no unfinished questionnaire instance so there must be created a new one
       await api.createQuestionnaireInstance(questionnaireId);
       questionnaires = (await api.getQuestionnaireInstances()).items;
       setHistoryList(questionnaires);
@@ -40,7 +41,7 @@ const Tab2: React.FC = () => {
 
     let instanceId = latestQ?.id;
     if (instanceId == undefined) {
-      alert(t("QuestionnaireScreen.LoadingError"));
+      alert(t("QuestionnaireScreen.LoadingError")); // an error occured in the previous actions
     } else {
       router.push(`/home/tab2/${questionnaireId}/${instanceId}/edit`);
     }
@@ -97,7 +98,9 @@ const Tab2: React.FC = () => {
             <IonText className="blocktext"> {t("QOverviewScreen.TextH")} </IonText>
             <IonList className='instances-list'>
               {historyList?.sort((a, b) => a.created > b.created ? -1 : 1).map(elem => {
-                return <IonItem key={elem.id} lines="none" button={true} onClick={() => { router.push(`/home/tab2/${elem.questionnaireId}/${elem.id}/view`); }}>
+                return <IonItem key={elem.id} lines="none" button={true} onClick={() => {
+                   router.push(`/home/tab2/${elem.questionnaireId}/${elem.id}/view`); 
+                   }}>
                   <IonIcon aria-hidden="true" color="light" icon={documentTextOutline} slot="start" />
                   <IonLabel className="label"> {elem.questionnaireName} </IonLabel>
                   <IonChip disabled={true}>

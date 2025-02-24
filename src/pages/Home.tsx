@@ -18,11 +18,10 @@ import { useTranslation } from 'react-i18next';
 import NotifScreen from './sub/NotificationScreen';
 import Questionnaire from './sub/Questionnaire';
 import InfoPage from './sub/InfoPage';
-
-import "./main.css";
 import PolicyScreen from './sub/PolicyScreen';
 import LegalNoticeScreen from './sub/LegalNoticeScreen';
 
+import "./main.css";
 
 const Home: React.FC = () => {
   const { t } = useTranslation();

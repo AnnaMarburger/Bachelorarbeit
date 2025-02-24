@@ -91,6 +91,10 @@ p {
     color: #ffff;
 }
 
+p {
+    line-height: 24px;
+}
+
 .title {
     color: #FFF;
     font-size: x-large;

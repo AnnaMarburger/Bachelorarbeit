@@ -15,9 +15,14 @@ import "../Tab2.css";
 import "../main.css";
 import "./Questionniare.css"
 
-/*----------------------------------- Constants -----------------------------------------------------------*/
+/*-------------------------------------- Map -------------------------------------------------------------*/
 const componentMap: {
-    [key in ElementType]?: React.FC<{ questionItem: any, onAnswerChange: (questionId: string, answer: any) => void, answer: AnswerDto | null, viewOnly: boolean }>
+    [key in ElementType]?: React.FC<{
+        questionItem: any,
+        onAnswerChange: (questionId: string, answer: any) => void,
+        answer: AnswerDto | null,
+        viewOnly: boolean
+    }>
 } = {
     [ElementType.LikertQuestion]: LikertQuestion as React.FC<{ questionItem: ContentDto }>,
     [ElementType.ChoiceQuestion]: ChoiceQuestion as React.FC<{ questionItem: ContentDto }>,
@@ -50,7 +55,7 @@ function isQuestionWithAnswer(item: ContentDto): item is ChoiceQuestionDto | Num
 }
 
 
-/*----------------------------------- Pagecomponents ------------------------------------------------------*/
+/*----------------------------------- Page Components -----------------------------------------------------*/
 
 const Questionnaire: React.FC = () => {
     const { t } = useTranslation();
@@ -61,11 +66,10 @@ const Questionnaire: React.FC = () => {
     const [answers, setAnswers] = useState<{ [questionId: string]: AnswerDto | null }>({});
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [pageID, setPageID] = useState<number>(0);
-    const [score, setScore] = useState<number>(0);
 
     const started = new Date();
 
-    //get current language of client
+    // get current language of client
     let languageId = "00000000-0000-0000-0000-000000000001";
     if (i18next.language == "de")
         languageId = "56051e9d-fd94-4fa5-b26e-b5c462326ecd";
@@ -74,8 +78,9 @@ const Questionnaire: React.FC = () => {
         setAnswers(prev => ({ ...prev, [questionId]: answer }));
     };
 
+    // submit all answers to the server. Routes to Tab 2 if successful
     const handleSubmit = () => {
-        //check if every *required* question is answered*
+        // check if every question is answered and mark the questionnaire as completed if so
         var completed = true;
         var questionCount = 0;
         questionnaireInstance?.pages.forEach(page => {
@@ -84,10 +89,10 @@ const Questionnaire: React.FC = () => {
                     questionCount += 1;
             })
         })
-        console.log(questionCount);
         if (Object.values(answers).length < questionCount)
             completed = false;
 
+        // build update command
         const command = new UpdateQuestionnaireInstanceCommand();
         command.questionnaireId = questionnaireId;
         command.questionnaireInstanceId = instanceId;
@@ -96,11 +101,10 @@ const Questionnaire: React.FC = () => {
         command.executionLanguageId = languageId;
         if (questionnaireInstance?.started == undefined)
             command.started = started;
-        console.log("Submitting these answers:", command);
 
+        // send to server and notify user with a toast if submission was successful
         useTenantApi().questionnairesApi.updateQuestionnaireInstance(questionnaireId, instanceId, command)
             .then(() => {
-                console.log("Successfully sent to server");
                 present({
                     message: t("QuestionnaireScreen.AlertSuccess"),
                     duration: 2000,
@@ -111,18 +115,18 @@ const Questionnaire: React.FC = () => {
             .catch(error => console.error("Error sending answers:", error));
     };
 
+
     useEffect(() => {
         async function loadQuestionnaire() {
             if (!questionnaireId || !instanceId) return;
             try {
                 const qInstance = await useTenantApi().questionnairesApi.getQuestionnaireInstance(questionnaireId, instanceId);
-                console.log(qInstance);
                 setQuestionnaireInstance(qInstance);
 
-                // Setze die initialen Antworten
+                // set initial answers
                 const initialAnswers = qInstance.pages
                     .flatMap(page => page.contents)
-                    .filter(isQuestionWithAnswer) // Nur Fragen mit Antworten
+                    .filter(isQuestionWithAnswer)
                     .reduce((acc, item) => {
                         acc[item.id] = item.answer ?? null;
                         return acc;
@@ -144,7 +148,7 @@ const Questionnaire: React.FC = () => {
     }
 
     if (!questionnaireInstance) {
-        return <IonText></IonText>;
+        return <IonText>Error loading Questionnaire</IonText>;
     }
 
     return (
@@ -169,7 +173,6 @@ const Questionnaire: React.FC = () => {
                         <IonCol size="auto">
                             <IonChip disabled={true}>{questionnaireInstance.pages.length} {t("QuestionnaireScreen.Pages")}</IonChip>
                         </IonCol>
-
                         {(viewOnly === "view" && questionnaireInstance.completed) && (
                             <IonCol size="auto">
                                 <IonChip disabled={true}>{t("QuestionnaireScreen.Score")} {evaluateQuestionnaire(questionnaireInstance)} </IonChip>
@@ -212,14 +215,16 @@ const Questionnaire: React.FC = () => {
 const PageSegment: React.FC<PageSegment> = ({ pages, pageId, onAnswerChange, onSubmit, answers, viewOnly }) => {
     const { t } = useTranslation();
     let content = pages[pageId].contents;
+
+    // map questionnaire item data from server to questionnaire items
     const data = content.map(quest => {
         const Component = componentMap[quest.elementType];
         if (Component) {
-            return <Component questionItem={quest} key={quest.id} onAnswerChange={onAnswerChange} answer={answers[quest.id] || null} viewOnly={viewOnly} />;
+            return <Component questionItem={quest} key={quest.id} onAnswerChange={onAnswerChange}
+                answer={answers[quest.id] || null} viewOnly={viewOnly} />;
         }
-        return <p key={quest.id}>Item Type Unknown</p>; //DEBUG
+        return <p key={quest.id}>Item Type Unknown</p>;
     });
-
 
     return (
         <div id="pagecontent">
