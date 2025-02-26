@@ -10,7 +10,7 @@ import { evaluateQuestionnaire, LineChart } from '@components/Evaluation';
 import './Tab1.css';
 import "./main.css";
 
-
+// first tab that welcomes user and shows card (shortcuts) to navigate to different pages of the app
 const Tab1: React.FC = () => {
   const { t } = useTranslation();
   const router = useIonRouter();

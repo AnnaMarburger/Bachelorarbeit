@@ -9,7 +9,7 @@ import i18next from "i18next";
 import './Tab2.css';
 import "./main.css";
 
-
+// second tab that shows two lists: questionnaires that can be answered /  history of answered questionnaires
 const Tab2: React.FC = () => {
   const { t } = useTranslation();
   const router = useIonRouter();

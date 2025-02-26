@@ -13,7 +13,7 @@ import { LocalNotifications } from '@capacitor/local-notifications';
 import "./Tab4.css";
 import "./main.css"
 
-
+// last tab that shows user profile and lists for language / notif settings as well as legal notice and disclaimer screens
 const Tab4: React.FC = () => {
   const { t, i18n } = useTranslation();
   const router = useIonRouter();
@@ -46,6 +46,7 @@ const Tab4: React.FC = () => {
   // logout method that removes any user specific data from device and application storage
   async function handleLogout(e: any) {
     try {
+      // clear account
       setAccount(null);
       await clearAccount(); 
       // clear all pending notifications 
@@ -53,6 +54,7 @@ const Tab4: React.FC = () => {
       await LocalNotifications.cancel({
         notifications: pendingNotifs
       });
+      // remove disclaimer acception
       await Preferences.remove({ key: 'acceptedDisclaimer' });
     } catch (error) {
       console.error('Error during logout', error);
@@ -66,13 +68,15 @@ const Tab4: React.FC = () => {
     }));
   }
 
-  // update account with new username
+  // update account with new username, shows alert if (un)successful
   async function saveNameChange() {
     if (account) {
+      //build update command for server
       const uc = new UpdateCurrentUserCommand();
       uc.familyName = formValues.familyName;
       uc.givenName = formValues.name;
       try {
+        // send to server and update local account instance
         const response = await useGatewayApi().currentUserApi.updateCurrentUser(uc);
         const na = account;
         na.familyName = response.familyName;
@@ -86,17 +90,19 @@ const Tab4: React.FC = () => {
     }
   }
 
-  // update account with new password
+  // update account with new password, shows different alerts if (un)succesful
   async function savePasswordChange() {
     if (account?.password !== formValues.password) {
       alert(t("UserScreen.EditUserDtoModal.AlertPasswordIncorrect"));
     } else if(formValues.newpassword.length < 8){
       alert(t("UserScreen.EditUserDtoModal.AlertPasswordTooShort"));
     }else {
+      //build update command for server
       const uc = new UpdateCurrentUserPasswordCommand();
       uc.oldPassword = formValues.password;
       uc.newPassword = formValues.newpassword;
       try {
+        // send to server and update local account instance
         await useGatewayApi().currentUserApi.updateCurrentUserPassword(uc);
         const na = account;
         na.password = formValues.newpassword;

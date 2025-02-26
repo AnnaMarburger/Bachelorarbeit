@@ -23,6 +23,7 @@ import LegalNoticeScreen from './sub/LegalNoticeScreen';
 
 import "./main.css";
 
+// Home Page to implement the tab function and routing
 const Home: React.FC = () => {
   const { t } = useTranslation();
   const { url } = useRouteMatch();

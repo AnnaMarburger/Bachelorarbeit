@@ -20,7 +20,7 @@ import { Preferences } from '@capacitor/preferences';
 
 import './LandingScreen.css';
 
-
+// landing screen with buttons to login / sign up / sign up anonymously
 const LandingScreen: React.FC = () => {
   const router = useIonRouter();
   const { t } = useTranslation();
@@ -45,6 +45,7 @@ const LandingScreen: React.FC = () => {
     return password;
   }
 
+  // sign up an user anonymously (with a generated password and without a name)
   async function handleAnonymousSignIn() {
     //create new account
     const password = generatePassword();

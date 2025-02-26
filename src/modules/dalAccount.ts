@@ -1,6 +1,7 @@
 import { Account } from "./account";
 import { Preferences } from '@capacitor/preferences';
 
+// local account instance to temporally save user specific data
 let account: Account | null;
 
 const readActiveAccount = (): Account | null => {

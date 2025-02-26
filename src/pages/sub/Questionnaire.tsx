@@ -55,7 +55,7 @@ function isQuestionWithAnswer(item: ContentDto): item is ChoiceQuestionDto | Num
 }
 
 
-/*----------------------------------- Page Components -----------------------------------------------------*/
+/*----------------------------------- Page Components -------------------------------------------------------*/
 
 const Questionnaire: React.FC = () => {
     const { t } = useTranslation();

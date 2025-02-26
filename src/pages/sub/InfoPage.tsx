@@ -11,7 +11,7 @@ import { useParams } from "react-router";
 import "../main.css"
 import "./InfoPage.css"
 
-/*----------------------------------- Constants -----------------------------------------------------------*/
+// map for transforming a content dto item (received from server) to an ui item
 const componentMap: {
     [key in ElementType]?: React.FC<{ contentItem: any }>
 } = {
@@ -21,8 +21,7 @@ const componentMap: {
 };
 
 
-/*----------------------------------- page components ------------------------------------------------------*/
-
+// screen to show information (text and pictures) that is loaded from the server
 const InfoPage: React.FC = () => {
     const { t } = useTranslation();
     const router = useIonRouter();

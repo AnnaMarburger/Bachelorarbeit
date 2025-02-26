@@ -1,3 +1,4 @@
+// class to safe user specific account data like password and username which are used to log in to the server
 export class Account {
     id: string | undefined;
     token: string | undefined;

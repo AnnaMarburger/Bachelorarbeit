@@ -1,7 +1,7 @@
 {
     "WelcomeScreen": {
         "Header": "¡Hola!",
-        "Text": "Bienvenido a esta aplicación. ¡Inicia sesión o crea una nueva cuenta!",
+        "Text": "Bienvenido a esta aplicación. Inicia sesión o crea una nueva cuenta.",
         "Login": "Iniciar sesión",
         "Anonymous": "Anónimo",
         "SignUp": "Registrarse"
@@ -12,16 +12,25 @@
         "Password": "Contraseña",
         "Button": "Iniciar sesión",
         "SignUp": "¿No tienes cuenta? Regístrate aquí",
-        "AlertFail": "Inicio de sesión fallido"
+        "AlertFail": "Error al iniciar sesión"
     },
     "SignUpScreen": {
         "Header": "Registrarse",
         "Name": "Nombre",
         "Password": "Contraseña",
+        "PasswordCheck": "Confirmar contraseña",
         "Button": "Registrarse",
-        "Back": "Volver a la página principal",
+        "Back": "Volver a la página de inicio",
         "Anonymous": "¿No quieres una cuenta? ¡Inicia sesión como anónimo!",
-        "AlertFail": "Registro fallido"
+        "AlertFail": "Error al registrarse",
+        "AlertNameTooShort": "¡Debes ingresar un nombre con al menos 2 caracteres!",
+        "AlertPasswordCheckFail": "¡Asegúrate de que ambas contraseñas coincidan!",
+        "AlertPasswordTooShort": "¡Asegúrate de que tu contraseña tenga al menos 8 caracteres!"
+    },
+    "DisclaimerScreen": {
+        "Header": "Aviso legal",
+        "Text": "Por favor, lee y acepta nuestros términos y condiciones antes de continuar.",
+        "Button": "Aceptar"
     },
     "Tabs": {
         "Tab1": "Inicio",
@@ -31,13 +40,20 @@
     },
     "UserScreen": {
         "EditUserDtoModal": {
-            "Header": "Edita tus datos",
+            "Header": "Editar tus datos",
             "ChangeName": "Cambia tu nombre:",
             "Surname": "Nombre",
             "Familyname": "Apellido",
             "ChangePassword": "Cambia tu contraseña:",
             "NewPassword": "Nueva contraseña",
-            "OldPassword": "Contraseña antigua"
+            "OldPassword": "Contraseña anterior",
+            "AlertSuccessName": "¡Nombre cambiado con éxito!",
+            "AlertFailName": "Hubo un error al actualizar tu nombre. ¡Inténtalo de nuevo!",
+            "Button": "Guardar",
+            "AlertPasswordTooShort": "Asegúrate de que tu nueva contraseña tenga al menos 8 caracteres.",
+            "AlertPasswordIncorrect": "¡La contraseña no es correcta!",
+            "AlertSuccessPassword": "¡Contraseña cambiada con éxito!",
+            "AlertFailPassword": "Hubo un error al actualizar tu contraseña. ¡Inténtalo de nuevo!"
         },
         "LogOutButton": "Cerrar sesión",
         "Lang": "Idioma",
@@ -49,32 +65,33 @@
     },
     "NotifScreen": {
         "Title": "Configuración de notificaciones",
-        "ToggleLabel": "Habilitar notificaciones",
+        "ToggleLabel": "Activar notificaciones",
         "TimerPickerLabel": "Establecer hora:",
         "Button": "Guardar cambios",
         "NotifTitle": "Recordatorio",
         "NotifBody": "Es hora de responder un nuevo cuestionario",
         "AlertAccessFail": "Debido a la falta de permisos, no se configuraron notificaciones.",
-        "AlertSuccess": "¡Notificaciones habilitadas!"
+        "AlertSuccess": "¡Notificaciones activadas!"
     },
     "QuestionnaireScreen": {
         "Loading": "Cargando cuestionario",
         "Button": "Enviar",
-        "AlertSuccess": "Tus respuestas se han guardado",
-        "AlertAnswerMissing": "¡Por favor responde todas las preguntas requeridas primero!",
+        "AlertSuccess": "Tus respuestas han sido guardadas",
+        "AlertAnswerMissing": "¡Responde todas las preguntas obligatorias primero!",
         "Pages": "páginas",
-        "LoadingError": "Ocurrió un error desconocido al cargar el cuestionario. Por favor, inténtalo de nuevo."
+        "Score": "puntuación:",
+        "LoadingError": "Ocurrió un error desconocido al cargar el cuestionario. Inténtalo de nuevo."
     },
     "QOverviewScreen": {
         "Loading": "Cargando cuestionarios",
         "TitleQs": "Cuestionarios",
         "TextQs": "Haz clic en los siguientes elementos para responder un nuevo cuestionario.",
         "TitleH": "Historial",
-        "TextH": "Consulta tus cuestionarios respondidos anteriormente.",
+        "TextH": "Revisa tus cuestionarios respondidos anteriormente.",
         "DatumChip": "Pendiente"
     },
     "InfoScreen": {
-        "Title": "Base de conocimientos",
+        "Title": "Base de conocimiento",
         "Search": "Buscar",
         "Loading": "Cargando información"
     },
@@ -83,14 +100,15 @@
         "Loading": "Obteniendo datos...",
         "Stats": {
             "Title": "Evaluación",
-            "Description": "Basado en tu últimas respuestas"
+            "Description": "Basado en tus últimas respuestas",
+            "YLabel": "Puntuaciones"
         },
         "Infos": {
             "Title": "Read Me",
             "Description": "Obtén más información sobre:"
         },
         "Questionnaires": {
-            "Title": "Check in diario",
+            "Title": "Check-In",
             "Description": "Responde un nuevo cuestionario"
         },
         "Profile": {

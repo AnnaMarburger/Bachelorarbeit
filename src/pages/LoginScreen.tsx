@@ -6,7 +6,7 @@ import { Preferences } from '@capacitor/preferences';
 
 import './LoginScreens.css';
 
-
+// login screen with textfields for name and password
 const LoginScreen: React.FC = () => {
     const { t } = useTranslation();
     const router = useIonRouter();

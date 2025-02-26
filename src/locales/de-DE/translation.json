@@ -18,32 +18,48 @@
         "Header": "Registrieren",
         "Name": "Name",
         "Password": "Passwort",
+        "PasswordCheck": "Passwort bestätigen",
         "Button": "Registrieren",
         "Back": "Zurück zur Startseite",
-        "Anonymous": "Kein Konto? Melde dich anonym an!",
-        "AlertFail": "Registrierung fehlgeschlagen"
+        "Anonymous": "Du möchtest kein Konto? Melde dich anonym an!",
+        "AlertFail": "Registrierung fehlgeschlagen",
+        "AlertNameTooShort": "Der Name muss mindestens 2 Zeichen enthalten!",
+        "AlertPasswordCheckFail": "Bitte stelle sicher, dass beide Passwörter übereinstimmen!",
+        "AlertPasswordTooShort": "Das Passwort muss mindestens 8 Zeichen enthalten!"
+    },
+    "DisclaimerScreen": {
+        "Header": "Haftungsausschluss",
+        "Text": "Bitte lese und akzeptiere unsere Geschäftsbedingungen, bevor du fortfährst.",
+        "Button": "Akzeptieren"
     },
     "Tabs": {
         "Tab1": "Start",
         "Tab2": "Fragebögen",
         "Tab3": "Infos",
-        "Tab4": "Benutzer"
+        "Tab4": "Nutzer"
     },
     "UserScreen": {
         "EditUserDtoModal": {
-            "Header": "Bearbeite deine Daten",
+            "Header": "Daten bearbeiten",
             "ChangeName": "Ändere deinen Namen:",
             "Surname": "Vorname",
             "Familyname": "Nachname",
             "ChangePassword": "Ändere dein Passwort:",
             "NewPassword": "Neues Passwort",
-            "OldPassword": "Altes Passwort"
+            "OldPassword": "Altes Passwort",
+            "AlertSuccessName": "Name erfolgreich geändert!",
+            "AlertFailName": "Fehler beim Ändern des Namens. Bitte versuche es erneut!",
+            "Button": "Speichern",
+            "AlertPasswordTooShort": "Das neue Passwort muss mindestens 8 Zeichen enthalten.",
+            "AlertPasswordIncorrect": "Das Passwort ist nicht korrekt!",
+            "AlertSuccessPassword": "Passwort erfolgreich geändert!",
+            "AlertFailPassword": "Fehler beim Ändern des Passworts. Bitte versuche es erneut!"
         },
         "LogOutButton": "Abmelden",
         "Lang": "Sprache",
         "Notif": "Benachrichtigungen",
         "Disclaimer": "Haftungsausschluss",
-        "PrivacyPolicy": "Datenschutzrichtlinie",
+        "PrivacyPolicy": "Datenschutzerklärung",
         "LegalNotice": "Impressum",
         "ASHeader": "Wähle deine bevorzugte Sprache"
     },
@@ -61,20 +77,21 @@
         "Loading": "Fragebogen wird geladen",
         "Button": "Absenden",
         "AlertSuccess": "Deine Antworten wurden gespeichert",
-        "AlertAnswerMissing": "Bitte beantworte zuerst alle erforderlichen Fragen!",
+        "AlertAnswerMissing": "Bitte beantworte zuerst alle Pflichtfragen!",
         "Pages": "Seiten",
+        "Score": "Punktzahl:",
         "LoadingError": "Ein unbekannter Fehler ist beim Laden des Fragebogens aufgetreten. Bitte versuche es erneut."
     },
     "QOverviewScreen": {
         "Loading": "Fragebögen werden geladen",
         "TitleQs": "Fragebögen",
-        "TextQs": "Klicke auf die folgenden Elemente, um einen neuen Fragebogen auszufüllen.",
+        "TextQs": "Klicke auf die folgenden Einträge, um einen neuen Fragebogen auszufüllen.",
         "TitleH": "Verlauf",
         "TextH": "Sieh dir deine zuvor beantworteten Fragebögen an.",
         "DatumChip": "Ausstehend"
     },
     "InfoScreen": {
-        "Title": "Informationen",
+        "Title": "Wissensdatenbank",
         "Search": "Suchen",
         "Loading": "Infos werden geladen"
     },
@@ -83,15 +100,16 @@
         "Loading": "Daten werden abgerufen...",
         "Stats": {
             "Title": "Auswertung",
-            "Description": "Basierend auf deinen letzten Antworten"
+            "Description": "Basierend auf deinen letzten Antworten",
+            "YLabel": "Punkte"
         },
         "Infos": {
-            "Title": "Read me",
-            "Description": "Erhalte mehr Informationen über:"
+            "Title": "Read Me",
+            "Description": "Erhalte weitere Informationen über:"
         },
         "Questionnaires": {
             "Title": "Check-In",
-            "Description": "Beantworte einen neuen Fragebogen"
+            "Description": "Einen neuen Fragebogen ausfüllen"
         },
         "Profile": {
             "Title": "Profil",
@@ -99,7 +117,7 @@
         }
     },
     "PolicyScreen": {
-        "Title": "Datenschutzrichtlinie"
+        "Title": "Datenschutzerklärung"
     },
     "LegalNotice": {
         "Title": "Impressum"

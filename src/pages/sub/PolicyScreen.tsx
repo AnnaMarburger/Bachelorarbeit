@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import "./InfoPage.css";
 import "./SubScreens.css";
 
+// screen to show  the policy (that can be found in public/policy.txt) of the app
 const PolicyScreen: React.FC = () => {
     const router = useIonRouter();
     const { t } = useTranslation();

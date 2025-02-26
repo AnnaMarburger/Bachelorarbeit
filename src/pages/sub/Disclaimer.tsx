@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 
 import "../main.css";
 
+// disclaimer screen that presents a text that describes the disclaimer of the app and has to be accepted by the user
 const Disclaimer: React.FC = () => {
     const { t } = useTranslation();
     const router = useIonRouter();
@@ -16,6 +17,7 @@ const Disclaimer: React.FC = () => {
             value: 'true',
         });
 
+        // ask the user for notifivation permission
         await LocalNotifications.requestPermissions();
         router.push('/home/tab4');
     };

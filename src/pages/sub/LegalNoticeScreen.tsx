@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import "./InfoPage.css";
 import "./SubScreens.css";
 
+// screen to show the legal notice (that can be found in public/legalnotice.txt) of the app
 const LegalNoticeScreen: React.FC = () => {
     const router = useIonRouter();
     const { t } = useTranslation();

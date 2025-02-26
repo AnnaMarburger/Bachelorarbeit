@@ -9,6 +9,7 @@ import { updateAccount } from '../modules/dalAccount';
 import './LoginScreens.css';
 import "./main.css"
 
+// sign up screen with text fields for name / password / password check
 const SignUpScreen: React.FC = () => {
     const { t } = useTranslation();
     const router = useIonRouter();

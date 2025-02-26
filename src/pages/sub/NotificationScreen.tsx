@@ -7,7 +7,7 @@ import { Preferences } from '@capacitor/preferences';
 import "../Tab4.css";
 import "../main.css"
 
-
+// screen to display notification settings
 const NotifScreen: React.FC = () => {
     const { t } = useTranslation();
     const [notificationsEnabled, setNotificationsEnabled] = useState(false);
@@ -81,6 +81,8 @@ const NotifScreen: React.FC = () => {
             });
 
             alert(t("NotifScreen.AlertSuccess"));
+        } else {
+            await Preferences.remove({key: 'NotifTime'});
         }
     };
 

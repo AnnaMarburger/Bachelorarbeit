@@ -5,7 +5,7 @@ import { Account } from 'modules/account';
 
 type Props = { children?: ReactNode };
 
-// make sure that users can't route to app if they're not logged in 
+// a private route implementation that makes sure that users can't route to app if they're not logged in 
 export const PrivateRoute = ({ children }: Props) => {
   const [account, setAccount] = useState<Account | null>(null);
   const [loading, setLoading] = useState(true);

@@ -8,7 +8,7 @@ import i18next from 'i18next';
 import './main.css';
 import './Tab3.css';
 
-
+// third tab that implements the knowledge base. Shows a list of info page items that can be searched
 const Tab3: React.FC = () => {
   const { t } = useTranslation();
   const router = useIonRouter();
